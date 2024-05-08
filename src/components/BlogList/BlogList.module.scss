@@ -1,6 +1,7 @@
 .feed {
     display: flex;
     flex-direction: column;
+    width: 74%;
 }
 
 .feedTitle {
@@ -16,5 +17,6 @@
 }
 
 .blogList {
-
+    display: flex;
+    flex-direction: column;
 }
