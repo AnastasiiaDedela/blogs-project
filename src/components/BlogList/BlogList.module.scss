@@ -1,0 +1,20 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedTitle {
+    color: $base-dark;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    max-width: 150px;
+    border-bottom: 2px solid $base_dark;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.blogList {
+
+}
