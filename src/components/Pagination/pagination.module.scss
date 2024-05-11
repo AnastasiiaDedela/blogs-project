@@ -1,0 +1,26 @@
+.pagination {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+  
+    li {
+      display: inline-block;
+      padding: 7px 14px;
+      background-color: $light;
+      font-size: 18px;
+      border-radius: 10px;
+      margin-right: 10px;
+      border: 1px solid #267de18a;
+      cursor: pointer;
+  
+      &.active, &:hover {
+        background-color: $base-light;
+        color: $light;
+      }
+    }
+  }
