@@ -36,7 +36,7 @@
 }
 
 .date {
-    color: $light-gray;
+    color: #aaa;
     font-size: 12px;
 } 
 
@@ -61,7 +61,7 @@
 }
 
 .blogAbout {
-    color: $light-gray;
+    color: #aaa;
     font-size: 13px;
 }
 
@@ -71,7 +71,7 @@
     align-items: center;
 
     p {
-        color: $light-gray;
+        color: #aaa;
     font-size: 12px;
     }
 }
@@ -82,9 +82,9 @@
     column-gap: 5px;
     button {
         border: none;
-        color: $light-gray;
+        color: #aaa;
         background-color: transparent;
-        border: 0.5px solid $light-gray;
+        border: 0.5px solid #aaa;
         border-radius: 15px;
         padding: 4px 8px;
         font-size: 12px;
