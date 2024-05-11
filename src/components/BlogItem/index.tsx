@@ -6,7 +6,7 @@ export default function BlogItem() {
       <div className={styles.blogHeader}>
         <div className={styles.authorData}>
           <div className={styles.authorAvatar}>
-            <img src="../../../public/avatar.png" alt="avatar" />
+            <img src="/avatar.png" alt="avatar" />
           </div>
           <div className={styles.autrhorInfo}>
             <p className={styles.authorName}>Alex Redklif</p>
