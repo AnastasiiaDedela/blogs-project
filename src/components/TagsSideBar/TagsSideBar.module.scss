@@ -1,0 +1,32 @@
+.tagsContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 270px;
+    
+    & > div {
+        display: inline-block;
+        background-color: $light-gray;
+        padding: 10px;
+        border-radius: 10px;
+    }
+}
+
+.tagsList {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    row-gap: 7px;
+    padding-bottom: 5px;
+    button {
+        border: none;
+        background-color: $dark-gray;
+        border-radius: 15px;
+        color: $light;
+        padding: 5px 10px;
+    }
+}
+
+.tagsTitle {
+    font-family: "Poppins", sans-serif;
+    padding-bottom: 10px;
+}

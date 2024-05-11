@@ -1,19 +1,11 @@
 import { Outlet } from 'react-router-dom';
+import Header from '../../components/Header';
 
 export default function MainLayout() {
   return (
-    <div className="container">
-      <header>
-        <h1 className="logo">Glossa</h1>
-        <nav>
-          <ul className="navigation-list">
-            <li>home</li>
-            <li>Sign in</li>
-            <li>Sign up</li>
-          </ul>
-        </nav>
-      </header>
+    <>
+      <Header />
       <Outlet />
-    </div>
+    </>
   );
 }
