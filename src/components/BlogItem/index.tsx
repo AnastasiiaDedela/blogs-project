@@ -1,10 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './BlogItem.module.scss';
 
 export default function BlogItem() {
+  const navigate = useNavigate();
   return (
     <article className={styles.blog}>
       <div className={styles.blogHeader}>
-        <div className={styles.authorData}>
+        <div onClick={() => navigate('/user')} className={styles.authorData}>
           <div className={styles.authorAvatar}>
             <img src="/avatar.png" alt="avatar" />
           </div>
