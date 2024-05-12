@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+row-gap: 10px;
+background-color: $light-gray;
+padding: 32px 0 16px;
+row-gap: 8px;
+}
+
+.blogsContainer {
+    margin: auto;
+    max-width: 1110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userAvatar {
+    width: 100px;
+    height: auto;
+    img {
+        border-radius: 50%;
+    }
+}
+
+.userName {
+    font-family: "Poetsen One", sans-serif;
+}

@@ -10,7 +10,7 @@ export default function Header() {
         <h2 className={styles.logo}>glossa</h2>
         <nav>
           <ul className={styles.navigationList}>
-            <li>Home</li>
+            <li onClick={() => navigate('/')}>Home</li>
             <li onClick={() => navigate('/sign-in')}>Sign in</li>
             <li onClick={() => navigate('/sign-up')}>Sign up</li>
           </ul>
