@@ -1,24 +1,40 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/redux/slices/login/slice';
+import axios from 'axios';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+
   //const [emailError, setEmailError] = useState('')
   //const [passwordError, setPasswordError] = useState('')
   // const { user, token } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
 
   const handleLogin = (email: string, password: string) => {
     const userData = { email, password };
-    console.log(userData);
     dispatch(login(userData));
+    const response = axios
+      .post('http://localhost:8001/api/auth/login', {
+        email: inputEmail,
+        password: inputPassword,
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+    console.log(response);
+
+    const { access_token, user } = response;
+
+    dispatch(login({ token: access_token, user }));
+
     navigate('/');
   };
 
