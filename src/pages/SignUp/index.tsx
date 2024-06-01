@@ -1,17 +1,41 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignUp.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/redux/slices/login/slice';
+import axios from 'axios';
 
 const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [inputUserName, setInputUserName] = useState('');
   //const [emailError, setEmailError] = useState('')
   //const [passwordError, setPasswordError] = useState('')
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const onButtonClick = () => {
+  const handleSignUp = (email: string, password: string, name: string) => {
+    const userData = { email, password, name };
+    console.log(userData);
+    dispatch(login(userData));
+
+    const response = axios
+      .post('http://localhost:8001/api/auth/register', {
+        name: inputUserName,
+        email: inputEmail,
+        password: inputPassword,
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+
+    console.log(response);
+
+    const { access_token, user } = response;
+
+    dispatch(login({ token: access_token, user }));
     navigate('/');
   };
 
@@ -22,27 +46,27 @@ const SignUp = () => {
         <div className={styles.inputContainer}>
           <input
             type="text"
-            value={userName}
+            value={inputUserName}
             placeholder="Username"
-            onChange={(ev) => setUserName(ev.target.value)}
+            onChange={(ev) => setInputUserName(ev.target.value)}
             className={styles.inputBox}
           />
           {/* <label className="errorLabel">{emailError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input
-            value={email}
+            value={inputEmail}
             placeholder="Email"
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange={(ev) => setInputEmail(ev.target.value)}
             className={styles.inputBox}
           />
           {/* <label className="errorLabel">{emailError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input
-            value={password}
+            value={inputPassword}
             placeholder="Password"
-            onChange={(ev) => setPassword(ev.target.value)}
+            onChange={(ev) => setInputPassword(ev.target.value)}
             className={styles.inputBox}
           />
           {/* <label className="errorLabel">{passwordError}</label> */}
@@ -51,7 +75,7 @@ const SignUp = () => {
           <input
             className={styles.inputButton}
             type="button"
-            onClick={onButtonClick}
+            onClick={() => handleSignUp(inputEmail, inputPassword, inputUserName)}
             value={'Sign up'}
           />
         </div>
