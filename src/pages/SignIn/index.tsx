@@ -1,16 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
+import { useDispatch } from 'react-redux';
+import { login } from '@/redux/slices/login/slice';
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
   //const [emailError, setEmailError] = useState('')
   //const [passwordError, setPasswordError] = useState('')
+  // const { user, token } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const onButtonClick = () => {
+  const handleLogin = (email: string, password: string) => {
+    const userData = { email, password };
+    console.log(userData);
+    dispatch(login(userData));
     navigate('/');
   };
 
@@ -20,18 +28,18 @@ const SignIn = () => {
         <div className={styles.signInTitle}>Sign in</div>
         <div className={styles.inputContainer}>
           <input
-            value={email}
+            value={inputEmail}
             placeholder="Enter your email here"
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange={(ev) => setInputEmail(ev.target.value)}
             className={styles.inputBox}
           />
           {/* <label className="errorLabel">{emailError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input
-            value={password}
+            value={inputPassword}
             placeholder="Enter your password here"
-            onChange={(ev) => setPassword(ev.target.value)}
+            onChange={(ev) => setInputPassword(ev.target.value)}
             className={styles.inputBox}
           />
           {/* <label className="errorLabel">{passwordError}</label> */}
@@ -40,7 +48,7 @@ const SignIn = () => {
           <input
             className={styles.inputButton}
             type="button"
-            onClick={onButtonClick}
+            onClick={() => handleLogin(inputEmail, inputPassword)}
             value={'Log in'}
           />
         </div>
