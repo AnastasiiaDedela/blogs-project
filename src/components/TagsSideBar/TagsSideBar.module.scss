@@ -1,3 +1,23 @@
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.addArticleBtn {
+    margin: 0 auto;
+    & button {
+        background-color: $base-light;
+        padding: 15px 70px;
+        border: none;
+        border-radius: 40px;
+        & a {
+            color: $light;
+            font-size: 16px
+        }
+    }
+}
+
 .tagsContainer {
     display: flex;
     flex-direction: column;
