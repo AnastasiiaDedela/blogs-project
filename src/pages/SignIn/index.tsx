@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '@/redux/slices/login/slice';
 import axios from 'axios';
 
@@ -14,28 +14,24 @@ const SignIn = () => {
   // const { user, token } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
 
-  const handleLogin = (email: string, password: string) => {
-    const userData = { email, password };
-    dispatch(login(userData));
-    const response = axios
+  const handleLogin = () => {
+    axios
       .post('http://localhost:8001/api/auth/login', {
         email: inputEmail,
         password: inputPassword,
       })
       .then((res) => {
-        console.log(res.data);
+        console.log('res: ', res);
+        const { access_token: token, user } = res.data;
+        dispatch(login({ token, user }));
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    console.log(response);
-
-    const { access_token, user } = response;
-
-    dispatch(login({ token: access_token, user }));
-
-    navigate('/');
   };
 
   return (
@@ -64,7 +60,7 @@ const SignIn = () => {
           <input
             className={styles.inputButton}
             type="button"
-            onClick={() => handleLogin(inputEmail, inputPassword)}
+            onClick={() => handleLogin()}
             value={'Log in'}
           />
         </div>

@@ -4,6 +4,7 @@ import SignIn from '@/pages/SignIn';
 import MainLayout from '@/pages/MainLayout';
 import SignUp from '@/pages/SignUp';
 import UserPage from '@/pages/UserPage';
+import AddArticle from '@/pages/AddArticle';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: '/user',
         element: <UserPage />,
+      },
+      {
+        path: '/add-article',
+        element: <AddArticle />,
       },
     ],
   },
