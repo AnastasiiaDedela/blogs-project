@@ -1,33 +1,66 @@
-.form {
+.addArticleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  background-color: #86c4ed35;
+  height: calc(100vh - 60px);
+  row-gap: 50px;
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+      color: $base-dark;
+      display: flex;
+      flex-direction: column;
+      font-size: 28px;
+      font-weight: bolder;
+      align-items: center;
+      justify-content: center;
+}
+.addArticleForm {
     display: flex;
+    margin: 0 auto;
     flex-direction: column;
-    width: 300px;
-    margin: auto;
+    row-gap: 15px;
+    
+    & button {
+      padding: 12px 25px;
+      background-color: $base-light;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      align-self: flex-end;
+      font-size: 16px;
+    }
+    
+    & button:hover {
+      background-color: #0056b3;
+    }
   }
   
-  .div {
-    margin-bottom: 15px;
+  .inputContainer {
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+    text-align: justify;
+    column-gap: 10px;
+    font-size: 18px;
+    & label {
+      align-self: center;
+    }
+    & input, & textarea {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      width: 400px;
+      height: 50px;
+    }
   }
-  
-  .label {
-    margin-bottom: 5px;
-  }
-  
-  .input, .textarea {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .button {
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
+
+  .contentInput {
+    height: 130px !important ;
   }
