@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignUp.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '@/redux/slices/login/slice';
 import axios from 'axios';
 
@@ -16,27 +16,20 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const handleSignUp = (email: string, password: string, name: string) => {
-    const userData = { email, password, name };
-    console.log(userData);
-    dispatch(login(userData));
-
-    const response = axios
+  const handleSignUp = () => {
+    axios
       .post('http://localhost:8001/api/auth/register', {
         name: inputUserName,
         email: inputEmail,
         password: inputPassword,
       })
       .then((res) => {
-        console.log(res.data);
+        const token = res.data.access_token;
+        const user = res.data.user;
+        console.log('dispatch1: ', { token, user });
+        dispatch(login({ token, user }));
+        navigate('/');
       });
-
-    console.log(response);
-
-    const { access_token, user } = response;
-
-    dispatch(login({ token: access_token, user }));
-    navigate('/');
   };
 
   return (
@@ -75,7 +68,7 @@ const SignUp = () => {
           <input
             className={styles.inputButton}
             type="button"
-            onClick={() => handleSignUp(inputEmail, inputPassword, inputUserName)}
+            onClick={() => handleSignUp()}
             value={'Sign up'}
           />
         </div>
