@@ -6,8 +6,8 @@ import { login } from '@/redux/slices/login/slice';
 import axios from 'axios';
 
 const SignIn = () => {
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputPassword, setInputPassword] = useState('');
+  const [inputEmail, setInputEmail] = useState('user1@gmail.com');
+  const [inputPassword, setInputPassword] = useState('useruser');
 
   //const [emailError, setEmailError] = useState('')
   //const [passwordError, setPasswordError] = useState('')
@@ -24,8 +24,9 @@ const SignIn = () => {
         password: inputPassword,
       })
       .then((res) => {
-        console.log('res: ', res);
-        const { access_token: token, user } = res.data;
+        const token = res.data.access_token;
+        const user = res.data.user;
+        console.log('dispatch2: ', { token, user });
         dispatch(login({ token, user }));
         navigate('/');
       })
