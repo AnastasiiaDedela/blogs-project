@@ -4,6 +4,7 @@ import Pagination from '../Pagination';
 import styles from './BlogList.module.scss';
 
 export default function BlogList({ blogs }) {
+  console.log('blogs list', blogs);
   const [page, setPage] = useState<number>(1);
 
   return (

@@ -1,8 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './BlogItem.module.scss';
 
-export default function BlogItem({ text, title, author, created_at, tags }) {
+export default function BlogItem({ blog }) {
   const navigate = useNavigate();
+
+  const {
+    author: { name }, // Destructure nested author object
+    created_at,
+    tags,
+    text,
+    title,
+  } = blog;
 
   return (
     <article className={styles.blog}>
@@ -12,7 +20,7 @@ export default function BlogItem({ text, title, author, created_at, tags }) {
             <img src="/avatar.png" alt="avatar" />
           </div>
           <div className={styles.autrhorInfo}>
-            <p className={styles.authorName}>{author}</p>
+            <p className={styles.authorName}>{name}</p>
             <p className={styles.date}>{created_at}</p>
           </div>
         </div>
@@ -25,9 +33,10 @@ export default function BlogItem({ text, title, author, created_at, tags }) {
       <div className={styles.blogFooter}>
         <p>Read more...</p>
         <div className={styles.blogTags}>
-          {tags.map((tag) => {
-            <button>{tag}</button>;
-          })}
+          {tags &&
+            tags.map((tag) => {
+              <button>{tag}</button>;
+            })}
         </div>
       </div>
     </article>
