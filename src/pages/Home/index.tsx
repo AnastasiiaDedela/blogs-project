@@ -16,14 +16,15 @@ export default function Home() {
         },
       })
       .then((res) => {
-        setBlogs(res.items);
-        console.log(res.items);
+        setBlogs(res.data.items);
+        //console.log('blogs: ', res.data.items);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
 
+  console.log('blogs: ', blogs);
   return (
     <main>
       <div className={styles.container}>
