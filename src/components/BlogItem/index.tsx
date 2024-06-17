@@ -12,6 +12,8 @@ export default function BlogItem({ blog }) {
     title,
   } = blog;
 
+  console.log('tags: ', tags);
+
   return (
     <article className={styles.blog}>
       <div className={styles.blogHeader}>
@@ -32,12 +34,7 @@ export default function BlogItem({ blog }) {
       </div>
       <div className={styles.blogFooter}>
         <p>Read more...</p>
-        <div className={styles.blogTags}>
-          {tags &&
-            tags.map((tag) => {
-              <button>{tag}</button>;
-            })}
-        </div>
+        <div className={styles.blogTags}>{tags && tags.map((tag) => <button>{tag}</button>)}</div>
       </div>
     </article>
   );
