@@ -12,6 +12,29 @@ export default function BlogItem({ blog }) {
     title,
   } = blog;
 
+  const date = new Date(created_at);
+
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  const month = monthNames[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  const formattedDate = `${month} ${day}, ${year}`;
+
   return (
     <article className={styles.blog}>
       <div className={styles.blogHeader}>
@@ -21,10 +44,12 @@ export default function BlogItem({ blog }) {
           </div>
           <div className={styles.autrhorInfo}>
             <p className={styles.authorName}>{name}</p>
-            <p className={styles.date}>{created_at}</p>
+            <p className={styles.date}>{formattedDate}</p>
           </div>
         </div>
-        <button className={styles.likes}>💙500</button>
+        <button className={styles.likes}>
+          💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
+        </button>
       </div>
       <div className={styles.blogContent}>
         <p className={styles.blogTitle}>{title}</p>
