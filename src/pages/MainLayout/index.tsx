@@ -11,9 +11,6 @@ export default function MainLayout() {
 
   useEffect(() => {
     const token = localStorage.getItem('@token');
-    console.log(token);
-    console.log(typeof token);
-    console.log('login in main layout');
     axios
       .get('http://localhost:8001/api/users/me', {
         headers: {
@@ -21,9 +18,8 @@ export default function MainLayout() {
         },
       })
       .then((res) => {
-        console.log('res3: ', res);
         const user = res.data;
-        console.log('dispatch3: ', { token, user });
+
         dispatch(login({ token, user }));
       })
       .catch((err) => {

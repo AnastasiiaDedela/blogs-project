@@ -34,11 +34,9 @@ export default function AddArticle() {
         },
       })
       .then((res) => {
-        console.log('Article added:', res.data);
         setTitle('');
         setContent('');
         setTags('');
-        console.log(res.data);
       })
       .catch((error) => {
         console.error('There was an error adding the article:', error);

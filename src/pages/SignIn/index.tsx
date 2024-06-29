@@ -26,7 +26,7 @@ const SignIn = () => {
       .then((res) => {
         const token = res.data.access_token;
         const user = res.data.user;
-        console.log('dispatch2: ', { token, user });
+
         dispatch(login({ token, user }));
         navigate('/');
       })

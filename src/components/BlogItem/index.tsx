@@ -12,8 +12,6 @@ export default function BlogItem({ blog }) {
     title,
   } = blog;
 
-  console.log('tags: ', tags);
-
   return (
     <article className={styles.blog}>
       <div className={styles.blogHeader}>
