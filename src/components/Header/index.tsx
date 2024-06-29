@@ -5,7 +5,7 @@ import { logout } from '@/redux/slices/login/slice';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isLoggedIn);
+
   const dispatch = useDispatch();
   return (
     <header className={styles.header}>

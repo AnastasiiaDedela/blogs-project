@@ -1,24 +1,50 @@
+import { useEffect, useState } from 'react';
 import styles from './pagination.module.scss';
 
 type PaginationProps = {
-  page: number;
-  setPage: (number: number) => void;
+  elementsPerPage: number;
+  pageOnClick: (pageNum: number) => void;
+  count: number;
 };
 
-export default function Pagination({ page, setPage }: PaginationProps) {
+export default function Pagination({ elementsPerPage, pageOnClick, count }: PaginationProps) {
+  const [currentPage, setCurrentpage] = useState(1);
+  const pages = count / elementsPerPage;
+  const arrayOfPages = Array.from({ length: pages }, (_, i) => i + 1);
+
+  useEffect(() => {
+    pageOnClick(currentPage);
+  }, [currentPage]);
+
   return (
     <div>
       <ul className={styles.pagination}>
-        <li>{'<'}</li>
-        {[...Array(7)].map((_, index) => (
+        <li
+          onClick={() => {
+            if (currentPage > 1) {
+              setCurrentpage(currentPage - 1);
+            }
+          }}>
+          {'<'}
+        </li>
+        {arrayOfPages.map((_, index) => (
           <li
             key={index}
-            onClick={() => setPage(index + 1)}
-            className={page === index + 1 ? 'active' : ''}>
+            onClick={() => {
+              setCurrentpage(index + 1);
+            }}
+            className={currentPage === index + 1 ? `${styles.active}` : ''}>
             {index + 1}
           </li>
         ))}
-        <li>{'>'}</li>
+        <li
+          onClick={() => {
+            if (currentPage < pages) {
+              setCurrentpage(currentPage + 1);
+            }
+          }}>
+          {'>'}
+        </li>
       </ul>
     </div>
   );
