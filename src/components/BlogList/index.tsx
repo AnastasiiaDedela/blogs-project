@@ -1,7 +1,8 @@
+import { BlogListProps } from '@/types/blogs';
 import BlogItem from '../BlogItem';
 import styles from './BlogList.module.scss';
 
-export default function BlogList({ blogs }) {
+const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
   return (
     <div className={styles.feed}>
       <p className={styles.feedTitle}>Global Feed</p>
@@ -10,4 +11,5 @@ export default function BlogList({ blogs }) {
       </div>
     </div>
   );
-}
+};
+export default BlogList;

@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './BlogItem.module.scss';
+import { BlogItemProps } from '@/types/blogs';
 
-export default function BlogItem({ blog }) {
+const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
   const navigate = useNavigate();
 
   const {
@@ -61,4 +62,6 @@ export default function BlogItem({ blog }) {
       </div>
     </article>
   );
-}
+};
+
+export default BlogItem;

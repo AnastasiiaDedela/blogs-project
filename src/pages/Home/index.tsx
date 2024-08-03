@@ -7,13 +7,11 @@ import Pagination from '@/components/Pagination';
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
-  const [limit, setLimit] = useState(4);
+  const [limit] = useState(4);
   const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
 
   const pageOnClick = (pageNum: number) => {
-    console.log('page number :', pageNum);
-    console.log('setting :', limit * (pageNum - 1));
     setOffset(limit * (pageNum - 1));
   };
 
