@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './AddArticle.module.scss';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddArticle() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
 
-  const handleTagsChange = (e) => {
+  const navigate = useNavigate();
+
+  const handleTagsChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTags(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const tagsArray = tags
@@ -33,10 +36,11 @@ export default function AddArticle() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         setTitle('');
         setContent('');
         setTags('');
+        navigate('/');
       })
       .catch((error) => {
         console.error('There was an error adding the article:', error);
