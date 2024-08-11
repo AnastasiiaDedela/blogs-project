@@ -1,7 +1,7 @@
 import BlogList from '@/components/BlogList';
 import styles from './UresPage.module.scss';
 
-export default function UserPage() {
+export default function AuthorPage() {
   return (
     <div className={styles.container}>
       <div className={styles.userContainer}>
@@ -16,7 +16,7 @@ export default function UserPage() {
         </div>
       </div>
       <div className={styles.blogsContainer}>
-        <BlogList />
+        <BlogList blogs={[]} />
       </div>
     </div>
   );
