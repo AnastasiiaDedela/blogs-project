@@ -1,0 +1,34 @@
+.authorBlock {
+    display: flex;
+    column-gap: 20px;
+}
+.authorData {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.authorAvatar {
+    width: 33px;
+    height: auto;
+    img {
+        border-radius: 50px;
+    }
+}
+
+.authorName {
+    font-size: 18px;
+    line-height: 16px;
+    color: $base-light;
+}
+
+.date {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.lightText {
+    color: $light;
+}

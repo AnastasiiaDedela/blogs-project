@@ -1,0 +1,103 @@
+.bannerWrapper {
+    background-color: #1b292cd5;
+    padding: 20px 0;
+}
+.contentWrapper {
+    font-family: "Poppins", sans-serif;
+    width: 1110px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.title {
+    color: $light;
+    font-size: 2.8rem;
+    font-weight: 600;
+
+}
+
+.authorBlockWrapper {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+}
+.authorBlock {
+    color: $light;
+    display: flex;
+    column-gap: 20px;
+}
+.authorData {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.authorAvatar {
+    width: 33px;
+    height: auto;
+    img {
+        border-radius: 50px;
+    }
+}
+
+.authorName {
+    font-size: 18px;
+    line-height: 16px;
+}
+
+.date {
+    color: #aaa;
+    font-size: 12px;
+} 
+
+.followBtns {
+    display: flex;
+    column-gap: 10px;
+    & div  button {
+            padding-inline: 0;
+            padding: 6px 20px;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #b6b6b6;
+            border: none;
+            border: solid 2px $dark-gray;
+    }
+    
+}
+
+.followBtns div:last-child button:last-child {
+    color: $base-light;
+    border: solid 2px $base-light;
+}
+
+.acticleText {
+    text-align: justify;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    padding-top: 30px;
+}
+.tags {
+     border-bottom: 1px solid #aaaaaa99;
+     padding: 10px 0 40px;
+     display: flex;
+     column-gap: 6px;
+}
+
+.tag {
+    border: none;
+    border: 1px solid #aaaaaa99;
+        background-color: transparent;
+        border-radius: 15px;
+        color: #aaaaaacf;
+        padding: 5px 10px;
+    
+}
+
+.footerWrapper {
+    display: flex;
+    justify-content: center;
+}
