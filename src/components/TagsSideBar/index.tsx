@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './TagsSideBar.module.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 export default function TagsSideBar() {
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   return (
     <div className={styles.sideBar}>
       <div className={styles.tagsContainer}>
@@ -22,9 +25,15 @@ export default function TagsSideBar() {
         </div>
       </div>
       <div className={styles.addArticleBtn}>
-        <button>
-          <Link to="/add-article">Add article +</Link>
-        </button>
+        {isLoggedIn ? (
+          <button>
+            <Link to="/add-article">Add article +</Link>
+          </button>
+        ) : (
+          <button>
+            <Link to="/sign-in">Add article +</Link>
+          </button>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import MainLayout from '@/pages/MainLayout';
 import SignUp from '@/pages/SignUp';
 import UserPage from '@/pages/UserPage';
 import AddArticle from '@/pages/AddArticle';
+import ActicleDetails from '@/pages/ActicleDetails';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: '/add-article',
         element: <AddArticle />,
+      },
+      {
+        path: '/article-details/:id',
+        element: <ActicleDetails />,
       },
     ],
   },

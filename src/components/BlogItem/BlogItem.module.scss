@@ -33,7 +33,6 @@
 .authorName {
     color: $base-dark;
     font-size: 18px;
-    line-height: 16px;
 }
 
 .date {
@@ -54,6 +53,7 @@
     display: flex;
     flex-direction: column;
     text-align: justify;
+    cursor: pointer;
 }
 
 .blogTitle {
@@ -73,7 +73,8 @@
 
     p {
         color: #aaa;
-    font-size: 12px;
+        font-size: 12px;
+        cursor: pointer;
     }
 }
 
