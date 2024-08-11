@@ -19,7 +19,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
 
   return (
     <article className={styles.blog}>
-      <div className={styles.blogHeader} onClick={() => navigate('/user')}>
+      <div className={styles.blogHeader} onClick={() => navigate('/author')}>
         <AuthorBlock authorName={name} created_at={created_at} />
         <button className={styles.likes}>
           💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}

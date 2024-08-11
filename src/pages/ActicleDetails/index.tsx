@@ -1,13 +1,14 @@
 import { Blog } from '@/types/blogs';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock';
 
 const ArticleDetails = () => {
   const params = useParams();
   const [article, setArticle] = useState<Blog | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -27,7 +28,7 @@ const ArticleDetails = () => {
           <div className={styles.bannerWrapper}>
             <div className={styles.contentWrapper}>
               <h1 className={styles.title}>{article.title}</h1>
-              <div className={styles.authorBlockWrapper}>
+              <div className={styles.authorBlockWrapper} onClick={() => navigate('/author')}>
                 <AuthorBlock
                   authorName={article.author.name}
                   created_at={article.created_at}

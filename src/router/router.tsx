@@ -3,7 +3,7 @@ import Home from '@/pages/Home';
 import SignIn from '@/pages/SignIn';
 import MainLayout from '@/pages/MainLayout';
 import SignUp from '@/pages/SignUp';
-import UserPage from '@/pages/UserPage';
+import AuthorPage from '@/pages/AuthorPage';
 import AddArticle from '@/pages/AddArticle';
 import ActicleDetails from '@/pages/ActicleDetails';
 
@@ -25,8 +25,8 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: '/user',
-        element: <UserPage />,
+        path: '/author',
+        element: <AuthorPage />,
       },
       {
         path: '/add-article',
