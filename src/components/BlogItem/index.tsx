@@ -31,7 +31,9 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
       </div>
       <div className={styles.blogFooter}>
         <p onClick={() => navigate(`/article-details/${id}`)}>Read more...</p>
-        <div className={styles.blogTags}>{tags && tags.map((tag) => <button>{tag}</button>)}</div>
+        <div className={styles.blogTags}>
+          {tags && tags.map((tag, index) => <button key={index}>{tag}</button>)}
+        </div>
       </div>
     </article>
   );

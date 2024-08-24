@@ -4,34 +4,42 @@ import BlogList from '@/components/BlogList';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from '@/components/Pagination';
+import { RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOffset, setSelectedTags } from '@/redux/slices/posts/slice';
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
-  const [limit] = useState(4);
-  const [offset, setOffset] = useState(0);
-  const [count, setCount] = useState(0);
+  const [count] = useState(0);
+
+  const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
+
+  const dispatch = useDispatch();
 
   const pageOnClick = (pageNum: number) => {
-    setOffset(limit * (pageNum - 1));
+    dispatch(setOffset(limit * (pageNum - 1)));
   };
 
-  useEffect(() => {
-    console.log('fetching :', limit, offset);
-    const token = localStorage.getItem('@token');
+  function getPosts(limit: number, offset: number, tags: string[]) {
+    let requestTags = '';
+
+    for (let i = 0; i < tags.length; i++) {
+      requestTags += `tags=${tags[i]}&`;
+    }
+
     axios
-      .get(`http://localhost:8001/api/posts?limit=${limit}&offset=${offset}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}&${requestTags}`)
       .then((res) => {
         setBlogs(res.data.items);
-        setCount(res.data.count);
       })
-      .catch((err) => {
-        console.log(err.message);
+      .catch((error) => {
+        console.log(error);
       });
-  }, [offset]);
+  }
+
+  useEffect(() => {
+    getPosts(limit, offset, tags);
+  }, [offset, tags]);
 
   return (
     <main>
