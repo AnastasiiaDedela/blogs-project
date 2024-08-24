@@ -6,21 +6,16 @@ import AuthorBlock from '../AuthorBlock';
 const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
   const navigate = useNavigate();
 
-  const {
-    author: { name },
-    created_at,
-    tags,
-    text,
-    title,
-    id,
-  } = blog;
+  const { author, created_at, tags, text, title, id } = blog;
+
+  console.log('author', author);
 
   const truncatedText = text.length > 186 ? text.substring(0, 186) : text;
 
   return (
     <article className={styles.blog}>
-      <div className={styles.blogHeader} onClick={() => navigate('/author')}>
-        <AuthorBlock authorName={name} created_at={created_at} />
+      <div className={styles.blogHeader} onClick={() => navigate(`/author/${author.id}`)}>
+        <AuthorBlock authorName={author.name} created_at={created_at} />
         <button className={styles.likes}>
           💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
         </button>
@@ -31,7 +26,9 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
       </div>
       <div className={styles.blogFooter}>
         <p onClick={() => navigate(`/article-details/${id}`)}>Read more...</p>
-        <div className={styles.blogTags}>{tags && tags.map((tag) => <button>{tag}</button>)}</div>
+        <div className={styles.blogTags}>
+          {tags && tags.map((tag, index) => <button key={index}>{tag}</button>)}
+        </div>
       </div>
     </article>
   );

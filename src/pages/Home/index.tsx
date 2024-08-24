@@ -4,34 +4,40 @@ import BlogList from '@/components/BlogList';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from '@/components/Pagination';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
-  const [limit] = useState(4);
-  const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
 
-  const pageOnClick = (pageNum: number) => {
-    setOffset(limit * (pageNum - 1));
-  };
+  const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
+
+  function getPosts(limit: number, offset: number, tags: string[]) {
+    let requestTags = '';
+
+    for (let i = 0; i < tags.length; i++) {
+      requestTags += `tags=${tags[i]}&`;
+    }
+    console.log('limit', limit);
+    console.log('offset', offset);
+    console.log('requestTags', requestTags);
+    axios
+      .get(`http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}&${requestTags}`)
+      .then((res) => {
+        setCount(res.data.count);
+        setBlogs(res.data.items);
+        console.log(res.data.items);
+        console.log(res.data.count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   useEffect(() => {
-    console.log('fetching :', limit, offset);
-    const token = localStorage.getItem('@token');
-    axios
-      .get(`http://localhost:8001/api/posts?limit=${limit}&offset=${offset}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setBlogs(res.data.items);
-        setCount(res.data.count);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, [offset]);
+    getPosts(limit, offset, tags);
+  }, [offset, tags]);
 
   return (
     <main>
@@ -44,7 +50,7 @@ export default function Home() {
           <BlogList blogs={blogs} />
           <TagsSideBar />
         </div>
-        <Pagination elementsPerPage={limit} count={count} pageOnClick={pageOnClick} />
+        <Pagination count={count} blogs={blogs} />
       </div>
     </main>
   );

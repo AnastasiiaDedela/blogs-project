@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: '/author',
+        path: '/author/:id',
         element: <AuthorPage />,
       },
       {

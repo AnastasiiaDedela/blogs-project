@@ -1,16 +1,30 @@
 import { useEffect, useState } from 'react';
 import styles from './pagination.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { setOffset } from '@/redux/slices/posts/slice';
+import { BlogListProps } from '@/types/blogs';
 
 type PaginationProps = {
-  elementsPerPage: number;
-  pageOnClick: (pageNum: number) => void;
   count: number;
+  blogs: BlogListProps;
 };
 
-export default function Pagination({ elementsPerPage, pageOnClick, count }: PaginationProps) {
+export default function Pagination({ count, blogs }: PaginationProps) {
   const [currentPage, setCurrentpage] = useState(1);
-  const pages = count / elementsPerPage;
+  const { limit } = useSelector((state: RootState) => state.posts);
+  console.log(blogs.length);
+
+  const pages = Math.ceil(count / limit);
+  console.log('pages', pages);
+
   const arrayOfPages = Array.from({ length: pages }, (_, i) => i + 1);
+  console.log('arrayOfPages', arrayOfPages);
+  const dispatch = useDispatch();
+
+  const pageOnClick = (pageNum: number) => {
+    dispatch(setOffset(limit * (pageNum - 1)));
+  };
 
   useEffect(() => {
     pageOnClick(currentPage);
