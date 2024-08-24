@@ -5,20 +5,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from '@/components/Pagination';
 import { RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOffset, setSelectedTags } from '@/redux/slices/posts/slice';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
-
-  const dispatch = useDispatch();
-
-  const pageOnClick = (pageNum: number) => {
-    dispatch(setOffset(limit * (pageNum - 1)));
-  };
 
   function getPosts(limit: number, offset: number, tags: string[]) {
     let requestTags = '';
@@ -26,11 +19,16 @@ export default function Home() {
     for (let i = 0; i < tags.length; i++) {
       requestTags += `tags=${tags[i]}&`;
     }
-
+    console.log('limit', limit);
+    console.log('offset', offset);
+    console.log('requestTags', requestTags);
     axios
       .get(`http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}&${requestTags}`)
       .then((res) => {
+        setCount(res.data.count);
         setBlogs(res.data.items);
+        console.log(res.data.items);
+        console.log(res.data.count);
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +50,7 @@ export default function Home() {
           <BlogList blogs={blogs} />
           <TagsSideBar />
         </div>
-        <Pagination elementsPerPage={limit} count={count} pageOnClick={pageOnClick} />
+        <Pagination count={count} blogs={blogs} />
       </div>
     </main>
   );
