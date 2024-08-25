@@ -40,5 +40,12 @@
         font-weight: 400;
         font-style: normal;
         font-size: 28px;
+        margin-right: 20px;
     }
+}
+
+.headerRightPart {
+    display: flex;
+    column-gap: 25px;
+    align-items: center;
 }

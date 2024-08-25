@@ -15,6 +15,9 @@
             color: $light;
             font-size: 16px
         }
+        &:hover {
+            background-color: $base-dark;
+          }
     }
 }
 
@@ -55,6 +58,9 @@
     border-radius: 15px;
     color: $light;
     padding: 5px 10px;
+    &:hover {
+        background-color: #1c1c23bf;
+    }
 }
 
 .selectedTag {
