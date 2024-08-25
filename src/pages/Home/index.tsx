@@ -12,23 +12,29 @@ export default function Home() {
   const [count, setCount] = useState(0);
 
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
+  const searchValue = useSelector((state: RootState) => state.search.searchValue);
+  console.log('searchValue', searchValue);
 
-  function getPosts(limit: number, offset: number, tags: string[]) {
+  function getPosts(limit: number, offset: number, tags: string[], searchValue: string) {
     let requestTags = '';
+    let url = `http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}`;
 
     for (let i = 0; i < tags.length; i++) {
       requestTags += `tags=${tags[i]}&`;
     }
-    console.log('limit', limit);
-    console.log('offset', offset);
-    console.log('requestTags', requestTags);
+    if (requestTags.length > 0) {
+      url += `&${requestTags}`;
+    }
+    if (searchValue.length > 0) {
+      url += `&q=${searchValue}`;
+    }
+
     axios
-      .get(`http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}&${requestTags}`)
+      .get(url)
       .then((res) => {
+        console.log('home res', res);
         setCount(res.data.count);
         setBlogs(res.data.items);
-        console.log(res.data.items);
-        console.log(res.data.count);
       })
       .catch((error) => {
         console.log(error);
@@ -36,8 +42,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    getPosts(limit, offset, tags);
-  }, [offset, tags]);
+    getPosts(limit, offset, tags, searchValue);
+  }, [offset, tags, searchValue]);
 
   return (
     <main>
@@ -50,7 +56,7 @@ export default function Home() {
           <BlogList blogs={blogs} />
           <TagsSideBar />
         </div>
-        <Pagination count={count} blogs={blogs} />
+        <Pagination count={count} />
       </div>
     </main>
   );

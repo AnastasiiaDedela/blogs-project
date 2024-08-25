@@ -3,23 +3,18 @@ import styles from './pagination.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setOffset } from '@/redux/slices/posts/slice';
-import { BlogListProps } from '@/types/blogs';
 
 type PaginationProps = {
   count: number;
-  blogs: BlogListProps;
 };
 
-export default function Pagination({ count, blogs }: PaginationProps) {
+export default function Pagination({ count }: PaginationProps) {
   const [currentPage, setCurrentpage] = useState(1);
   const { limit } = useSelector((state: RootState) => state.posts);
-  console.log(blogs.length);
 
   const pages = Math.ceil(count / limit);
-  console.log('pages', pages);
 
   const arrayOfPages = Array.from({ length: pages }, (_, i) => i + 1);
-  console.log('arrayOfPages', arrayOfPages);
   const dispatch = useDispatch();
 
   const pageOnClick = (pageNum: number) => {

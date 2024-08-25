@@ -8,8 +8,6 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
 
   const { author, created_at, tags, text, title, id } = blog;
 
-  console.log('author', author);
-
   const truncatedText = text.length > 186 ? text.substring(0, 186) : text;
 
   return (
