@@ -1,21 +1,20 @@
 import TagsSideBar from '@/components/TagsSideBar';
 import styles from './Home.module.scss';
 import BlogList from '@/components/BlogList';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Pagination from '@/components/Pagination';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { useFetch } from '@/components/useFetch';
+import { Blog } from '@/types/blogs';
+import { useDebounce } from '@/components/useDeobunce';
 
 export default function Home() {
-  const [blogs, setBlogs] = useState([]);
-  const [count, setCount] = useState(0);
-
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
   const searchValue = useSelector((state: RootState) => state.search.searchValue);
-  console.log('searchValue', searchValue);
 
-  function getPosts(limit: number, offset: number, tags: string[], searchValue: string) {
+  const searchDebounced = useDebounce<string>(searchValue);
+
+  function getPostsUrl(limit: number, offset: number, tags: string[], searchValue: string) {
     let requestTags = '';
     let url = `http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}`;
 
@@ -29,21 +28,13 @@ export default function Home() {
       url += `&q=${searchValue}`;
     }
 
-    axios
-      .get(url)
-      .then((res) => {
-        console.log('home res', res);
-        setCount(res.data.count);
-        setBlogs(res.data.items);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    return url;
   }
 
-  useEffect(() => {
-    getPosts(limit, offset, tags, searchValue);
-  }, [offset, tags, searchValue]);
+  const { data } = useFetch<{ count: number; items: Blog[] }>(
+    getPostsUrl(limit, offset, tags, searchValue),
+    [offset, tags, searchDebounced],
+  );
 
   return (
     <main>
@@ -52,11 +43,12 @@ export default function Home() {
           <h1>glossa</h1>
           <p>A place to share your knowledge.</p>
         </div>
+
         <div className={styles.content}>
-          <BlogList blogs={blogs} />
+          {data && <BlogList blogs={data.items} />}
           <TagsSideBar />
         </div>
-        <Pagination count={count} />
+        {data && <Pagination count={data.count} />}
       </div>
     </main>
   );

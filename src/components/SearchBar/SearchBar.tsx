@@ -16,9 +16,6 @@ export default function SearchBar() {
         placeholder="Search..."
         className={styles.searchInput}
       />
-      {/* <button className={styles.searchButton}>
-        Search
-      </button> */}
     </div>
   );
 }
