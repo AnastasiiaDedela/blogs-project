@@ -6,6 +6,7 @@ import SignUp from '@/pages/SignUp';
 import AuthorPage from '@/pages/AuthorPage';
 import AddArticle from '@/pages/AddArticle';
 import ActicleDetails from '@/pages/ActicleDetails';
+import UserPage from '@/pages/UserPage/UserPage';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignUp />,
+      },
+      {
+        path: '/user/me',
+        element: <UserPage />,
       },
       {
         path: '/author/:id',
