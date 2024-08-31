@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authSlice from './slices/login/slice';
-import userSlice from './slices/User/slice';
+import authSlice from './slices/auth/slice';
 import postsSlice from './slices/posts/slice';
 import searchSlice from './slices/search/slice';
 const store = configureStore({
   reducer: {
     auth: authSlice,
-    user: userSlice,
     posts: postsSlice,
     search: searchSlice,
   },

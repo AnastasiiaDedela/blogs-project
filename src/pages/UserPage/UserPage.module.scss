@@ -1,0 +1,58 @@
+.container {
+    width: 80%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.blogsWrapper {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.userBlock{
+    display: flex;
+    padding: 50px;
+    width: 700px;
+    margin: 0 auto;
+    justify-content: space-around;
+    font-family: "Poppins", sans-serif;
+    align-items: center;
+}
+
+.userData {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.userAvatar {
+    width: 200px;
+    height: 200px;
+    
+    img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
+}
+
+.userDataItem {
+        border: 1px solid $base-dark;
+        border-radius: 10px;
+        padding: 5px 18px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+
+        input {
+            border: none;
+            outline: none;
+            color: black;
+            cursor: pointer;
+            font-size: 14px;
+        }
+}

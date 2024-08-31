@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '@/redux/slices/login/slice';
+import { logout } from '@/redux/slices/auth/slice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
-import SearchBar from '../SearchBar/SearchBar'; // Import the SearchBar component
+import SearchBar from '../SearchBar/SearchBar';
+import { User } from 'lucide-react';
 
 export default function Header() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
@@ -26,11 +27,20 @@ export default function Header() {
                 <Link to="/">Home</Link>
               </li>
               {isLoggedIn ? (
-                <li>
-                  <Link to="/sign-in" onClick={() => dispatch(logout())}>
-                    Log out
-                  </Link>
-                </li>
+                <>
+                  <li>
+                    <Link to="/sign-in" onClick={() => dispatch(logout())}>
+                      Log out
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={'user/me'}>
+                      <div className={styles.userIcon}>
+                        <User />
+                      </div>
+                    </Link>
+                  </li>
+                </>
               ) : (
                 <>
                   <li>

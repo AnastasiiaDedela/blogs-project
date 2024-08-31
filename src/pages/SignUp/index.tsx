@@ -2,15 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignUp.module.scss';
 import { useDispatch } from 'react-redux';
-import { login } from '@/redux/slices/login/slice';
+import { login } from '@/redux/slices/auth/slice';
 import axios from 'axios';
 
 const SignUp = () => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [inputUserName, setInputUserName] = useState('');
-  //const [emailError, setEmailError] = useState('')
-  //const [passwordError, setPasswordError] = useState('')
 
   const dispatch = useDispatch();
 
@@ -44,7 +42,6 @@ const SignUp = () => {
             onChange={(ev) => setInputUserName(ev.target.value)}
             className={styles.inputBox}
           />
-          {/* <label className="errorLabel">{emailError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input
@@ -53,16 +50,15 @@ const SignUp = () => {
             onChange={(ev) => setInputEmail(ev.target.value)}
             className={styles.inputBox}
           />
-          {/* <label className="errorLabel">{emailError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input
+            type="password"
             value={inputPassword}
             placeholder="Password"
             onChange={(ev) => setInputPassword(ev.target.value)}
             className={styles.inputBox}
           />
-          {/* <label className="errorLabel">{passwordError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input

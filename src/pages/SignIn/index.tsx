@@ -2,16 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
 import { useDispatch } from 'react-redux';
-import { login } from '@/redux/slices/login/slice';
+import { login } from '@/redux/slices/auth/slice';
 import axios from 'axios';
 
 const SignIn = () => {
-  const [inputEmail, setInputEmail] = useState('user1@gmail.com');
-  const [inputPassword, setInputPassword] = useState('useruser');
-
-  //const [emailError, setEmailError] = useState('')
-  //const [passwordError, setPasswordError] = useState('')
-  // const { user, token } = useSelector((state) => state.auth);
+  const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
+  const [inputPassword, setInputPassword] = useState('miranda00');
 
   const dispatch = useDispatch();
 
@@ -46,16 +42,15 @@ const SignIn = () => {
             onChange={(ev) => setInputEmail(ev.target.value)}
             className={styles.inputBox}
           />
-          {/* <label className="errorLabel">{emailError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input
+            type="password"
             value={inputPassword}
             placeholder="Enter your password here"
             onChange={(ev) => setInputPassword(ev.target.value)}
             className={styles.inputBox}
           />
-          {/* <label className="errorLabel">{passwordError}</label> */}
         </div>
         <div className={styles.inputContainer}>
           <input

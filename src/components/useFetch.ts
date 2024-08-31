@@ -5,11 +5,16 @@ export const useFetch = <T>(url: string, dependencies: Array<number | string | s
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem('@token');
 
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(url)
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setData(res.data);
       })
