@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import axios from 'axios';
+import { Eye, EyeOff } from 'lucide-react';
 
 const UserPage = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -13,7 +14,9 @@ const UserPage = () => {
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  //   const [inputNewPasswordIsChanged, setInputNewPasswordIsChanged] = useState(false);
+
+  const [newPasswordIsShown, setNewPasswordIsShown] = useState(false);
+  const [oldPasswordIsShown, setOldPasswordIsShown] = useState(false);
 
   const userData = useSelector((state: RootState) => state.auth.user);
 
@@ -64,6 +67,13 @@ const UserPage = () => {
       .catch((error) => console.log(error));
   };
 
+  const showOldPassword = () => {
+    setOldPasswordIsShown(!oldPasswordIsShown);
+  };
+  const showNewPassword = () => {
+    setNewPasswordIsShown(!oldPasswordIsShown);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.userBlock}>
@@ -94,17 +104,22 @@ const UserPage = () => {
               <li className={styles.userDataItem}>
                 <input
                   value={oldPassword}
-                  type="password"
+                  type={oldPasswordIsShown ? 'text' : 'password'}
                   placeholder="old password"
                   onChange={(e) => {
                     setOldPassword(e.target.value);
                   }}
                 />
+                {oldPasswordIsShown ? (
+                  <EyeOff className={styles.eye} onClick={() => showOldPassword()} />
+                ) : (
+                  <Eye className={styles.eye} onClick={() => showOldPassword()} />
+                )}
               </li>
               <li className={styles.userDataItem}>
                 <input
                   value={newPassword}
-                  type="password"
+                  type={newPasswordIsShown ? 'text' : 'password'}
                   placeholder="new password"
                   onChange={(e) => {
                     setNewPassword(e.target.value);
@@ -114,6 +129,11 @@ const UserPage = () => {
                   <button onClick={() => changePassword()}>Save</button>
                 ) : (
                   ''
+                )}
+                {newPasswordIsShown ? (
+                  <EyeOff className={styles.eye} onClick={() => showNewPassword()} />
+                ) : (
+                  <Eye className={styles.eye} onClick={() => showNewPassword()} />
                 )}
               </li>
             </ul>
