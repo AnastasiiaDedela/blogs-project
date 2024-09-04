@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import axios from 'axios';
+import { Eye, EyeOff } from 'lucide-react';
+import Input from '@/components/Input/Input';
 
 const UserPage = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -13,7 +15,9 @@ const UserPage = () => {
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  //   const [inputNewPasswordIsChanged, setInputNewPasswordIsChanged] = useState(false);
+
+  const [newPasswordIsShown, setNewPasswordIsShown] = useState(false);
+  const [oldPasswordIsShown, setOldPasswordIsShown] = useState(false);
 
   const userData = useSelector((state: RootState) => state.auth.user);
 
@@ -92,29 +96,28 @@ const UserPage = () => {
                 <p>{user.email}</p>
               </li>
               <li className={styles.userDataItem}>
-                <input
+                <Input
                   value={oldPassword}
                   type="password"
                   placeholder="old password"
                   onChange={(e) => {
                     setOldPassword(e.target.value);
                   }}
+                  eyeShown={true}
                 />
               </li>
               <li className={styles.userDataItem}>
-                <input
+                <Input
                   value={newPassword}
                   type="password"
                   placeholder="new password"
                   onChange={(e) => {
                     setNewPassword(e.target.value);
                   }}
+                  eyeShown={true}
+                  saveHandler={changePassword}
+                  isValid={oldPassword.length >= 6 && newPassword.length >= 6}
                 />
-                {oldPassword.length >= 6 && newPassword.length >= 6 ? (
-                  <button onClick={() => changePassword()}>Save</button>
-                ) : (
-                  ''
-                )}
               </li>
             </ul>
           )}

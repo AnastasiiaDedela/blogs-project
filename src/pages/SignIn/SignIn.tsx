@@ -4,10 +4,11 @@ import styles from './SignIn.module.scss';
 import { useDispatch } from 'react-redux';
 import { login } from '@/redux/slices/auth/slice';
 import axios from 'axios';
+import Input from '@/components/Input/Input';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
-  const [inputPassword, setInputPassword] = useState('miranda00');
+  const [inputPassword, setInputPassword] = useState('miranda11');
 
   const dispatch = useDispatch();
 
@@ -36,29 +37,28 @@ const SignIn = () => {
       <div className={styles.content}>
         <div className={styles.signInTitle}>Sign in</div>
         <div className={styles.inputContainer}>
-          <input
+          <Input
+            type="text"
             value={inputEmail}
             placeholder="Enter your email here"
-            onChange={(ev) => setInputEmail(ev.target.value)}
+            onChange={(e) => setInputEmail(e.target.value)}
             className={styles.inputBox}
           />
         </div>
+
         <div className={styles.inputContainer}>
-          <input
-            type="password"
+          <Input
             value={inputPassword}
             placeholder="Enter your password here"
-            onChange={(ev) => setInputPassword(ev.target.value)}
-            className={styles.inputBox}
+            type="password"
+            onChange={(e) => setInputPassword(e.target.value)}
           />
         </div>
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.inputButton}
-            type="button"
-            onClick={() => handleLogin()}
-            value={'Log in'}
-          />
+
+        <div>
+          <button className={styles.loginButton} onClick={() => handleLogin()}>
+            Log in
+          </button>
         </div>
       </div>
     </div>
