@@ -1,4 +1,4 @@
-import TagsSideBar from '@/components/TagsSideBar';
+import TagsSideBar from '@/components/TagsSideBar/TagsSideBar';
 import styles from './Home.module.scss';
 import BlogList from '@/components/BlogList';
 import Pagination from '@/components/Pagination';

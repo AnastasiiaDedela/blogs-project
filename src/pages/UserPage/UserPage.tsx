@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
+import Input from '@/components/Input/Input';
 
 const UserPage = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -67,13 +68,6 @@ const UserPage = () => {
       .catch((error) => console.log(error));
   };
 
-  const showOldPassword = () => {
-    setOldPasswordIsShown(!oldPasswordIsShown);
-  };
-  const showNewPassword = () => {
-    setNewPasswordIsShown(!oldPasswordIsShown);
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.userBlock}>
@@ -102,39 +96,28 @@ const UserPage = () => {
                 <p>{user.email}</p>
               </li>
               <li className={styles.userDataItem}>
-                <input
+                <Input
                   value={oldPassword}
-                  type={oldPasswordIsShown ? 'text' : 'password'}
+                  type="password"
                   placeholder="old password"
                   onChange={(e) => {
                     setOldPassword(e.target.value);
                   }}
+                  eyeShown={true}
                 />
-                {oldPasswordIsShown ? (
-                  <EyeOff className={styles.eye} onClick={() => showOldPassword()} />
-                ) : (
-                  <Eye className={styles.eye} onClick={() => showOldPassword()} />
-                )}
               </li>
               <li className={styles.userDataItem}>
-                <input
+                <Input
                   value={newPassword}
-                  type={newPasswordIsShown ? 'text' : 'password'}
+                  type="password"
                   placeholder="new password"
                   onChange={(e) => {
                     setNewPassword(e.target.value);
                   }}
+                  eyeShown={true}
+                  saveHandler={changePassword}
+                  isValid={oldPassword.length >= 6 && newPassword.length >= 6}
                 />
-                {oldPassword.length >= 6 && newPassword.length >= 6 ? (
-                  <button onClick={() => changePassword()}>Save</button>
-                ) : (
-                  ''
-                )}
-                {newPasswordIsShown ? (
-                  <EyeOff className={styles.eye} onClick={() => showNewPassword()} />
-                ) : (
-                  <Eye className={styles.eye} onClick={() => showNewPassword()} />
-                )}
               </li>
             </ul>
           )}

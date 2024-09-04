@@ -27,27 +27,17 @@
   
   .inputContainer {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    // flex-direction: column;
+    // align-items: flex-start;
+    // justify-content: center;
   }
   
-  .inputContainer > .errorLabel {
-    color: red;
-    font-size: 12px;
-  }
+  // .inputContainer {
+  //   color: red;
+  //   font-size: 12px;
+  // }
   
-  .inputBox {
-    width: 370px;
-    padding: 10px 20px;
-    font-size: 15px;
-    border-radius: 8px;
-    border: 1px solid $base-light;
-    font-family: "Poppins", sans-serif;
-    border: 1.5px solid $base-light;
-  }
-
-input[type='button'] {
+.loginButton {
   font-family: "Poppins", sans-serif;
   border: none;
   background: $base-light;
