@@ -36,24 +36,22 @@ const SignIn = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.signInTitle}>Sign in</div>
-        <div className={styles.inputContainer}>
-          <Input
-            type="text"
-            value={inputEmail}
-            placeholder="Enter your email here"
-            onChange={(e) => setInputEmail(e.target.value)}
-            className={styles.inputBox}
-          />
-        </div>
 
-        <div className={styles.inputContainer}>
-          <Input
-            value={inputPassword}
-            placeholder="Enter your password here"
-            type="password"
-            onChange={(e) => setInputPassword(e.target.value)}
-          />
-        </div>
+        <Input
+          type="text"
+          value={inputEmail}
+          placeholder="Enter your email here"
+          onChange={(e) => setInputEmail(e.target.value)}
+          className={styles.inputContainer}
+        />
+
+        <Input
+          value={inputPassword}
+          placeholder="Enter your password here"
+          type="password"
+          onChange={(e) => setInputPassword(e.target.value)}
+          className={styles.inputContainer}
+        />
 
         <div>
           <button className={styles.loginButton} onClick={() => handleLogin()}>

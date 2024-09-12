@@ -1,14 +1,13 @@
 import { Blog } from '@/types/blogs';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock';
 
 const ArticleDetails = () => {
   const params = useParams();
   const [article, setArticle] = useState<Blog | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -28,11 +27,12 @@ const ArticleDetails = () => {
           <div className={styles.bannerWrapper}>
             <div className={styles.contentWrapper}>
               <h1 className={styles.title}>{article.title}</h1>
-              <div className={styles.authorBlockWrapper} onClick={() => navigate('/author')}>
+              <div className={styles.authorBlockWrapper}>
                 <AuthorBlock
                   authorName={article.author.name}
                   created_at={article.created_at}
                   titleStyle="light"
+                  id={article.author.id}
                 />
                 <div className={styles.followBtns}>
                   <div>
@@ -54,7 +54,11 @@ const ArticleDetails = () => {
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>
-                <AuthorBlock authorName={article.author.name} created_at={article.created_at} />
+                <AuthorBlock
+                  authorName={article.author.name}
+                  created_at={article.created_at}
+                  id={article.author.id}
+                />
                 <div className={styles.followBtns}>
                   <div>
                     <button>+ Follow {article.author.name}</button>

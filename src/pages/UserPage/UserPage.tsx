@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import axios from 'axios';
-import { Eye, EyeOff } from 'lucide-react';
 import Input from '@/components/Input/Input';
 
 const UserPage = () => {
@@ -15,9 +14,6 @@ const UserPage = () => {
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-
-  const [newPasswordIsShown, setNewPasswordIsShown] = useState(false);
-  const [oldPasswordIsShown, setOldPasswordIsShown] = useState(false);
 
   const userData = useSelector((state: RootState) => state.auth.user);
 
@@ -79,6 +75,7 @@ const UserPage = () => {
             <ul className={styles.userData}>
               <li className={styles.userDataItem}>
                 <input
+                  className={styles.inputContainer}
                   type="text"
                   placeholder={user.name}
                   onChange={(e) => {
@@ -97,6 +94,7 @@ const UserPage = () => {
               </li>
               <li className={styles.userDataItem}>
                 <Input
+                  className={styles.inputContainer}
                   value={oldPassword}
                   type="password"
                   placeholder="old password"
@@ -108,6 +106,7 @@ const UserPage = () => {
               </li>
               <li className={styles.userDataItem}>
                 <Input
+                  className={styles.inputContainer}
                   value={newPassword}
                   type="password"
                   placeholder="new password"
