@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import axios from 'axios';
 import Input from '@/components/Input/Input';
+import { getPostsUrl } from '../../utils/getPostsUrl';
+import { useDebounce } from '@/components/useDeobunce';
+import Pagination from '@/components/Pagination';
 
 const UserPage = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -19,9 +22,17 @@ const UserPage = () => {
 
   const token = localStorage.getItem('@token');
 
+  const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
+  const searchValue = useSelector((state: RootState) => state.search.searchValue);
+
+  console.log('searchValue2: ', searchValue);
+
+  const searchDebounced = useDebounce<string>(searchValue);
+
   const { data: user } = useFetch<Author>('http://localhost:8001/api/users/me');
   const { data } = useFetch<{ count: number; items: Blog[] }>(
-    `http://localhost:8001/api/posts/?author_id=${userData?.id}`,
+    getPostsUrl(limit, offset, tags, searchDebounced, userData?.id),
+    [offset, tags, searchDebounced],
   );
 
   const changeUserName = () => {
@@ -123,6 +134,7 @@ const UserPage = () => {
         </div>
       </div>
       <div className={styles.blogsWrapper}>{data && <BlogList blogs={data.items} />}</div>
+      <div className={styles.footer}>{data && <Pagination count={data.count} />}</div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useFetch } from '@/components/useFetch';
 import { Blog } from '@/types/blogs';
 import { useDebounce } from '@/components/useDeobunce';
+import { getPostsUrl } from '../../utils/getPostsUrl';
 
 export default function Home() {
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
@@ -14,25 +15,8 @@ export default function Home() {
 
   const searchDebounced = useDebounce<string>(searchValue);
 
-  function getPostsUrl(limit: number, offset: number, tags: string[], searchValue: string) {
-    let requestTags = '';
-    let url = `http://localhost:8001/api/posts/?limit=${limit}&offset=${offset}`;
-
-    for (let i = 0; i < tags.length; i++) {
-      requestTags += `tags=${tags[i]}&`;
-    }
-    if (requestTags.length > 0) {
-      url += `&${requestTags}`;
-    }
-    if (searchValue.length > 0) {
-      url += `&q=${searchValue}`;
-    }
-
-    return url;
-  }
-
   const { data } = useFetch<{ count: number; items: Blog[] }>(
-    getPostsUrl(limit, offset, tags, searchValue),
+    getPostsUrl(limit, offset, tags, searchDebounced),
     [offset, tags, searchDebounced],
   );
 

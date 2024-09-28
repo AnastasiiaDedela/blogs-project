@@ -7,6 +7,8 @@ export default function SearchBar() {
   const dispatch = useDispatch();
   const searchValue = useSelector((state: RootState) => state.search.searchValue);
 
+  console.log('searchValue: ', searchValue);
+
   return (
     <div className={styles.searchBar}>
       <input
