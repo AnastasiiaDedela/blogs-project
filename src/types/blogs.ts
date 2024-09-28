@@ -13,11 +13,3 @@ export interface Blog {
   title: string;
   updated_at: string;
 }
-
-export interface BlogListProps {
-  blogs: Blog[];
-}
-
-export interface BlogItemProps {
-  blog: Blog;
-}

@@ -75,6 +75,7 @@ const UserPage = () => {
       .catch((error) => console.log(error));
   };
 
+  console.log('user ', user);
   return (
     <div className={styles.container}>
       <div className={styles.userBlock}>
@@ -133,7 +134,9 @@ const UserPage = () => {
           )}
         </div>
       </div>
-      <div className={styles.blogsWrapper}>{data && <BlogList blogs={data.items} />}</div>
+      <div className={styles.blogsWrapper}>
+        {data && <BlogList blogs={data.items} editable={true} />}
+      </div>
       <div className={styles.footer}>{data && <Pagination count={data.count} />}</div>
     </div>
   );

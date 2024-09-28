@@ -1,9 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './BlogItem.module.scss';
-import { BlogItemProps } from '@/types/blogs';
 import AuthorBlock from '../AuthorBlock';
+import { Pencil, Trash2 } from 'lucide-react';
+import { Blog } from '@/types/blogs';
 
-const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
+interface BlogItemProps {
+  blog: Blog;
+  editable: boolean;
+}
+
+const BlogItem = ({ blog, editable }: BlogItemProps) => {
   const navigate = useNavigate();
 
   const { author, created_at, tags, text, title, id } = blog;
@@ -14,9 +20,21 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
     <article className={styles.blog}>
       <div className={styles.blogHeader}>
         <AuthorBlock authorName={author.name} created_at={created_at} id={author.id} />
-        <button className={styles.likes}>
-          💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
-        </button>
+        <div className={styles.blogButtons}>
+          <button className={styles.likes}>
+            💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
+          </button>
+          {editable && (
+            <div>
+              <button className={styles.edit}>
+                <Pencil size={14} />
+              </button>
+              <button className={styles.delete}>
+                <Trash2 size={14} />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <div className={styles.blogContent} onClick={() => navigate(`/article-details/${id}`)}>
         <p className={styles.blogTitle}>{title}</p>
