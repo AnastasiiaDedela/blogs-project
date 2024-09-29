@@ -4,10 +4,16 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock';
+import { Pencil, Trash2 } from 'lucide-react';
+import EditModal from '@/components/EditModal/EditModal';
 
 const ArticleDetails = () => {
   const params = useParams();
   const [article, setArticle] = useState<Blog | null>(null);
+
+  const [modalOpened, setModalOpened] = useState(false);
+  const openEditModal = () => setModalOpened(true);
+  const closeEditModal = () => setModalOpened(false);
 
   useEffect(() => {
     axios
@@ -66,10 +72,25 @@ const ArticleDetails = () => {
                   <div>
                     <button>💙 Favorite Article</button>
                   </div>
+                  <div>
+                    <button className={styles.edit} onClick={openEditModal}>
+                      <Pencil size={14} />
+                    </button>
+                    <button className={styles.delete}>
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <EditModal
+            id={article.id}
+            text={article.text}
+            title={article.title}
+            onCloseEditModal={closeEditModal}
+            modalOpened={modalOpened}
+          />
         </div>
       )}
     </>
