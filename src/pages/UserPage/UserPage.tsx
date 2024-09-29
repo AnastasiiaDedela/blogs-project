@@ -25,8 +25,6 @@ const UserPage = () => {
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
   const searchValue = useSelector((state: RootState) => state.search.searchValue);
 
-  console.log('searchValue2: ', searchValue);
-
   const searchDebounced = useDebounce<string>(searchValue);
 
   const { data: user } = useFetch<Author>('http://localhost:8001/api/users/me');
@@ -75,7 +73,6 @@ const UserPage = () => {
       .catch((error) => console.log(error));
   };
 
-  console.log('user ', user);
   return (
     <div className={styles.container}>
       <div className={styles.userBlock}>
