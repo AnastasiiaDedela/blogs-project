@@ -27,11 +27,9 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
     try {
       const updatedData = { newTitle, newText };
       await updateBlogPost(id, updatedData);
-      console.log('Blog post updated successfully!');
       onCloseEditModal();
       navigate(0);
     } catch (err) {
-      console.error('Failed to update blog post:', err);
       setError('Failed to update the blog post');
     } finally {
       setLoading(false);

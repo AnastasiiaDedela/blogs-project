@@ -6,6 +6,8 @@ import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock';
 import { Pencil, Trash2 } from 'lucide-react';
 import EditModal from '@/components/EditModal/EditModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -14,6 +16,8 @@ const ArticleDetails = () => {
   const [modalOpened, setModalOpened] = useState(false);
   const openEditModal = () => setModalOpened(true);
   const closeEditModal = () => setModalOpened(false);
+
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   useEffect(() => {
     axios
@@ -48,6 +52,16 @@ const ArticleDetails = () => {
                     <button>💙 Favorite Article</button>
                   </div>
                 </div>
+                {article.author.id === userId && (
+                  <div>
+                    <button className={styles.edit} onClick={openEditModal}>
+                      <Pencil size={16} />
+                    </button>
+                    <button className={styles.delete}>
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -71,14 +85,6 @@ const ArticleDetails = () => {
                   </div>
                   <div>
                     <button>💙 Favorite Article</button>
-                  </div>
-                  <div>
-                    <button className={styles.edit} onClick={openEditModal}>
-                      <Pencil size={14} />
-                    </button>
-                    <button className={styles.delete}>
-                      <Trash2 size={14} />
-                    </button>
                   </div>
                 </div>
               </div>
