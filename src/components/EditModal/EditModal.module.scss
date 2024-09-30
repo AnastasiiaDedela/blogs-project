@@ -1,49 +1,70 @@
 .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 600px;
-    width: 100%;
-  }
-  
-  .editForm {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input, .textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .modalActions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .saveButton, .cancelButton {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .saveButton {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .cancelButton {
-    background-color: #f44336;
-    color: white;
-  }
-  
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: $base-dark;
+}
 
+.editForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.input, .textarea {
+  font-family: "Poppins", sans-serif;
+}
+
+.input {
+  width: auto;
+  min-width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  transition: width 0.2s ease;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  // overflow: hidden; /* Hide scrollbars for smooth auto-expansion */
+  transition: height 0.2s ease;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.saveButton, .cancelButton {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.saveButton {
+  background-color: #2c9b7a;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+}

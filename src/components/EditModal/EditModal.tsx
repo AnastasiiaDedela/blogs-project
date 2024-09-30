@@ -1,5 +1,5 @@
 import { updateBlogPost } from '@/utils/updateBlog';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './EditModal.module.scss';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,25 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
   const [newText, setNewText] = useState(text);
 
   const navigate = useNavigate();
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Auto resize the textarea based on its content
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [newText]);
+
+  // Auto resize the input based on its content
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.width = 'auto';
+      inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
+    }
+  }, [newTitle]);
 
   const handleSave = async () => {
     setLoading(true);
@@ -49,6 +68,7 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 className={styles.input}
+                ref={inputRef} // Reference for auto-resizing
               />
             </label>
             <label>
@@ -56,6 +76,7 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 className={styles.textarea}
+                ref={textareaRef} // Reference for auto-resizing
               />
             </label>
             <div className={styles.modalActions}>
