@@ -4,6 +4,7 @@ import styles from './SignUp.module.scss';
 import { useDispatch } from 'react-redux';
 import { login } from '@/redux/slices/auth/slice';
 import axios from 'axios';
+import Input from '@/components/Input/Input';
 
 const SignUp = () => {
   const [inputEmail, setInputEmail] = useState('');
@@ -34,32 +35,31 @@ const SignUp = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.signInTitle}>Sign up</div>
-        <div className={styles.inputContainer}>
-          <input
-            type="text"
-            value={inputUserName}
-            placeholder="Username"
-            onChange={(ev) => setInputUserName(ev.target.value)}
-            className={styles.inputBox}
-          />
-        </div>
-        <div className={styles.inputContainer}>
-          <input
-            value={inputEmail}
-            placeholder="Email"
-            onChange={(ev) => setInputEmail(ev.target.value)}
-            className={styles.inputBox}
-          />
-        </div>
-        <div className={styles.inputContainer}>
-          <input
-            type="password"
-            value={inputPassword}
-            placeholder="Password"
-            onChange={(ev) => setInputPassword(ev.target.value)}
-            className={styles.inputBox}
-          />
-        </div>
+
+        <Input
+          type="text"
+          value={inputUserName}
+          placeholder="Username"
+          onChange={(ev) => setInputUserName(ev.target.value)}
+          className={styles.inputContainer}
+        />
+
+        <Input
+          value={inputEmail}
+          placeholder="Email"
+          onChange={(ev) => setInputEmail(ev.target.value)}
+          className={styles.inputContainer}
+          type="text"
+        />
+
+        <Input
+          type="password"
+          value={inputPassword}
+          placeholder="Password"
+          onChange={(ev) => setInputPassword(ev.target.value)}
+          className={styles.inputContainer}
+        />
+
         <div className={styles.inputContainer}>
           <input
             className={styles.inputButton}

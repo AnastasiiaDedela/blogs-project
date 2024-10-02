@@ -1,22 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './BlogItem.module.scss';
-import { BlogItemProps } from '@/types/blogs';
 import AuthorBlock from '../AuthorBlock';
 
-const BlogItem: React.FC<BlogItemProps> = ({ blog }) => {
+import { Blog } from '@/types/blogs';
+interface BlogItemProps {
+  blog: Blog;
+}
+
+const BlogItem = ({ blog }: BlogItemProps) => {
   const navigate = useNavigate();
-
   const { author, created_at, tags, text, title, id } = blog;
-
   const truncatedText = text.length > 186 ? text.substring(0, 186) : text;
 
   return (
     <article className={styles.blog}>
-      <div className={styles.blogHeader} onClick={() => navigate(`/author/${author.id}`)}>
-        <AuthorBlock authorName={author.name} created_at={created_at} />
-        <button className={styles.likes}>
-          💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
-        </button>
+      <div className={styles.blogHeader}>
+        <AuthorBlock authorName={author.name} created_at={created_at} id={author.id} />
+        <div className={styles.blogButtons}>
+          <button className={styles.likes}>
+            💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
+          </button>
+        </div>
       </div>
       <div className={styles.blogContent} onClick={() => navigate(`/article-details/${id}`)}>
         <p className={styles.blogTitle}>{title}</p>

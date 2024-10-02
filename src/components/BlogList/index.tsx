@@ -1,6 +1,10 @@
-import { BlogListProps } from '@/types/blogs';
+import { Blog } from '@/types/blogs';
 import BlogItem from '../BlogItem';
 import styles from './BlogList.module.scss';
+
+interface BlogListProps {
+  blogs: Blog[];
+}
 
 const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
   return (
@@ -12,4 +16,5 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
     </div>
   );
 };
+
 export default BlogList;

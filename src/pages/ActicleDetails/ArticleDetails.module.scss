@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+    padding-top: 30px;
 }
 
 .title {
@@ -101,4 +102,21 @@
 .footerWrapper {
     display: flex;
     justify-content: center;
+    padding-bottom: 30px;
+}
+
+.edit, .delete {
+    border: none;
+    color: $base-light;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 3px 6px;
+}
+.edit {
+    color: rgb(27, 226, 173);
+}
+
+.delete{
+    color: rgb(255, 94, 94);
 }

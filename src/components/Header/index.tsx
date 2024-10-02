@@ -5,7 +5,7 @@ import { logout } from '@/redux/slices/auth/slice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import SearchBar from '../SearchBar/SearchBar';
-import { User } from 'lucide-react';
+import { UserIcon } from 'lucide-react';
 
 export default function Header() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
@@ -36,7 +36,7 @@ export default function Header() {
                   <li>
                     <Link to={'user/me'}>
                       <div className={styles.userIcon}>
-                        <User />
+                        <UserIcon />
                       </div>
                     </Link>
                   </li>

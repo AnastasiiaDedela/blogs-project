@@ -46,13 +46,23 @@
         padding: 5px 18px;
         display: flex;
         justify-content: space-between;
-        font-size: 14px;
+        font-size: 15px;
+        line-height: 22.8px;
 
         input {
             border: none;
             outline: none;
             color: black;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
         }
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+}
+
+.footer {
+    padding-bottom: 30px;
 }
