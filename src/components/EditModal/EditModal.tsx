@@ -23,7 +23,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto resize the textarea based on its content
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -31,7 +30,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
     }
   }, [newText]);
 
-  // Auto resize the input based on its content
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.style.width = 'auto';
@@ -68,7 +66,7 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 className={styles.input}
-                ref={inputRef} // Reference for auto-resizing
+                ref={inputRef}
               />
             </label>
             <label>
@@ -76,7 +74,7 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 className={styles.textarea}
-                ref={textareaRef} // Reference for auto-resizing
+                ref={textareaRef}
               />
             </label>
             <div className={styles.modalActions}>

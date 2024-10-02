@@ -4,7 +4,6 @@ import styles from './BlogList.module.scss';
 
 interface BlogListProps {
   blogs: Blog[];
-  editable: boolean;
 }
 
 const BlogList: React.FC<BlogListProps> = ({ blogs }) => {

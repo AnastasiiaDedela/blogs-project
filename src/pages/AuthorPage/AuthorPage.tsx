@@ -27,7 +27,6 @@ export default function AuthorPage() {
           </div>
         </div>
       )}
-
       <div className={styles.blogsContainer}>{blogs && <BlogList blogs={blogs.items} />}</div>
     </div>
   );

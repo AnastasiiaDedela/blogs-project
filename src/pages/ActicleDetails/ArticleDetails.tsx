@@ -1,34 +1,48 @@
 import { Blog } from '@/types/blogs';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock';
 import { Pencil, Trash2 } from 'lucide-react';
 import EditModal from '@/components/EditModal/EditModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useFetch } from '@/components/useFetch';
+import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 
 const ArticleDetails = () => {
   const params = useParams();
-  const [article, setArticle] = useState<Blog | null>(null);
+  const navigate = useNavigate();
 
-  const [modalOpened, setModalOpened] = useState(false);
-  const openEditModal = () => setModalOpened(true);
-  const closeEditModal = () => setModalOpened(false);
+  const [isEditModalOpened, setIsEditModalOpened] = useState(false);
+  const openEditModal = () => setIsEditModalOpened(true);
+  const closeEditModal = () => setIsEditModalOpened(false);
 
+  const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
+  const openConfirmModal = () => setIsConfirmModalOpened(true);
+  const closeConfirmModal = () => setIsConfirmModalOpened(false);
+
+  const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
 
-  useEffect(() => {
+  const { data: article } = useFetch<Blog | null>(`http://localhost:8001/api/posts/${params.id}`);
+
+  const handleDeletePost = () => {
     axios
-      .get(`http://localhost:8001/api/posts/${params.id}`)
-      .then((res) => {
-        setArticle(res.data);
+      .delete(`http://localhost:8001/api/posts/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        navigate(-1);
+        closeConfirmModal();
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
+  };
 
   return (
     <>
@@ -57,7 +71,7 @@ const ArticleDetails = () => {
                     <button className={styles.edit} onClick={openEditModal}>
                       <Pencil size={16} />
                     </button>
-                    <button className={styles.delete}>
+                    <button className={styles.delete} onClick={openConfirmModal}>
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -66,10 +80,12 @@ const ArticleDetails = () => {
             </div>
           </div>
           <div className={styles.contentWrapper}>
-            <p className={styles.acticleText}>{article.text}</p>
+            <p className={styles.articleText}>{article.text}</p>
             <div className={styles.tags}>
               {article.tags.map((tag) => (
-                <button className={styles.tag}>{tag}</button>
+                <button key={tag} className={styles.tag}>
+                  {tag}
+                </button>
               ))}
             </div>
             <div className={styles.footerWrapper}>
@@ -95,7 +111,12 @@ const ArticleDetails = () => {
             text={article.text}
             title={article.title}
             onCloseEditModal={closeEditModal}
-            modalOpened={modalOpened}
+            modalOpened={isEditModalOpened}
+          />
+          <ConfirmModal
+            isOpen={isConfirmModalOpened}
+            onClose={closeConfirmModal}
+            onDelete={handleDeletePost}
           />
         </div>
       )}
