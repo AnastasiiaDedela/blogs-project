@@ -1,5 +1,5 @@
 import BlogList from '@/components/BlogList/BlogList';
-import styles from './UresPage.module.scss';
+import styles from './AuthorPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Author, Blog } from '@/types/blogs';
 import { useFetch } from '@/hooks/useFetch';

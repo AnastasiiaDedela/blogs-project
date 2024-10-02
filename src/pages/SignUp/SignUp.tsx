@@ -61,12 +61,9 @@ const SignUp = () => {
         />
 
         <div className={styles.inputContainer}>
-          <input
-            className={styles.inputButton}
-            type="button"
-            onClick={() => handleSignUp()}
-            value={'Sign up'}
-          />
+          <button className={styles.inputButton} onClick={() => handleSignUp()}>
+            Sign up
+          </button>
         </div>
       </div>
     </div>

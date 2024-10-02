@@ -26,16 +26,15 @@
   }
   
   .inputContainer {
-    display: flex;
-    // flex-direction: column;
-    // align-items: flex-start;
-    // justify-content: center;
+    display: inline-flex;
+    min-width: 300px;
+    & input {
+      overflow: visible;
+      flex-grow: 1;
+      padding: 12px;
+      width: 100%;
+    }
   }
-  
-  // .inputContainer {
-  //   color: red;
-  //   font-size: 12px;
-  // }
   
 .loginButton {
   font-family: "Poppins", sans-serif;

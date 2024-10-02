@@ -6,6 +6,9 @@
     border: 1.5px solid $base-light;
     display: flex;
     align-items: center;
+    width: 100%;
+    overflow: visible;
+      flex-grow: 1;
   }
 
   .eye {
