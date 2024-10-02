@@ -3,12 +3,12 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
-import AuthorBlock from '@/components/AuthorBlock';
+import AuthorBlock from '@/components/AuthorBlock/AuthorBlock';
 import { Pencil, Trash2 } from 'lucide-react';
 import EditModal from '@/components/EditModal/EditModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useFetch } from '@/components/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 
 const ArticleDetails = () => {

@@ -1,12 +1,12 @@
 import TagsSideBar from '@/components/TagsSideBar/TagsSideBar';
 import styles from './Home.module.scss';
-import BlogList from '@/components/BlogList';
-import Pagination from '@/components/Pagination';
+import BlogList from '@/components/BlogList/BlogList';
+import Pagination from '@/components/Pagination/Pagination';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import { useFetch } from '@/components/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { Blog } from '@/types/blogs';
-import { useDebounce } from '@/components/useDeobunce';
+import { useDebounce } from '@/hooks/useDeobunce';
 import { getPostsUrl } from '../../utils/getPostsUrl';
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import { Blog } from '@/types/blogs';
-import BlogItem from '../BlogItem';
+import BlogItem from '../BlogItem/BlogItem';
 import styles from './BlogList.module.scss';
 
 interface BlogListProps {

@@ -1,8 +1,8 @@
-import BlogList from '@/components/BlogList';
+import BlogList from '@/components/BlogList/BlogList';
 import styles from './UresPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Author, Blog } from '@/types/blogs';
-import { useFetch } from '@/components/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 
 export default function AuthorPage() {
   const params = useParams();
