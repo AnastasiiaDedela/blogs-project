@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './BlogItem.module.scss';
-import AuthorBlock from '../AuthorBlock';
+import AuthorBlock from '../AuthorBlock/AuthorBlock';
 
 import { Blog } from '@/types/blogs';
 interface BlogItemProps {

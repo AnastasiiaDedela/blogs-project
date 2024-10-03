@@ -1,5 +1,5 @@
-import BlogList from '@/components/BlogList';
-import { useFetch } from '@/components/useFetch';
+import BlogList from '@/components/BlogList/BlogList';
+import { useFetch } from '@/hooks/useFetch';
 import { Author, Blog } from '@/types/blogs';
 import styles from './UserPage.module.scss';
 import { useState } from 'react';
@@ -8,8 +8,8 @@ import { RootState } from '@/redux/store';
 import axios from 'axios';
 import Input from '@/components/Input/Input';
 import { getPostsUrl } from '../../utils/getPostsUrl';
-import { useDebounce } from '@/components/useDeobunce';
-import Pagination from '@/components/Pagination';
+import { useDebounce } from '@/hooks/useDeobunce';
+import Pagination from '@/components/Pagination/Pagination';
 
 const UserPage = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -131,9 +131,7 @@ const UserPage = () => {
           )}
         </div>
       </div>
-      <div className={styles.blogsWrapper}>
-        {data && <BlogList blogs={data.items} editable={true} />}
-      </div>
+      <div className={styles.blogsWrapper}>{data && <BlogList blogs={data.items} />}</div>
       <div className={styles.footer}>{data && <Pagination count={data.count} />}</div>
     </div>
   );

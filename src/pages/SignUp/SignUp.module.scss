@@ -27,9 +27,15 @@
     
     .inputContainer {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      min-width: 300px;
       justify-content: center;
+      & input {
+        overflow: visible;
+        flex-grow: 1;
+        padding: 12px;
+        width: 100%;
+      }
     }
     
     .inputContainer > .errorLabel {
@@ -37,24 +43,17 @@
       font-size: 12px;
     }
     
-    .inputBox {
-      width: 370px;
-      padding: 10px 20px;
-      font-size: 15px;
-      border-radius: 8px;
-      border: 1px solid $base-light;
+    .inputButton {
       font-family: "Poppins", sans-serif;
-      border: 1.5px solid $base-light;
+      border: none;
+      background: $base-light;
+      color: white;
+      padding: 7px 14px;
+      margin: 8px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      align-self: flex-end;
     }
   
-  input[type='button'] {
-    font-family: "Poppins", sans-serif;
-    border: none;
-    background: $base-light;
-    color: white;
-    padding: 7px 14px;
-    margin: 8px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+  

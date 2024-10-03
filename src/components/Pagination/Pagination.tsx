@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './pagination.module.scss';
+import styles from './Pagination.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setOffset } from '@/redux/slices/posts/slice';
