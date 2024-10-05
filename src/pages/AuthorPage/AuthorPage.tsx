@@ -31,6 +31,7 @@ export default function AuthorPage() {
             <div className={styles.userAvatar}>
               <img src="/avatar.png" alt="avatar" />
             </div>
+
             <h2 className={styles.userName}>{author.name}</h2>
             <button>+ Follow {author.name}</button>
           </div>
