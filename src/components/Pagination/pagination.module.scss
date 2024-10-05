@@ -1,30 +1,35 @@
+.paginationContainer {
+  padding-bottom: 30px;
+  margin: 0 auto;
+}
+
 .pagination {
-    list-style: none;
-    padding: 0 0 30px 0;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Poppins", sans-serif;
-    column-gap: 4px;
-  
-    li {
-      display: inline-block;
-      padding: 7px 14px;
-      background-color: $light;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #267de18a;
-      cursor: pointer;
-  
-      &.active, &:hover {
-        background-color: $base-light;
-        color: $light;
-      }
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  column-gap: 4px;
+
+  li {
+    display: inline-block;
+    padding: 7px 14px;
+    background-color: $light;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #267de18a;
+    cursor: pointer;
+
+    &.active, &:hover {
+      background-color: $base-light;
+      color: $light;
     }
   }
+}
 
-  .active {
-    background-color: $base-light;
-    color: $light;
-  }
+.active {
+  background-color: $base-light;
+  color: $light;
+}

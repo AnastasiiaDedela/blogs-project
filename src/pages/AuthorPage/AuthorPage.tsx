@@ -31,14 +31,17 @@ export default function AuthorPage() {
             <div className={styles.userAvatar}>
               <img src="/avatar.png" alt="avatar" />
             </div>
+
             <h2 className={styles.userName}>{author.name}</h2>
-          </div>
-          <div className={styles.followButton}>
             <button>+ Follow {author.name}</button>
           </div>
         </div>
       )}
-      <div className={styles.blogsContainer}>{blogs && <BlogList blogs={blogs.items} />}</div>
+
+      <div className={styles.blogsContainer}>
+        <div style={{ flex: 1 }}>{blogs && <BlogList blogs={blogs.items} />}</div>
+      </div>
+
       <div className={styles.footer}>{blogs && <Pagination count={blogs.count} />}</div>
     </div>
   );
