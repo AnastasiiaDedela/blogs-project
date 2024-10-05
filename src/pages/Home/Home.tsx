@@ -29,8 +29,18 @@ export default function Home() {
         </div>
 
         <div className={styles.content}>
-          {data && <BlogList blogs={data.items} />}
-          <TagsSideBar />
+          <div
+            style={{
+              flex: 8,
+            }}>
+            {data && <BlogList blogs={data.items} />}
+          </div>
+          <div
+            style={{
+              flex: 2,
+            }}>
+            <TagsSideBar />
+          </div>
         </div>
         {data && <Pagination count={data.count} />}
       </div>
