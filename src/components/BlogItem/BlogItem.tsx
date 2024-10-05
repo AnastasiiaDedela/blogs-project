@@ -17,9 +17,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       <div className={styles.blogHeader}>
         <AuthorBlock authorName={author.name} created_at={created_at} id={author.id} />
         <div className={styles.blogButtons}>
-          <button className={styles.likes}>
-            💙{Math.floor(Math.random() * (150 - 50 + 1)) + 50}
-          </button>
+          <button className={styles.likes}>💙</button>
         </div>
       </div>
       <div className={styles.blogContent} onClick={() => navigate(`/article-details/${id}`)}>

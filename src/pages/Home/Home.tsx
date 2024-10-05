@@ -42,6 +42,7 @@ export default function Home() {
             <TagsSideBar />
           </div>
         </div>
+
         {data && <Pagination count={data.count} />}
       </div>
     </main>
