@@ -2,28 +2,20 @@ import { Link } from 'react-router-dom';
 import styles from './TagsSideBar.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { setSelectedTags } from '@/redux/slices/posts/slice';
+import { useFetch } from '@/hooks/useFetch';
+
+interface TagsData {
+  tags: string[];
+}
 
 export default function TagsSideBar() {
-  const [tags, setTags] = useState<string[]>([]);
-
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const selectedTags = useSelector((state: RootState) => state.posts.tags);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8001/api/posts/tags`)
-      .then((res) => {
-        setTags(res.data.tags);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
+  const { data: tagsData } = useFetch<TagsData>(`http://localhost:8001/api/posts/tags`);
 
   return (
     <div className={styles.sideBar}>
@@ -32,7 +24,8 @@ export default function TagsSideBar() {
           <p className={styles.tagsTitle}>Popular Tags</p>
           <div className={styles.tagsList}>
             {selectedTags &&
-              tags.map((tag: string, index) => (
+              tagsData?.tags &&
+              tagsData.tags.map((tag: string, index: number) => (
                 <button
                   key={index}
                   className={selectedTags.includes(tag) ? styles.selectedTag : styles.tag}
