@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const updateBlogPost = (id: string, updatedData: { newTitle: string; newText: string }) => {
+export const updateBlogPost = (id: number, updatedData: { newTitle: string; newText: string }) => {
   const token = localStorage.getItem('@token');
 
   const payload = {

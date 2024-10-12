@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
 import { useDispatch } from 'react-redux';
-import { login } from '@/redux/slices/auth/slice';
-import axios from 'axios';
 import Input from '@/components/Input/Input';
+import { signin } from '@/services/authServices';
+import { login } from '@/redux/slices/auth/slice';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
@@ -14,22 +14,12 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    axios
-      .post('http://localhost:8001/api/auth/login', {
-        email: inputEmail,
-        password: inputPassword,
-      })
-      .then((res) => {
-        const token = res.data.access_token;
-        const user = res.data.user;
-
-        dispatch(login({ token, user }));
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleLogin = async () => {
+    const response = await signin(inputEmail, inputPassword);
+    const token = response?.token;
+    const user = response?.user;
+    dispatch(login({ token, user }));
+    navigate('/');
   };
 
   return (
