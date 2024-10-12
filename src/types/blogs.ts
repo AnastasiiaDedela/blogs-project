@@ -2,6 +2,8 @@ export interface Author {
   id: number;
   name: string;
   email: string;
+  updated_at: string;
+  created_at: string;
 }
 
 export interface Blog {
@@ -12,4 +14,5 @@ export interface Blog {
   text: string;
   title: string;
   updated_at: string;
+  likes_count: number;
 }
