@@ -6,7 +6,7 @@ type AuthorBlockProps = {
   authorName: string;
   created_at: string;
   titleStyle?: 'light' | 'blue';
-  id: string;
+  id: number;
 };
 
 const AuthorBlock = ({ authorName, created_at, titleStyle = 'blue', id }: AuthorBlockProps) => {

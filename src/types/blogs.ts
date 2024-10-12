@@ -1,5 +1,5 @@
 export interface Author {
-  id: string;
+  id: number;
   name: string;
   email: string;
 }
@@ -7,7 +7,7 @@ export interface Author {
 export interface Blog {
   author: Author;
   created_at: string;
-  id: string;
+  id: number;
   tags: string[];
   text: string;
   title: string;
