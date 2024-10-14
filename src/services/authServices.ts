@@ -1,14 +1,9 @@
+import { Author } from '@/types/blogs';
 import axios from 'axios';
 
 interface AuthResponse {
   token: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    created_at: string;
-    updated_at: string;
-  };
+  user: Author;
 }
 
 export const signin = async (email: string, password: string) => {

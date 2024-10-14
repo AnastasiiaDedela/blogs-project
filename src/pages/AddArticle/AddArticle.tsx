@@ -22,7 +22,7 @@ export default function AddArticle() {
       .map((tag) => tag.trim())
       .filter((tag) => tag);
 
-    const articleData = {
+    const postData = {
       text: content,
       title: title,
       tags: tagsArray,
@@ -31,7 +31,7 @@ export default function AddArticle() {
     const token = localStorage.getItem('@token');
 
     axios
-      .post('http://localhost:8001/api/posts', articleData, {
+      .post('http://localhost:8001/api/posts', postData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
