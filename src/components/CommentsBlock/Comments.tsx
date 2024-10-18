@@ -2,12 +2,13 @@ import { useState } from 'react';
 import styles from './Comments.module.scss';
 import axios from 'axios';
 
-const Comments = () => {
+const AddComment = () => {
   const [newComment, setNewComment] = useState('');
 
   const token = localStorage.getItem('@token');
 
   const handleSubmit = () => {
+    // const response = await addComment()
     axios
       .post(`http://localhost:8001/api/comments/`, newComment, {
         headers: {
@@ -27,13 +28,15 @@ const Comments = () => {
       <div className={styles.commentForm}>
         <form className={styles.editForm}>
           <label>
-            Add your comment
+            <i>Leave your comment</i>
             <textarea onChange={(e) => setNewComment(e.target.value)} className={styles.textarea} />
           </label>
           <div className={styles.submitBtn}>
-            <button type="button" onClick={handleSubmit}>
-              save comment
-            </button>
+            {newComment.length > 0 && (
+              <button type="button" onClick={handleSubmit}>
+                Comment
+              </button>
+            )}
           </div>
         </form>
       </div>
@@ -41,4 +44,4 @@ const Comments = () => {
   );
 };
 
-export default Comments;
+export default AddComment;

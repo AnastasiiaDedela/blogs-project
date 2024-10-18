@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
+import AddComment from '@/components/CommentsBlock/Comments';
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -87,6 +88,9 @@ const ArticleDetails = () => {
                   {tag}
                 </button>
               ))}
+            </div>
+            <div className={styles.commetsWrapper}>
+              <AddComment />
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>
