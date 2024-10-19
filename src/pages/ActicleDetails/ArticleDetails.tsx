@@ -11,6 +11,7 @@ import { RootState } from '@/redux/store';
 import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 import AddComment from '@/components/AddCommentBlock/AddCommentBlock';
+import CommentsList from '@/components/CommentsList/CommentsList';
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -91,8 +92,11 @@ const ArticleDetails = () => {
                 </button>
               ))}
             </div>
-            <div className={styles.commetsWrapper}>
+            <div className={styles.addCommentWrapper}>
               <AddComment postId={postId} />
+            </div>
+            <div className={styles.addCommentWrapper}>
+              <CommentsList postId={postId} limit={4} offset={0} />
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>

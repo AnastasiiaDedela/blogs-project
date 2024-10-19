@@ -1,7 +1,7 @@
 import { Author } from '@/types/blogs';
 import axios from 'axios';
 
-type Comment = {
+export type Comment = {
   id: number;
   created_at: string;
   updated_at: string;
@@ -18,7 +18,7 @@ type Comment = {
   author: Author;
 };
 
-interface CommentsResponse {
+export interface CommentsResponse {
   count: number;
   items: Comment[];
 }
