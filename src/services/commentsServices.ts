@@ -1,7 +1,7 @@
 import { Author } from '@/types/blogs';
 import axios from 'axios';
 
-type Comment = {
+export type Comment = {
   id: number;
   created_at: string;
   updated_at: string;
@@ -18,7 +18,7 @@ type Comment = {
   author: Author;
 };
 
-interface CommentsResponse {
+export interface CommentsResponse {
   count: number;
   items: Comment[];
 }
@@ -34,12 +34,17 @@ export const getComments = async (postId: number, limit: number, offset: number)
   }
 };
 
-export const addComment = async (postId: number, commentText: string) => {
+export const addComment = async (postId: number, commentText: string, token: string) => {
   try {
     const response = await axios.post<CommentsResponse>(
       `http://localhost:8001/api/posts/${postId}/comments`,
       {
         text: commentText,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
     );
     return response.data;

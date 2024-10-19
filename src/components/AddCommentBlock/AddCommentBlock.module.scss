@@ -1,0 +1,36 @@
+.editForm  i {
+    font-size: 13px;
+    color: #494b4abd;
+}
+
+.textarea {
+    width: 100%;
+    height: 55px;
+    outline: none;
+    border: none;
+    border: 0.5px solid #6b6b6b56;
+    border-radius: 20px;
+    padding: 15px;
+    resize: none;
+    font-family: "Poppins", sans-serif;
+}
+
+.submitBtn {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    
+
+    button {
+        background-color: #087756af;
+        border: none;
+        border-radius: 15px;
+        padding: 7px 12px;
+        color: $light;
+        font-family: "Poppins", sans-serif;
+        &:hover {
+        background-color: #073326bd;
+            transition: 0.3s;
+        }
+    }
+}
