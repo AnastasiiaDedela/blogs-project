@@ -10,10 +10,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import AddComment from '@/components/CommentsBlock/Comments';
+import AddComment from '@/components/AddCommentBlock/AddCommentBlock';
 
 const ArticleDetails = () => {
   const params = useParams();
+  const postId = Number(params.id);
+  console.log('params', postId);
   const navigate = useNavigate();
 
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
@@ -27,11 +29,11 @@ const ArticleDetails = () => {
   const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
 
-  const { data: article } = useFetch<Blog | null>(`http://localhost:8001/api/posts/${params.id}`);
+  const { data: article } = useFetch<Blog | null>(`http://localhost:8001/api/posts/${postId}`);
 
   const handleDeletePost = () => {
     axios
-      .delete(`http://localhost:8001/api/posts/${params.id}`, {
+      .delete(`http://localhost:8001/api/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,7 +92,7 @@ const ArticleDetails = () => {
               ))}
             </div>
             <div className={styles.commetsWrapper}>
-              <AddComment />
+              <AddComment postId={postId} />
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>

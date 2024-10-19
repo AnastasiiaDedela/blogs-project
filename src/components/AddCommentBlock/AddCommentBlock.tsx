@@ -1,26 +1,23 @@
 import { useState } from 'react';
-import styles from './Comments.module.scss';
-import axios from 'axios';
+import styles from './AddCommentBlock.module.scss';
+import { useNavigate } from 'react-router-dom';
+import { addComment } from '@/services/commentsServices';
 
-const AddComment = () => {
+const AddComment = ({ postId }: { postId: number }) => {
   const [newComment, setNewComment] = useState('');
 
-  const token = localStorage.getItem('@token');
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    // const response = await addComment()
-    axios
-      .post(`http://localhost:8001/api/comments/`, newComment, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const token = localStorage.getItem('@token') || '';
+
+  const handleAddComment = async () => {
+    if (!token) {
+      console.error('User is not authenticated. Redirect to sign-in.');
+      navigate('/sign-in');
+      return;
+    }
+    const response = await addComment(postId, newComment, token);
+    console.log('add post', response);
   };
 
   return (
@@ -33,7 +30,7 @@ const AddComment = () => {
           </label>
           <div className={styles.submitBtn}>
             {newComment.length > 0 && (
-              <button type="button" onClick={handleSubmit}>
+              <button type="button" onClick={handleAddComment}>
                 Comment
               </button>
             )}
