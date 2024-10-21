@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: column;
     column-gap: 16px;
-    padding: 30px 0;
-    border-top: 1px solid #cdcccca6;
+    padding: 30px 20px;
     font-family: "Poppins", sans-serif;
     row-gap: 16px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 10px;
 }
 
 .blogHeader {

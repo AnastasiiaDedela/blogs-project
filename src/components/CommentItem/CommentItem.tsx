@@ -1,11 +1,22 @@
+import { CommentData } from '@/types/comments';
 import AuthorBlock from '../AuthorBlock/AuthorBlock';
 import styles from './CommentItem.module.scss';
 
-const CommentItem = ({ commentData }) => {
+interface CommentItemProps {
+  comment: CommentData;
+}
+
+const CommentItem = ({ comment }: CommentItemProps) => {
   return (
     <div className={styles.commentWrapper}>
-      <div className={styles.authorBlock}>{/* <AuthorBlock /> */}</div>
-      <p className={styles.commentText}>{commentData.text}</p>
+      <AuthorBlock
+        authorName={comment.author.name}
+        created_at={comment.created_at}
+        titleStyle="blue"
+        id={comment.author.id}
+      />
+
+      <p className={styles.commentText}>{comment.text}</p>
     </div>
   );
 };

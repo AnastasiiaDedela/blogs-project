@@ -1,7 +1,7 @@
-.feed {
-    display: flex;
-    flex-direction: column;
-}
+// .feed {
+//     display: flex;
+//     flex-direction: column;
+// }
 
 .feedTitle {
     color: $base-dark;
@@ -13,9 +13,12 @@
     border-bottom: 2px solid $base_dark;
     text-align: center;
     padding-bottom: 10px;
+    width: 100%;
+    margin-bottom: 12px;
 }
 
 .blogList {
     display: flex;
     flex-direction: column;
+    row-gap: 20px;
 }
