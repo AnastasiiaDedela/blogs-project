@@ -27,6 +27,8 @@ const ArticleDetails = () => {
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
+  const [refetchComments, setRefetchComments] = useState('no');
+
   const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
 
@@ -93,10 +95,10 @@ const ArticleDetails = () => {
               ))}
             </div>
             <div className={styles.addCommentWrapper}>
-              <AddComment postId={postId} />
+              <AddComment postId={postId} setRefetchComments={setRefetchComments} />
             </div>
             <div className={styles.addCommentWrapper}>
-              <CommentsList postId={postId} limit={4} offset={0} />
+              {refetchComments && <CommentsList postId={postId} limit={100} offset={0} />}
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>

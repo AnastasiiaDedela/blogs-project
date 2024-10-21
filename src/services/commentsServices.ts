@@ -1,27 +1,5 @@
-import { Author } from '@/types/blogs';
+import { CommentsResponse } from '@/types/comments';
 import axios from 'axios';
-
-export type Comment = {
-  id: number;
-  created_at: string;
-  updated_at: string;
-  text: string;
-  user_id: number;
-  post_id: number;
-  post: {
-    id: number;
-    user_id: number;
-    author: Author;
-    created_at: string;
-    updated_at: string;
-  };
-  author: Author;
-};
-
-export interface CommentsResponse {
-  count: number;
-  items: Comment[];
-}
 
 export const getComments = async (postId: number, limit: number, offset: number) => {
   try {

@@ -1,0 +1,43 @@
+.commentWrapper {
+    background-color: rgba(139, 139, 139, 0.034);
+    border-radius: 15px;
+    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 6px;
+}
+.authorBlock {
+    display: flex;
+    column-gap: 20px;
+}
+.authorData {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.authorAvatar {
+    width: 10px;
+    height: auto;
+    img {
+        border-radius: 50px;
+    }
+}
+
+.authorName {
+    font-size: 12px;
+    line-height: 16px;
+    color: $base-light;
+}
+
+.date {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.lightText {
+    color: $light;
+}

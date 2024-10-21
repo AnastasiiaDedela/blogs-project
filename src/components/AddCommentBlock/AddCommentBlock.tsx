@@ -3,7 +3,13 @@ import styles from './AddCommentBlock.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { addComment } from '@/services/commentsServices';
 
-const AddComment = ({ postId }: { postId: number }) => {
+const AddComment = ({
+  postId,
+  setRefetchComments,
+}: {
+  postId: number;
+  setRefetchComments: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [newComment, setNewComment] = useState('');
 
   const navigate = useNavigate();
@@ -16,8 +22,9 @@ const AddComment = ({ postId }: { postId: number }) => {
       navigate('/sign-in');
       return;
     }
-    const response = await addComment(postId, newComment, token);
-    console.log('add post', response);
+    await addComment(postId, newComment, token);
+    setNewComment('');
+    setRefetchComments('yes');
   };
 
   return (
@@ -26,7 +33,11 @@ const AddComment = ({ postId }: { postId: number }) => {
         <form className={styles.editForm}>
           <label>
             <i>Leave your comment</i>
-            <textarea onChange={(e) => setNewComment(e.target.value)} className={styles.textarea} />
+            <textarea
+              onChange={(e) => setNewComment(e.target.value)}
+              className={styles.textarea}
+              value={newComment}
+            />
           </label>
           <div className={styles.submitBtn}>
             {newComment.length > 0 && (
