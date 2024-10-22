@@ -1,4 +1,4 @@
-import { CommentsResponse } from '@/types/comments';
+import { CommentData, CommentsResponse } from '@/types/comments';
 import axios from 'axios';
 
 export const getComments = async (postId: number, limit: number, offset: number) => {
@@ -14,7 +14,7 @@ export const getComments = async (postId: number, limit: number, offset: number)
 
 export const addComment = async (postId: number, commentText: string, token: string) => {
   try {
-    const response = await axios.post<CommentsResponse>(
+    const response = await axios.post<CommentData>(
       `http://localhost:8001/api/posts/${postId}/comments`,
       {
         text: commentText,
@@ -28,6 +28,7 @@ export const addComment = async (postId: number, commentText: string, token: str
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 

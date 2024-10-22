@@ -10,8 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import AddComment from '@/components/AddCommentBlock/AddCommentBlock';
-import CommentsList from '@/components/CommentsList/CommentsList';
+import AddComment from '@/components/AddCommentBlock/CommentsSection';
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -27,7 +26,7 @@ const ArticleDetails = () => {
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
-  const [refetchComments, setRefetchComments] = useState('no');
+  // const [refetchComments, setRefetchComments] = useState('no');
 
   const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
@@ -95,10 +94,7 @@ const ArticleDetails = () => {
               ))}
             </div>
             <div className={styles.addCommentWrapper}>
-              <AddComment postId={postId} setRefetchComments={setRefetchComments} />
-            </div>
-            <div className={styles.addCommentWrapper}>
-              {refetchComments && <CommentsList postId={postId} limit={100} offset={0} />}
+              <AddComment postId={postId} limit={100} offset={0} />
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>
