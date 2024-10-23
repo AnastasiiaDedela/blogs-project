@@ -26,8 +26,6 @@ const ArticleDetails = () => {
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
-  // const [refetchComments, setRefetchComments] = useState('no');
-
   const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
 

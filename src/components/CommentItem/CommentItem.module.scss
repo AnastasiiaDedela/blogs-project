@@ -7,37 +7,24 @@
     row-gap: 15px;
     box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 6px;
 }
-.authorBlock {
+
+.commentHeader {
     display: flex;
-    column-gap: 20px;
-}
-.authorData {
-    display: flex;
-    column-gap: 4px;
-    align-items: center;
-    padding-top: 2px;
-    cursor: pointer;
+    justify-content: space-between;
 }
 
-.authorAvatar {
-    width: 10px;
-    height: auto;
-    img {
-        border-radius: 50px;
-    }
-}
-
-.authorName {
-    font-size: 12px;
-    line-height: 16px;
+.edit, .delete {
+    border: none;
     color: $base-light;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 3px 6px;
+}
+.edit {
+    color: rgb(21, 134, 104);
 }
 
-.date {
-    color: #aaa;
-    font-size: 12px;
-}
-
-.lightText {
-    color: $light;
+.delete{
+    color: rgb(221, 78, 78);
 }
