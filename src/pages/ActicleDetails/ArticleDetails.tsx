@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import AddComment from '@/components/AddCommentBlock/CommentsSection';
+import AddComment from '@/components/CommentsSection/CommentsSection';
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -25,8 +25,6 @@ const ArticleDetails = () => {
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
-
-  // const [refetchComments, setRefetchComments] = useState('no');
 
   const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
