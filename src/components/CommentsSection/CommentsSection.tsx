@@ -64,7 +64,14 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
       </div>
       <div className={styles.commentsList}>
         {commentsList &&
-          commentsList.map((comment) => <CommentItem comment={comment} key={comment.id} />)}
+          commentsList.map((comment) => (
+            <CommentItem
+              comment={comment}
+              key={comment.id}
+              postId={postId}
+              setCommentsList={setCommentsList}
+            />
+          ))}
       </div>
     </div>
   );

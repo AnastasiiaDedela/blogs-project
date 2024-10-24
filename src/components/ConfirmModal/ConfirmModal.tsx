@@ -17,7 +17,7 @@ const ConfirmModal = ({ isOpen, onClose, onDelete }: ConfirmationModalProps) => 
           className={styles.modal}
           overlayClassName={styles.overlay}>
           <h2 className={styles.modalTitle}>Confirm Deletion</h2>
-          <p className={styles.modalSubtitle}>Are you sure you want to delete this post?</p>
+          <p className={styles.modalSubtitle}>Are you sure you want to delete?</p>
 
           <div className={styles.modalActions}>
             <button onClick={onDelete} className={styles.deleteButton}>

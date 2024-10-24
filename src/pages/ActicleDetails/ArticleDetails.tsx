@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import AddComment from '@/components/AddCommentBlock/CommentsSection';
+import AddComment from '@/components/CommentsSection/CommentsSection';
 
 const ArticleDetails = () => {
   const params = useParams();
