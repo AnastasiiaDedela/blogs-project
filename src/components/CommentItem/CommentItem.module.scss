@@ -28,3 +28,17 @@
 .delete{
     color: rgb(221, 78, 78);
 }
+
+.authorAvatar {
+    width: 33px;
+    height: auto;
+    img {
+        border-radius: 50px;
+    }
+}
+
+.authorName {
+    font-size: 18px;
+    line-height: 16px;
+    color: $base-light;
+}
