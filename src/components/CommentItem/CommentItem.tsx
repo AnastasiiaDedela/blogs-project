@@ -4,7 +4,7 @@ import styles from './CommentItem.module.scss';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { deleteComment } from '@/services/commentsServices';
+import { deleteComment, editComment } from '@/services/commentsServices';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { useState } from 'react';
 
@@ -19,16 +19,31 @@ const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => 
   const token = localStorage.getItem('@token') || '';
 
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment.text);
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
   const handleDeleteComment = async () => {
-    const response = await deleteComment(postId, comment.id, token);
+    await deleteComment(postId, comment.id, token);
     setCommentsList((prev) => prev.filter((com) => comment.id !== com.id));
     closeConfirmModal();
-
-    console.log(response);
   };
+
+  const submitEditedComment = async () => {
+    const response = await editComment(postId, comment.id, editedComment, token);
+
+    setCommentsList((prev) => {
+      const index = prev.findIndex((com) => com.id === comment.id);
+
+      if (index !== -1) {
+        return [...prev.slice(0, index), response, ...prev.slice(index + 1)];
+      }
+
+      return prev;
+    });
+  };
+
   return (
     <div className={styles.commentWrapper}>
       <div className={styles.commentHeader}>
@@ -40,7 +55,7 @@ const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => 
         />
         {comment.author.id === userId && (
           <div className={styles.commentBtns}>
-            <button className={styles.edit} onClick={() => console.log('edit')}>
+            <button className={styles.edit} onClick={() => setIsEditModalOpen(true)}>
               <Pencil size={16} />
             </button>
             <button className={styles.delete} onClick={openConfirmModal}>
@@ -49,7 +64,26 @@ const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => 
           </div>
         )}
       </div>
-      <p className={styles.commentText}>{comment.text}</p>
+      {isEditModalOpen ? (
+        <form>
+          <textarea
+            value={editedComment}
+            onChange={(e) => setEditedComment(e.target.value)}
+            className={styles.editBlock}></textarea>
+          <div className={styles.submitBtn}>
+            <button
+              type="button"
+              onClick={() => {
+                submitEditedComment();
+                setIsEditModalOpen(false);
+              }}>
+              Save
+            </button>
+          </div>
+        </form>
+      ) : (
+        <p className={styles.commentText}>{comment.text}</p>
+      )}
       <ConfirmModal
         isOpen={isConfirmModalOpened}
         onClose={closeConfirmModal}
