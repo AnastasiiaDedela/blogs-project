@@ -19,5 +19,5 @@ export type CommentData = {
 
 export interface CommentsResponse {
   count: number;
-  items: Comment[];
+  items: CommentData[];
 }

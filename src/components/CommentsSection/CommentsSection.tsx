@@ -36,7 +36,9 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
   useEffect(() => {
     getComments(postId, limit, offset)
       .then((res) => {
-        setCommentsList(res.items);
+        if (res && res.items) {
+          setCommentsList(res.items);
+        }
       })
       .catch((error) => console.log(error));
   }, []);
