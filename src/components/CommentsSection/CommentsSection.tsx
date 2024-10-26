@@ -16,6 +16,8 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
   const [newComment, setNewComment] = useState('');
   const [commentsList, setCommentsList] = useState<CommentData[]>([]);
 
+  console.log('comments list', commentsList);
+
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
@@ -36,7 +38,9 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
   useEffect(() => {
     getComments(postId, limit, offset)
       .then((res) => {
-        setCommentsList(res.items);
+        if (res && res.items) {
+          setCommentsList(res.items);
+        }
       })
       .catch((error) => console.log(error));
   }, []);

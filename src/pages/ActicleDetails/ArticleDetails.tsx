@@ -15,7 +15,6 @@ import AddComment from '@/components/CommentsSection/CommentsSection';
 const ArticleDetails = () => {
   const params = useParams();
   const postId = Number(params.id);
-  console.log('params', postId);
   const navigate = useNavigate();
 
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
