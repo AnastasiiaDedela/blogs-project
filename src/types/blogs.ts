@@ -10,9 +10,10 @@ export interface Blog {
   author: Author;
   created_at: string;
   id: number;
+  is_liked: boolean;
+  likes_count: number;
   tags: string[];
   text: string;
   title: string;
   updated_at: string;
-  likes_count: number;
 }

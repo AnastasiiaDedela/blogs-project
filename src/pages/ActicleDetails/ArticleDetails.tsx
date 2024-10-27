@@ -1,6 +1,4 @@
-import { Blog } from '@/types/blogs';
-import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock/AuthorBlock';
@@ -8,14 +6,26 @@ import { Pencil, Trash2 } from 'lucide-react';
 import EditModal from '@/components/EditModal/EditModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useFetch } from '@/hooks/useFetch';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 import AddComment from '@/components/CommentsSection/CommentsSection';
+import { addLike, removeLike } from '@/services/likesServices';
+import { deletePost, getPostById } from '@/services/postsServices';
+import { Blog } from '@/types/blogs';
 
 const ArticleDetails = () => {
   const params = useParams();
   const postId = Number(params.id);
   const navigate = useNavigate();
+  const [article, setArticle] = useState<Blog | null>(null);
+  const token = localStorage.getItem('@token') || '';
+
+  useEffect(() => {
+    getPostById(postId, token)
+      .then((res) => setArticle(res))
+      .catch((error) => console.log(error));
+  }, []);
+
+  console.log('article', article);
 
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
   const openEditModal = () => setIsEditModalOpened(true);
@@ -25,25 +35,25 @@ const ArticleDetails = () => {
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
-  const token = localStorage.getItem('@token');
   const userId = useSelector((state: RootState) => state.auth.user?.id);
 
-  const { data: article } = useFetch<Blog | null>(`http://localhost:8001/api/posts/${postId}`);
+  const handleDeletePost = async () => {
+    await deletePost(postId, token);
+    closeConfirmModal();
+    navigate(-1);
+  };
+  console.log('article', article);
 
-  const handleDeletePost = () => {
-    axios
-      .delete(`http://localhost:8001/api/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        navigate(-1);
-        closeConfirmModal();
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const handleLikePost = async () => {
+    const response = await addLike(postId, token);
+    console.log('liked', response);
+    setArticle(response);
+  };
+
+  const handleDislikePost = async () => {
+    const response = await removeLike(postId, token);
+    console.log('disliked', response);
+    setArticle(response);
   };
 
   return (
@@ -65,7 +75,9 @@ const ArticleDetails = () => {
                     <button>+ Follow {article.author.name}</button>
                   </div>
                   <div>
-                    <button>💙 Favorite Article</button>
+                    <button onClick={article.is_liked ? handleDislikePost : handleLikePost}>
+                      {article.likes_count}💙
+                    </button>
                   </div>
                 </div>
                 {article.author.id === userId && (
@@ -103,9 +115,6 @@ const ArticleDetails = () => {
                 <div className={styles.followBtns}>
                   <div>
                     <button>+ Follow {article.author.name}</button>
-                  </div>
-                  <div>
-                    <button>💙 Favorite Article</button>
                   </div>
                 </div>
               </div>
