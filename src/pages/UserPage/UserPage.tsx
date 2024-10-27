@@ -29,7 +29,7 @@ const UserPage = () => {
 
   const { data: user } = useFetch<Author>('http://localhost:8001/api/users/me');
   const { data } = useFetch<{ count: number; items: Blog[] }>(
-    getPostsUrl(limit, offset, tags, searchDebounced, userData?.id),
+    getPostsUrl(limit, offset, searchDebounced, userData?.id),
     [offset, tags, searchDebounced],
   );
 

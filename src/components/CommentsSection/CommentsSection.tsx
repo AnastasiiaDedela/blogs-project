@@ -16,8 +16,6 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
   const [newComment, setNewComment] = useState('');
   const [commentsList, setCommentsList] = useState<CommentData[]>([]);
 
-  console.log('comments list', commentsList);
-
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
