@@ -49,9 +49,13 @@ export const getTags = async () => {
   }
 };
 
-export const getPostById = async (id: number) => {
+export const getPostById = async (id: number, token: string) => {
   try {
-    const response = await axios.get<Blog>(`http://localhost:8001/api/posts/${id}`);
+    const response = await axios.get<Blog>(`http://localhost:8001/api/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
