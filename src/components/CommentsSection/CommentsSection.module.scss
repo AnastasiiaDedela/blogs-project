@@ -40,3 +40,19 @@
     flex-direction: column;
     row-gap: 20px;
 }
+
+.edit, .delete {
+    border: none;
+    color: $base-light;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 3px 6px;
+}
+.edit {
+    color: rgb(21, 134, 104);
+}
+
+.delete{
+    color: rgb(221, 78, 78);
+}
