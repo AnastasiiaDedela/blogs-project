@@ -8,9 +8,13 @@ interface UsersResponse {
   updated_at: string;
 }
 
-export const getMe = async () => {
+export const getMe = async (token: string) => {
   try {
-    const response = await axios.get<UsersResponse>('http://localhost:8001/api/users/me');
+    const response = await axios.get<UsersResponse>('http://localhost:8001/api/users/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);

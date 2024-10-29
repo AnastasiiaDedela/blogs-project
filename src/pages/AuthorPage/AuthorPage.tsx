@@ -1,27 +1,34 @@
 import BlogList from '@/components/BlogList/BlogList';
 import styles from './AuthorPage.module.scss';
 import { useParams } from 'react-router-dom';
-import { Author, Blog } from '@/types/blogs';
-import { useFetch } from '@/hooks/useFetch';
+import { Blog } from '@/types/blogs';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useDebounce } from '@/hooks/useDeobunce';
-import { getPostsUrl } from '@/utils/getPostsUrl';
 import Pagination from '@/components/Pagination/Pagination';
+import { useEffect, useState } from 'react';
+import { getPosts } from '@/services/postsServices';
+import { getUserById } from '@/services/usersServices';
 
 export default function AuthorPage() {
   const params = useParams();
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
   const searchValue = useSelector((state: RootState) => state.search.searchValue);
-
+  const [blogs, setBlogs] = useState<Blog[] | null>(null);
+  const [author, setAuthor] = useState(null);
   const searchDebounced = useDebounce<string>(searchValue);
 
-  const { data: author } = useFetch<Author>(`http://localhost:8001/api/users/${params.id}`);
+  useEffect(() => {
+    getUserById(Number(params.id))
+      .then((res) => setAuthor(res))
+      .catch((error) => console.log(error));
+  }, []);
 
-  const { data: blogs } = useFetch<{ count: number; items: Blog[] }>(
-    getPostsUrl(limit, offset, tags, searchDebounced, params.id),
-    [offset, tags, searchDebounced],
-  );
+  useEffect(() => {
+    getPosts(searchDebounced, limit, offset, Number(params.id))
+      .then((res) => setBlogs(res))
+      .catch((error) => console.log(error));
+  }, [offset, tags, searchDebounced]);
 
   return (
     <div className={styles.container}>

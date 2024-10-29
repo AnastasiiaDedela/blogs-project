@@ -4,21 +4,21 @@ import BlogList from '@/components/BlogList/BlogList';
 import Pagination from '@/components/Pagination/Pagination';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import { useFetch } from '@/hooks/useFetch';
-import { Blog } from '@/types/blogs';
 import { useDebounce } from '@/hooks/useDeobunce';
-import { getPostsUrl } from '../../utils/getPostsUrl';
+import { useEffect, useState } from 'react';
+import { getPosts } from '@/services/postsServices';
 
 export default function Home() {
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
   const searchValue = useSelector((state: RootState) => state.search.searchValue);
-
+  const [posts, setPosts] = useState(null);
   const searchDebounced = useDebounce<string>(searchValue);
 
-  const { data } = useFetch<{ count: number; items: Blog[] }>(
-    getPostsUrl(limit, offset, tags, searchDebounced),
-    [offset, tags, searchDebounced],
-  );
+  useEffect(() => {
+    getPosts(searchDebounced, limit, offset)
+      .then((res) => setPosts(res))
+      .catch((error) => console.log(error));
+  }, [offset, tags, searchDebounced]);
 
   return (
     <main>
@@ -33,7 +33,7 @@ export default function Home() {
             style={{
               flex: 8,
             }}>
-            {data && <BlogList blogs={data.items} />}
+            {posts && <BlogList blogs={posts.items} />}
           </div>
           <div
             style={{
@@ -43,7 +43,7 @@ export default function Home() {
           </div>
         </div>
 
-        {data && <Pagination count={data.count} />}
+        {posts && <Pagination count={posts.count} />}
       </div>
     </main>
   );
