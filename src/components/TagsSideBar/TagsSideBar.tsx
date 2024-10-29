@@ -3,19 +3,21 @@ import styles from './TagsSideBar.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setSelectedTags } from '@/redux/slices/posts/slice';
-import { useFetch } from '@/hooks/useFetch';
-
-interface TagsData {
-  tags: string[];
-}
+import { useEffect, useState } from 'react';
+import { getTags } from '@/services/postsServices';
 
 export default function TagsSideBar() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const selectedTags = useSelector((state: RootState) => state.posts.tags);
+  const [tagsData, setTagsData] = useState([]);
 
   const dispatch = useDispatch();
 
-  const { data: tagsData } = useFetch<TagsData>(`http://localhost:8001/api/posts/tags`);
+  useEffect(() => {
+    getTags()
+      .then((res) => setTagsData(res.data))
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <div className={styles.sideBar}>

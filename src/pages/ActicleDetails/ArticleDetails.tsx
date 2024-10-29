@@ -25,8 +25,6 @@ const ArticleDetails = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  console.log('article', article);
-
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
   const openEditModal = () => setIsEditModalOpened(true);
   const closeEditModal = () => setIsEditModalOpened(false);

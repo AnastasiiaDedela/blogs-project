@@ -2,7 +2,7 @@ import BlogList from '@/components/BlogList/BlogList';
 import { useFetch } from '@/hooks/useFetch';
 import { Author, Blog } from '@/types/blogs';
 import styles from './UserPage.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import axios from 'axios';
@@ -10,6 +10,8 @@ import Input from '@/components/Input/Input';
 import { getPostsUrl } from '../../utils/getPostsUrl';
 import { useDebounce } from '@/hooks/useDeobunce';
 import Pagination from '@/components/Pagination/Pagination';
+import { getPosts } from '@/services/postsServices';
+import { getMe } from '@/services/usersServices';
 
 const UserPage = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -17,6 +19,8 @@ const UserPage = () => {
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+
+  const [posts, setPosts] = useState(null);
 
   const userData = useSelector((state: RootState) => state.auth.user);
 
@@ -27,11 +31,19 @@ const UserPage = () => {
 
   const searchDebounced = useDebounce<string>(searchValue);
 
-  const { data: user } = useFetch<Author>('http://localhost:8001/api/users/me');
-  const { data } = useFetch<{ count: number; items: Blog[] }>(
-    getPostsUrl(limit, offset, searchDebounced, userData?.id),
-    [offset, tags, searchDebounced],
-  );
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getMe(token)
+      .then((res) => setUser(res))
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    getPosts(searchDebounced, limit, offset, userData?.id)
+      .then((res) => setPosts(res))
+      .catch((error) => console.log(error));
+  }, [offset, tags, searchDebounced]);
 
   const changeUserName = () => {
     axios
@@ -131,8 +143,8 @@ const UserPage = () => {
           )}
         </div>
       </div>
-      <div className={styles.blogsWrapper}>{data && <BlogList blogs={data.items} />}</div>
-      <div className={styles.footer}>{data && <Pagination count={data.count} />}</div>
+      <div className={styles.blogsWrapper}>{posts && <BlogList blogs={posts.items} />}</div>
+      <div className={styles.footer}>{posts && <Pagination count={posts.count} />}</div>
     </div>
   );
 };

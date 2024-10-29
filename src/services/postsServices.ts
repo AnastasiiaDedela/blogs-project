@@ -17,7 +17,7 @@ export interface BlogsData {
   items: Blog[];
 }
 
-export const getPosts = async (q: string, limit: number, offset: number, authorId: number) => {
+export const getPosts = async (q: string, limit: number, offset: number, authorId?: number) => {
   const createdUrl = getPostsUrl(limit, offset, q, authorId);
   try {
     const response = await axios.get<BlogsData>(createdUrl);
@@ -62,9 +62,14 @@ export const getPostById = async (id: number, token: string) => {
   }
 };
 
-export const editPost = async (id: number, postData: PostData) => {
+export const editPost = async (id: number, postData: PostData, token: string) => {
   try {
-    const response = await axios.patch<Blog>(`http://localhost:8001/api/posts/${id}`, postData);
+    const response = await axios.patch<Blog>(`http://localhost:8001/api/posts/${id}`, postData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
