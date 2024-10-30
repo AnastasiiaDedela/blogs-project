@@ -1,8 +1,8 @@
-import { updateBlogPost } from '@/utils/updateBlog';
 import { useState, useEffect, useRef } from 'react';
 import styles from './EditModal.module.scss';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { editPost } from '@/services/postsServices';
 
 interface ModalProps {
   id: number;
@@ -19,33 +19,38 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
   const [newText, setNewText] = useState(text);
 
   const navigate = useNavigate();
+  const token = localStorage.getItem('@token') || '';
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [newText]);
+  // useEffect(() => {
+  //   if (textareaRef.current) {
+  //     textareaRef.current.style.height = 'auto';
+  //     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+  //   }
+  // }, [newText]);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.style.width = 'auto';
-      inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
-    }
-  }, [newTitle]);
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.style.width = 'auto';
+  //     inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
+  //   }
+  // }, [newTitle]);
+
+  console.log('title', title);
+  console.log('new title change', newTitle);
 
   const handleSave = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const updatedData = { newTitle, newText };
-      await updateBlogPost(id, updatedData);
+      const updatedData = { title: newTitle, text: newText, tags: ['ll', 'jjj'] };
+      await editPost(id, updatedData, token);
       onCloseEditModal();
-      navigate(0);
+      // navigate(0);
+      console.log('new title', newTitle);
     } catch (err) {
       setError('Failed to update the blog post');
     } finally {

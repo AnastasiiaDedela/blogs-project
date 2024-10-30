@@ -3,8 +3,8 @@ import { getPostsUrl } from '@/utils/getPostsUrl';
 import axios from 'axios';
 
 type PostData = {
-  text: string;
   title: string;
+  text: string;
   tags: string[];
 };
 
