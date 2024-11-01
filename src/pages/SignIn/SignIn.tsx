@@ -5,22 +5,23 @@ import { useDispatch } from 'react-redux';
 import Input from '@/components/Input/Input';
 import { signin } from '@/services/authServices';
 import { login } from '@/redux/slices/auth/slice';
+import { useMutation } from '@tanstack/react-query';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
   const [inputPassword, setInputPassword] = useState('miranda11');
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    const response = await signin(inputEmail, inputPassword);
-    const token = response?.token;
-    const user = response?.user;
-    dispatch(login({ token, user }));
-    navigate('/');
-  };
+  const loginMutation = useMutation({
+    mutationFn: () => signin(inputEmail, inputPassword),
+    onSuccess: (res) => {
+      const token = res?.token;
+      const user = res?.user;
+      dispatch(login({ token, user }));
+      navigate('/');
+    },
+  });
 
   return (
     <div className={styles.container}>
@@ -44,7 +45,7 @@ const SignIn = () => {
         />
 
         <div>
-          <button className={styles.loginButton} onClick={() => handleLogin()}>
+          <button className={styles.loginButton} onClick={() => loginMutation.mutate()}>
             Log in
           </button>
         </div>

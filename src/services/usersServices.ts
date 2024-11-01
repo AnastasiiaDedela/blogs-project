@@ -8,7 +8,8 @@ interface UsersResponse {
   updated_at: string;
 }
 
-export const getMe = async (token: string) => {
+export const getMe = async () => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.get<UsersResponse>('http://localhost:8001/api/users/me', {
       headers: {
