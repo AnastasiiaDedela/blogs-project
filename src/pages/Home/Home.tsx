@@ -5,20 +5,18 @@ import Pagination from '@/components/Pagination/Pagination';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { useDebounce } from '@/hooks/useDeobunce';
-import { useEffect, useState } from 'react';
 import { getPosts } from '@/services/postsServices';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
   const searchValue = useSelector((state: RootState) => state.search.searchValue);
-  const [posts, setPosts] = useState(null);
   const searchDebounced = useDebounce<string>(searchValue);
 
-  useEffect(() => {
-    getPosts(searchDebounced, limit, offset)
-      .then((res) => setPosts(res))
-      .catch((error) => console.log(error));
-  }, [offset, tags, searchDebounced]);
+  const { data: posts } = useQuery({
+    queryKey: ['post', offset, tags, searchDebounced],
+    queryFn: () => getPosts(searchDebounced, limit, offset),
+  });
 
   return (
     <main>

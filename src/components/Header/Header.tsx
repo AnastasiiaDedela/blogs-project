@@ -9,12 +9,11 @@ import { UserIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function Header() {
+  const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const location = useLocation();
-  const [isSearchBarShown, setIsSearchBarShown] = useState(false);
 
   useEffect(() => {
     if (

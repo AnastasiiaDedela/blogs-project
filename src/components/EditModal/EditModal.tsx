@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import styles from './EditModal.module.scss';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
 import { editPost } from '@/services/postsServices';
+import { useMutation } from '@tanstack/react-query';
 
 interface ModalProps {
   id: number;
@@ -10,33 +10,29 @@ interface ModalProps {
   text: string;
   onCloseEditModal: () => void;
   modalOpened: boolean;
+  refetch: () => void;
 }
 
-const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProps) => {
+const EditModal = ({ id, title, text, onCloseEditModal, modalOpened, refetch }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState(title);
   const [newText, setNewText] = useState(text);
+  const updatedData = { title: newTitle, text: newText, tags: ['ll', 'jjj'] };
 
-  const navigate = useNavigate();
-  const token = localStorage.getItem('@token') || '';
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  console.log('title', title);
-  console.log('new title change', newTitle);
+  const editMutation = useMutation({
+    mutationFn: () => editPost(id, updatedData),
+    onSuccess: () => {
+      onCloseEditModal();
+      refetch();
+    },
+  });
 
   const handleSave = async () => {
     setLoading(true);
     setError(null);
-
     try {
-      const updatedData = { title: newTitle, text: newText, tags: ['ll', 'jjj'] };
-      await editPost(id, updatedData, token);
-      onCloseEditModal();
-      // navigate(0);
-      console.log('new title', newTitle);
+      editMutation.mutate();
     } catch (err) {
       setError('Failed to update the blog post');
     } finally {
@@ -57,7 +53,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 className={styles.input}
-                ref={inputRef}
               />
             </label>
             <label>
@@ -65,7 +60,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 className={styles.textarea}
-                ref={textareaRef}
               />
             </label>
             <div className={styles.modalActions}>
