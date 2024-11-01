@@ -16,6 +16,7 @@ const ArticleDetails = () => {
   const params = useParams();
   const postId = Number(params.id);
   const navigate = useNavigate();
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
   const openEditModal = () => setIsEditModalOpened(true);
@@ -24,8 +25,6 @@ const ArticleDetails = () => {
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
-
-  const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   const { data: article, refetch } = useQuery({
     queryKey: ['article'],

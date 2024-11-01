@@ -1,51 +1,41 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import styles from './AddArticle.module.scss';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { addPost } from '@/services/postsServices';
 
 export default function AddArticle() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
-
   const navigate = useNavigate();
 
-  const handleTagsChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setTags(e.target.value);
+  const tagsArray = tags
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter((tag) => tag);
+
+  const postData = {
+    text: content,
+    title: title,
+    tags: tagsArray,
   };
+
+  const addMutation = useMutation({
+    mutationFn: () => addPost(postData),
+    onSuccess: () => {
+      setTitle('');
+      setContent('');
+      setTags('');
+      navigate('/');
+    },
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const tagsArray = tags
-      .split(',')
-      .map((tag) => tag.trim())
-      .filter((tag) => tag);
-
-    const postData = {
-      text: content,
-      title: title,
-      tags: tagsArray,
-    };
-
-    const token = localStorage.getItem('@token');
-
-    axios
-      .post('http://localhost:8001/api/posts', postData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        setTitle('');
-        setContent('');
-        setTags('');
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error('There was an error adding the article:', error);
-      });
+    addMutation.mutate();
   };
+
   return (
     <div className={styles.addArticleContainer}>
       <h2 className={styles.title}>Add New Article</h2>
@@ -73,7 +63,7 @@ export default function AddArticle() {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="tags">Tags:</label>
-          <textarea id="tags" value={tags} onChange={handleTagsChange} required />
+          <textarea id="tags" value={tags} onChange={(e) => setTags(e.target.value)} required />
         </div>
         <button type="submit">Add Article +</button>
       </form>
