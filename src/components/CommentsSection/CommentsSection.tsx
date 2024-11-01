@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './CommentsSection.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { addComment, getComments } from '@/services/commentsServices';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { CommentData } from '@/types/comments';
 import CommentItem from '../CommentItem/CommentItem';
+import { useMutation, useQuery } from '@tanstack/react-query';
 interface CommentsProps {
   postId: number;
   limit: number;
@@ -14,13 +14,16 @@ interface CommentsProps {
 
 const AddComment = ({ postId, limit, offset }: CommentsProps) => {
   const [newComment, setNewComment] = useState('');
-  const [commentsList, setCommentsList] = useState<CommentData[]>([]);
-
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-
   const navigate = useNavigate();
-
   const token = localStorage.getItem('@token') || '';
+
+  const addMutation = useMutation({
+    mutationFn: () => addComment(postId, newComment, token),
+    onSuccess: () => {
+      setNewComment('');
+    },
+  });
 
   const handleAddComment = async () => {
     if (!isLoggedIn) {
@@ -28,20 +31,13 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
       navigate('/sign-in');
       return;
     }
-    const response = await addComment(postId, newComment, token);
-    setCommentsList((prev) => [response, ...prev]);
-    setNewComment('');
+    addMutation.mutate();
   };
 
-  useEffect(() => {
-    getComments(postId, limit, offset)
-      .then((res) => {
-        if (res && res.items) {
-          setCommentsList(res.items);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  const { data: comments, refetch } = useQuery({
+    queryKey: ['comments'],
+    queryFn: () => getComments(postId, limit, offset),
+  });
 
   return (
     <div className={styles.commentsWrapper}>
@@ -57,7 +53,12 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
           </label>
           <div className={styles.submitBtn}>
             {newComment.length > 0 && (
-              <button type="button" onClick={handleAddComment}>
+              <button
+                type="button"
+                onClick={() => {
+                  handleAddComment();
+                  refetch();
+                }}>
                 Comment
               </button>
             )}
@@ -65,13 +66,15 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
         </form>
       </div>
       <div className={styles.commentsList}>
-        {commentsList &&
-          commentsList.map((comment) => (
+        {comments &&
+          comments.items.map((comment) => (
             <CommentItem
               comment={comment}
               key={comment.id}
               postId={postId}
-              setCommentsList={setCommentsList}
+              refetchComments={() => {
+                refetch();
+              }}
             />
           ))}
       </div>

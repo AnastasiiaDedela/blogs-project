@@ -24,20 +24,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // useEffect(() => {
-  //   if (textareaRef.current) {
-  //     textareaRef.current.style.height = 'auto';
-  //     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-  //   }
-  // }, [newText]);
-
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.style.width = 'auto';
-  //     inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
-  //   }
-  // }, [newTitle]);
-
   console.log('title', title);
   console.log('new title change', newTitle);
 

@@ -7,16 +7,16 @@ import { RootState } from '@/redux/store';
 import { deleteComment, editComment } from '@/services/commentsServices';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 interface CommentItemProps {
   comment: CommentData;
   postId: number;
-  setCommentsList: React.Dispatch<React.SetStateAction<CommentData[]>>;
+  refetchComments: () => void;
 }
 
-const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => {
+const CommentItem = ({ comment, postId, refetchComments }: CommentItemProps) => {
   const userId = useSelector((state: RootState) => state.auth.user?.id);
-  const token = localStorage.getItem('@token') || '';
 
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -24,25 +24,20 @@ const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => 
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
-  const handleDeleteComment = async () => {
-    await deleteComment(postId, comment.id, token);
-    setCommentsList((prev) => prev.filter((com) => comment.id !== com.id));
-    closeConfirmModal();
-  };
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteComment(postId, comment.id),
+    onSuccess: () => {
+      closeConfirmModal();
+      refetchComments();
+    },
+  });
 
-  const submitEditedComment = async () => {
-    const response = await editComment(postId, comment.id, editedComment, token);
-
-    setCommentsList((prev) => {
-      const index = prev.findIndex((com) => com.id === comment.id);
-
-      if (index !== -1) {
-        return [...prev.slice(0, index), response, ...prev.slice(index + 1)];
-      }
-
-      return prev;
-    });
-  };
+  const editMutation = useMutation({
+    mutationFn: () => editComment(postId, comment.id, editedComment),
+    onSuccess: () => {
+      refetchComments();
+    },
+  });
 
   return (
     <div className={styles.commentWrapper}>
@@ -74,7 +69,7 @@ const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => 
             <button
               type="button"
               onClick={() => {
-                submitEditedComment();
+                editMutation.mutate();
                 setIsEditModalOpen(false);
               }}>
               Save
@@ -87,7 +82,9 @@ const CommentItem = ({ comment, postId, setCommentsList }: CommentItemProps) => 
       <ConfirmModal
         isOpen={isConfirmModalOpened}
         onClose={closeConfirmModal}
-        onDelete={handleDeleteComment}
+        onDelete={() => {
+          deleteMutation.mutate();
+        }}
       />
     </div>
   );
