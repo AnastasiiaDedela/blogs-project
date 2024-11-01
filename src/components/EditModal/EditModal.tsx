@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import styles from './EditModal.module.scss';
 import Modal from 'react-modal';
 import { editPost } from '@/services/postsServices';
