@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ArticleDetails.module.scss';
 import AuthorBlock from '@/components/AuthorBlock/AuthorBlock';
@@ -10,20 +10,13 @@ import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 import AddComment from '@/components/CommentsSection/CommentsSection';
 import { addLike, removeLike } from '@/services/likesServices';
 import { deletePost, getPostById } from '@/services/postsServices';
-import { Blog } from '@/types/blogs';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const ArticleDetails = () => {
   const params = useParams();
   const postId = Number(params.id);
   const navigate = useNavigate();
-  const [article, setArticle] = useState<Blog | null>(null);
-  const token = localStorage.getItem('@token') || '';
-
-  useEffect(() => {
-    getPostById(postId, token)
-      .then((res) => setArticle(res))
-      .catch((error) => console.log(error));
-  }, []);
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
   const openEditModal = () => setIsEditModalOpened(true);
@@ -33,26 +26,33 @@ const ArticleDetails = () => {
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
 
-  const userId = useSelector((state: RootState) => state.auth.user?.id);
+  const { data: article, refetch } = useQuery({
+    queryKey: ['article'],
+    queryFn: () => getPostById(postId),
+  });
 
-  const handleDeletePost = async () => {
-    await deletePost(postId, token);
-    closeConfirmModal();
-    navigate(-1);
-  };
-  console.log('article', article);
+  const deleteMutation = useMutation({
+    mutationFn: () => deletePost(postId),
+    onSuccess: () => {
+      closeConfirmModal();
+      navigate(-1);
+      refetch();
+    },
+  });
 
-  const handleLikePost = async () => {
-    const response = await addLike(postId, token);
-    console.log('liked', response);
-    setArticle(response);
-  };
+  const likeMutation = useMutation({
+    mutationFn: () => addLike(postId),
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
-  const handleDislikePost = async () => {
-    const response = await removeLike(postId, token);
-    console.log('disliked', response);
-    setArticle(response);
-  };
+  const dislikeMutation = useMutation({
+    mutationFn: () => removeLike(postId),
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   return (
     <>
@@ -73,7 +73,16 @@ const ArticleDetails = () => {
                     <button>+ Follow {article.author.name}</button>
                   </div>
                   <div>
-                    <button onClick={article.is_liked ? handleDislikePost : handleLikePost}>
+                    <button
+                      onClick={
+                        article.is_liked
+                          ? () => {
+                              dislikeMutation.mutate();
+                            }
+                          : () => {
+                              likeMutation.mutate();
+                            }
+                      }>
                       {article.likes_count}💙
                     </button>
                   </div>
@@ -124,11 +133,14 @@ const ArticleDetails = () => {
             title={article.title}
             onCloseEditModal={closeEditModal}
             modalOpened={isEditModalOpened}
+            refetch={refetch}
           />
           <ConfirmModal
             isOpen={isConfirmModalOpened}
             onClose={closeConfirmModal}
-            onDelete={handleDeletePost}
+            onDelete={() => {
+              deleteMutation.mutate();
+            }}
           />
         </div>
       )}

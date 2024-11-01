@@ -3,21 +3,18 @@ import styles from './TagsSideBar.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setSelectedTags } from '@/redux/slices/posts/slice';
-import { useEffect, useState } from 'react';
 import { getTags } from '@/services/postsServices';
+import { useQuery } from '@tanstack/react-query';
 
 export default function TagsSideBar() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const selectedTags = useSelector((state: RootState) => state.posts.tags);
-  const [tagsData, setTagsData] = useState([]);
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getTags()
-      .then((res) => setTagsData(res.data))
-      .catch((error) => console.log(error));
-  }, []);
+  const { data: tags } = useQuery({
+    queryKey: ['tags'],
+    queryFn: () => getTags(),
+  });
 
   return (
     <div className={styles.sideBar}>
@@ -26,8 +23,8 @@ export default function TagsSideBar() {
           <p className={styles.tagsTitle}>Popular Tags</p>
           <div className={styles.tagsList}>
             {selectedTags &&
-              tagsData?.tags &&
-              tagsData.tags.map((tag: string, index: number) => (
+              tags?.tags &&
+              tags.tags.map((tag: string, index: number) => (
                 <button
                   key={index}
                   className={selectedTags.includes(tag) ? styles.selectedTag : styles.tag}

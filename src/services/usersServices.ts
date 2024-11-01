@@ -8,7 +8,8 @@ interface UsersResponse {
   updated_at: string;
 }
 
-export const getMe = async (token: string) => {
+export const getMe = async () => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.get<UsersResponse>('http://localhost:8001/api/users/me', {
       headers: {
@@ -22,10 +23,19 @@ export const getMe = async (token: string) => {
 };
 
 export const updateMe = async (name: string) => {
+  const token = localStorage.getItem('@token') || '';
   try {
-    const response = await axios.patch<UsersResponse>('http://localhost:8001/api/users/me', {
-      name: name,
-    });
+    const response = await axios.patch<UsersResponse>(
+      'http://localhost:8001/api/users/me',
+      {
+        name: name,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -33,12 +43,18 @@ export const updateMe = async (name: string) => {
 };
 
 export const updatePassword = async (oldPassword: string, newPassword: string) => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.post<UsersResponse>(
       'http://localhost:8001/api/users/me/password',
       {
         old_password: oldPassword,
         new_password: newPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
     );
     return response.data;

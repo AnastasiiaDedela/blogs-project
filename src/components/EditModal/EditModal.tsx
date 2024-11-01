@@ -1,8 +1,8 @@
-import { updateBlogPost } from '@/utils/updateBlog';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import styles from './EditModal.module.scss';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
+import { editPost } from '@/services/postsServices';
+import { useMutation } from '@tanstack/react-query';
 
 interface ModalProps {
   id: number;
@@ -10,42 +10,29 @@ interface ModalProps {
   text: string;
   onCloseEditModal: () => void;
   modalOpened: boolean;
+  refetch: () => void;
 }
 
-const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProps) => {
+const EditModal = ({ id, title, text, onCloseEditModal, modalOpened, refetch }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState(title);
   const [newText, setNewText] = useState(text);
+  const updatedData = { title: newTitle, text: newText, tags: ['ll', 'jjj'] };
 
-  const navigate = useNavigate();
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [newText]);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.style.width = 'auto';
-      inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
-    }
-  }, [newTitle]);
+  const editMutation = useMutation({
+    mutationFn: () => editPost(id, updatedData),
+    onSuccess: () => {
+      onCloseEditModal();
+      refetch();
+    },
+  });
 
   const handleSave = async () => {
     setLoading(true);
     setError(null);
-
     try {
-      const updatedData = { newTitle, newText };
-      await updateBlogPost(id, updatedData);
-      onCloseEditModal();
-      navigate(0);
+      editMutation.mutate();
     } catch (err) {
       setError('Failed to update the blog post');
     } finally {
@@ -66,7 +53,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 className={styles.input}
-                ref={inputRef}
               />
             </label>
             <label>
@@ -74,7 +60,6 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened }: ModalProp
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 className={styles.textarea}
-                ref={textareaRef}
               />
             </label>
             <div className={styles.modalActions}>

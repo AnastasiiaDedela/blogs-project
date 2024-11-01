@@ -3,8 +3,8 @@ import { getPostsUrl } from '@/utils/getPostsUrl';
 import axios from 'axios';
 
 type PostData = {
-  text: string;
   title: string;
+  text: string;
   tags: string[];
 };
 
@@ -27,7 +27,8 @@ export const getPosts = async (q: string, limit: number, offset: number, authorI
   }
 };
 
-export const addPost = async (token: string, postData: PostData) => {
+export const addPost = async (postData: PostData) => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.post<Blog>('http://localhost:8001/api/posts', postData, {
       headers: {
@@ -49,7 +50,8 @@ export const getTags = async () => {
   }
 };
 
-export const getPostById = async (id: number, token: string) => {
+export const getPostById = async (id: number) => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.get<Blog>(`http://localhost:8001/api/posts/${id}`, {
       headers: {
@@ -62,7 +64,8 @@ export const getPostById = async (id: number, token: string) => {
   }
 };
 
-export const editPost = async (id: number, postData: PostData, token: string) => {
+export const editPost = async (id: number, postData: PostData) => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.patch<Blog>(`http://localhost:8001/api/posts/${id}`, postData, {
       headers: {
@@ -76,7 +79,8 @@ export const editPost = async (id: number, postData: PostData, token: string) =>
   }
 };
 
-export const deletePost = async (id: number, token: string) => {
+export const deletePost = async (id: number) => {
+  const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.delete<Blog>(`http://localhost:8001/api/posts/${id}`, {
       headers: {

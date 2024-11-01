@@ -3,7 +3,7 @@ import styles from './Input.module.scss';
 import { Eye, EyeOff } from 'lucide-react';
 
 type Props = {
-  value: any;
+  value?: any;
   type: 'text' | 'password';
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
