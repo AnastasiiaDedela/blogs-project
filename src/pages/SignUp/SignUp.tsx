@@ -5,25 +5,25 @@ import { useDispatch } from 'react-redux';
 import { login } from '@/redux/slices/auth/slice';
 import Input from '@/components/Input/Input';
 import { signup } from '@/services/authServices';
+import { useMutation } from '@tanstack/react-query';
 
 const SignUp = () => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [inputUserName, setInputUserName] = useState('');
   const [inputRepeatePassword, setInputRepeatePassword] = useState('miranda11');
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
-  const handleSignUp = async () => {
-    const response = await signup(inputUserName, inputEmail, inputPassword, inputRepeatePassword);
-    const token = response?.token;
-    const user = response?.user;
-
-    dispatch(login({ token, user }));
-    navigate('/');
-  };
+  const signUpMutation = useMutation({
+    mutationFn: () => signup(inputUserName, inputEmail, inputPassword, inputRepeatePassword),
+    onSuccess: (res) => {
+      const token = res?.token;
+      const user = res?.user;
+      dispatch(login({ token, user }));
+      navigate('/');
+    },
+  });
 
   return (
     <div className={styles.container}>
@@ -55,7 +55,6 @@ const SignUp = () => {
         />
 
         <Input
-          value={inputRepeatePassword}
           placeholder="Please repeate your password"
           type="password"
           onChange={(e) => setInputRepeatePassword(e.target.value)}
@@ -66,7 +65,7 @@ const SignUp = () => {
           <button
             className={styles.inputButton}
             onClick={() => {
-              inputPassword === inputRepeatePassword && handleSignUp();
+              inputPassword === inputRepeatePassword && signUpMutation.mutate();
             }}>
             Sign up
           </button>

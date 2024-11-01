@@ -89,7 +89,7 @@ const UserPage = () => {
     <div className={styles.container}>
       <div className={styles.userBlock}>
         <div className={styles.userAvatar}>
-          <img src="../../../public/avatar.png" alt="avatar" />
+          <img src="/avatar.png" alt="avatar" />
         </div>
         <div>
           {user && (
