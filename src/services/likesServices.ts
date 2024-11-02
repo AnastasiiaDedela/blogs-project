@@ -22,7 +22,7 @@ export const addLike = async (id: number) => {
 export const removeLike = async (id: number) => {
   const token = localStorage.getItem('@token') || '';
   try {
-    const response = await axios.delete<string>(`http://localhost:8001/api/posts/${id}/like`, {
+    const response = await axios.delete<Blog>(`http://localhost:8001/api/posts/${id}/like`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
