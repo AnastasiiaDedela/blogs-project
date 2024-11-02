@@ -17,8 +17,14 @@ export interface BlogsData {
   items: Blog[];
 }
 
-export const getPosts = async (q: string, limit: number, offset: number, authorId?: number) => {
-  const createdUrl = getPostsUrl(limit, offset, q, authorId);
+export const getPosts = async (
+  q: string,
+  limit: number,
+  offset: number,
+  tags: string[],
+  authorId?: number,
+) => {
+  const createdUrl = getPostsUrl(limit, offset, tags, q, authorId);
   try {
     const response = await axios.get<BlogsData>(createdUrl);
     return response.data;

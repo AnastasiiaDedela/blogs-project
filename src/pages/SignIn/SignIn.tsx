@@ -16,6 +16,7 @@ const SignIn = () => {
   const loginMutation = useMutation({
     mutationFn: () => signin(inputEmail, inputPassword),
     onSuccess: (res) => {
+      console.log('login', res);
       const token = res?.token;
       const user = res?.user;
       dispatch(login({ token, user }));
