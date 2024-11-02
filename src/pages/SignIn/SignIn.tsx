@@ -28,22 +28,26 @@ const SignIn = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.signInTitle}>Sign in</div>
+        <div className={styles.singInInput}>
+          <Input
+            type="text"
+            value={inputEmail}
+            placeholder="Enter your email here"
+            onChange={(e) => setInputEmail(e.target.value)}
+            className={styles.inputContainer}
+          />
+        </div>
 
-        <Input
-          type="text"
-          value={inputEmail}
-          placeholder="Enter your email here"
-          onChange={(e) => setInputEmail(e.target.value)}
-          className={styles.inputContainer}
-        />
-
-        <Input
-          value={inputPassword}
-          placeholder="Enter your password here"
-          type="password"
-          onChange={(e) => setInputPassword(e.target.value)}
-          className={styles.inputContainer}
-        />
+        <div className={styles.singInInput}>
+          <Input
+            value={inputPassword}
+            placeholder="Enter your password here"
+            type="password"
+            onChange={(e) => setInputPassword(e.target.value)}
+            className={styles.inputContainer}
+            eyeShown={true}
+          />
+        </div>
 
         <div>
           <button className={styles.loginButton} onClick={() => loginMutation.mutate()}>
