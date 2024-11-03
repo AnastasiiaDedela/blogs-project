@@ -9,7 +9,7 @@ interface BlogItemProps {
 
 const BlogItem = ({ blog }: BlogItemProps) => {
   const navigate = useNavigate();
-  const { author, created_at, tags, text, title, id } = blog;
+  const { author, created_at, tags, text, title, id, likes_count } = blog;
   const truncatedText = text.length > 186 ? text.substring(0, 186) : text;
 
   return (
@@ -17,7 +17,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       <div className={styles.blogHeader}>
         <AuthorBlock authorName={author.name} created_at={created_at} id={author.id} />
         <div className={styles.blogButtons}>
-          <button className={styles.likes}>💙</button>
+          <button className={styles.likes}>{likes_count}💙</button>
         </div>
       </div>
       <div className={styles.blogContent} onClick={() => navigate(`/article-details/${id}`)}>

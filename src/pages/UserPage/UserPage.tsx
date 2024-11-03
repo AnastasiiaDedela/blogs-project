@@ -28,7 +28,7 @@ const UserPage = () => {
 
   const { data: posts } = useQuery({
     queryKey: ['post', offset, tags, searchDebounced],
-    queryFn: () => getPosts(searchDebounced, limit, offset, userData?.id),
+    queryFn: () => getPosts(searchDebounced, limit, offset, tags, userData?.id),
   });
 
   const changeNameMutation = useMutation({

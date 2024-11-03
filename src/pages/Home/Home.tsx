@@ -15,7 +15,7 @@ export default function Home() {
 
   const { data: posts } = useQuery({
     queryKey: ['post', offset, tags, searchDebounced],
-    queryFn: () => getPosts(searchDebounced, limit, offset),
+    queryFn: () => getPosts(searchDebounced, limit, offset, tags),
   });
 
   return (
