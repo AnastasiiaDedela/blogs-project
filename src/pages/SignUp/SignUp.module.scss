@@ -14,7 +14,7 @@
       row-gap: 14px;
     }
     
-    .signInTitle {
+    .signUpTitle {
       font-family: "Poppins", sans-serif;
       color: $base-dark;
       display: flex;
@@ -27,15 +27,8 @@
     
     .inputContainer {
       display: flex;
-      align-items: center;
-      min-width: 300px;
-      justify-content: center;
-      & input {
-        overflow: visible;
-        flex-grow: 1;
-        padding: 12px;
-        width: 100%;
-      }
+      flex-direction: column;
+      row-gap: 5px;
     }
     
     .inputContainer > .errorLabel {
@@ -54,6 +47,28 @@
       border-radius: 8px;
       cursor: pointer;
       align-self: flex-end;
+    }
+
+    .singUpInput{
+      border: 1px solid $base-dark;
+            border-radius: 10px;
+            padding: 12px 26px;
+            display: flex;
+            justify-content: space-between;
+            line-height: 22.8px;
+            background-color: $light;
+            width: 100%;
+            
+    
+            input {
+                border: none;
+                outline: none;
+                color: black;
+                cursor: pointer;
+                font-size: 17px;
+                min-width: 300px;
+                width: 100%;
+            }
     }
   
   
