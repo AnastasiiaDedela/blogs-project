@@ -26,20 +26,28 @@ const Input = ({
   const [passwordShown, setPasswordShown] = useState(false);
   return (
     <div className={`${className}`}>
-      <input
-        className={styles.inputBox}
-        value={value}
-        type={eyeShown !== undefined ? (passwordShown ? 'text' : 'password') : type}
-        placeholder={placeholder}
-        onChange={onChange}
-      />
-      {isValid && saveHandler && <button onClick={saveHandler}>Save</button>}
-      {eyeShown &&
-        (passwordShown ? (
-          <EyeOff className={styles.eye} onClick={() => setPasswordShown(false)} />
-        ) : (
-          <Eye className={styles.eye} onClick={() => setPasswordShown(true)} />
-        ))}
+      <div className={styles.inputWrapper}>
+        <input
+          className={styles.inputBox}
+          value={value}
+          type={eyeShown !== undefined ? (passwordShown ? 'text' : 'password') : type}
+          placeholder={placeholder}
+          onChange={onChange}
+        />
+
+        {eyeShown &&
+          (passwordShown ? (
+            <EyeOff className={styles.eye} onClick={() => setPasswordShown(false)} />
+          ) : (
+            <Eye className={styles.eye} onClick={() => setPasswordShown(true)} />
+          ))}
+      </div>
+
+      {isValid && saveHandler && (
+        <button onClick={saveHandler} className={styles.saveBtn}>
+          Save
+        </button>
+      )}
     </div>
   );
 };

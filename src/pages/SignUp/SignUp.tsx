@@ -28,38 +28,47 @@ const SignUp = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <div className={styles.signInTitle}>Sign up</div>
+        <div className={styles.signUpTitle}>Sign up</div>
+        <div className={styles.singUpInput}>
+          <Input
+            type="text"
+            value={inputUserName}
+            placeholder="Username"
+            onChange={(ev) => setInputUserName(ev.target.value)}
+            className={styles.inputContainer}
+          />
+        </div>
 
-        <Input
-          type="text"
-          value={inputUserName}
-          placeholder="Username"
-          onChange={(ev) => setInputUserName(ev.target.value)}
-          className={styles.inputContainer}
-        />
+        <div className={styles.singUpInput}>
+          <Input
+            value={inputEmail}
+            placeholder="Email"
+            onChange={(ev) => setInputEmail(ev.target.value)}
+            className={styles.inputContainer}
+            type="text"
+          />
+        </div>
 
-        <Input
-          value={inputEmail}
-          placeholder="Email"
-          onChange={(ev) => setInputEmail(ev.target.value)}
-          className={styles.inputContainer}
-          type="text"
-        />
+        <div className={styles.singUpInput}>
+          <Input
+            type="password"
+            value={inputPassword}
+            placeholder="Password"
+            onChange={(ev) => setInputPassword(ev.target.value)}
+            className={styles.inputContainer}
+            eyeShown={true}
+          />
+        </div>
 
-        <Input
-          type="password"
-          value={inputPassword}
-          placeholder="Password"
-          onChange={(ev) => setInputPassword(ev.target.value)}
-          className={styles.inputContainer}
-        />
-
-        <Input
-          placeholder="Please repeate your password"
-          type="password"
-          onChange={(e) => setInputRepeatePassword(e.target.value)}
-          className={styles.inputContainer}
-        />
+        <div className={styles.singUpInput}>
+          <Input
+            placeholder="Please repeate your password"
+            type="password"
+            onChange={(e) => setInputRepeatePassword(e.target.value)}
+            className={styles.inputContainer}
+            eyeShown={true}
+          />
+        </div>
 
         <div className={styles.inputContainer}>
           <button

@@ -26,14 +26,10 @@
   }
   
   .inputContainer {
-    display: inline-flex;
-    min-width: 300px;
-    & input {
-      overflow: visible;
-      flex-grow: 1;
-      padding: 12px;
-      width: 100%;
-    }
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+
   }
   
 .loginButton {
@@ -48,6 +44,22 @@
   cursor: pointer;
 }
 .singInInput{
-  display: flex;
-  justify-content: space-between;
+  border: 1px solid $base-dark;
+        border-radius: 10px;
+        padding: 12px 34px;
+        display: flex;
+        justify-content: space-between;
+        line-height: 22.8px;
+        background-color: $light;
+        width: 100%;
+        
+
+        input {
+            border: none;
+            outline: none;
+            color: black;
+            cursor: pointer;
+            font-size: 17px;
+            width: 250px;
+        }
 }

@@ -43,7 +43,7 @@
 .userDataItem {
         border: 1px solid $base-dark;
         border-radius: 10px;
-        padding: 5px 18px;
+        padding: 8px 20px;
         display: flex;
         justify-content: space-between;
         font-size: 15px;
@@ -60,9 +60,20 @@
 
 .inputContainer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    row-gap: 5px;
 }
-
 .footer {
     padding-bottom: 30px;
 }
+
+.saveBtn {
+    display: flex;
+    align-self: flex-end;
+    border: none;
+    background-color: inherit;
+    color: #19aa7f;
+    font-size: 13px;
+    padding: 0;
+    font-weight: bold;
+  }

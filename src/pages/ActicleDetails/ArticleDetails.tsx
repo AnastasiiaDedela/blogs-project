@@ -134,6 +134,7 @@ const ArticleDetails = () => {
             onCloseEditModal={closeEditModal}
             modalOpened={isEditModalOpened}
             refetch={refetch}
+            tags={article.tags}
           />
           <ConfirmModal
             isOpen={isConfirmModalOpened}

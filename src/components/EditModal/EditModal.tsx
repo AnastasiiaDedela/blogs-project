@@ -11,14 +11,25 @@ interface ModalProps {
   onCloseEditModal: () => void;
   modalOpened: boolean;
   refetch: () => void;
+  tags: string[];
 }
 
-const EditModal = ({ id, title, text, onCloseEditModal, modalOpened, refetch }: ModalProps) => {
+const EditModal = ({
+  id,
+  title,
+  text,
+  onCloseEditModal,
+  modalOpened,
+  refetch,
+  tags,
+}: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState(title);
   const [newText, setNewText] = useState(text);
-  const updatedData = { title: newTitle, text: newText, tags: ['ll', 'jjj'] };
+  const [newTags, setNewTags] = useState(tags);
+  const updatedData = { title: newTitle, text: newText, tags: newTags };
+  console.log('tags', tags);
 
   const editMutation = useMutation({
     mutationFn: () => editPost(id, updatedData),
@@ -60,6 +71,14 @@ const EditModal = ({ id, title, text, onCloseEditModal, modalOpened, refetch }: 
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 className={styles.textarea}
+              />
+            </label>
+            <label>
+              <input
+                type="text"
+                value={newTags}
+                onChange={(e) => setNewTags(e.target.value.split(','))}
+                className={styles.input}
               />
             </label>
             <div className={styles.modalActions}>
