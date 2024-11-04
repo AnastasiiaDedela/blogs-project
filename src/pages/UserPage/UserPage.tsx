@@ -70,7 +70,9 @@ const UserPage = () => {
                   }}
                 />
                 {inputNameIsChanged && (
-                  <button onClick={() => changeNameMutation.mutate()}>Save</button>
+                  <button className={styles.saveBtn} onClick={() => changeNameMutation.mutate()}>
+                    Save
+                  </button>
                 )}
               </li>
               <li className={styles.userDataItem}>

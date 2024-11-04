@@ -60,9 +60,20 @@
 
 .inputContainer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    row-gap: 5px;
 }
-
 .footer {
     padding-bottom: 30px;
 }
+
+.saveBtn {
+    display: flex;
+    align-self: flex-end;
+    border: none;
+    background-color: inherit;
+    color: #19aa7f;
+    font-size: 13px;
+    padding: 0;
+    font-weight: bold;
+  }
