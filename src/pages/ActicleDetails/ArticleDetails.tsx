@@ -7,16 +7,19 @@ import EditModal from '@/components/EditModal/EditModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import AddComment from '@/components/CommentsSection/CommentsSection';
 import { addLike, removeLike } from '@/services/likesServices';
 import { deletePost, getPostById } from '@/services/postsServices';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import CommentsSection from '@/components/CommentsSection/CommentsSection';
 
 const ArticleDetails = () => {
   const params = useParams();
   const postId = Number(params.id);
   const navigate = useNavigate();
   const userId = useSelector((state: RootState) => state.auth.user?.id);
+  const commentsLimit = useSelector((state: RootState) => state.comments.limit);
+
+  console.log('limit', commentsLimit);
 
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
   const openEditModal = () => setIsEditModalOpened(true);
@@ -110,7 +113,7 @@ const ArticleDetails = () => {
               ))}
             </div>
             <div className={styles.addCommentWrapper}>
-              <AddComment postId={postId} limit={100} offset={0} />
+              <CommentsSection postId={postId} limit={commentsLimit} offset={0} />
             </div>
             <div className={styles.footerWrapper}>
               <div className={styles.authorBlockWrapper}>
