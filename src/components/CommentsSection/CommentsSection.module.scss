@@ -56,3 +56,25 @@
 .delete{
     color: rgb(221, 78, 78);
 }
+
+.seeMoreWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+.seeMoreBtn {
+    display: flex;
+    // align-self: center;
+    border: 2px #75696946 solid;
+    border-radius: 20px;
+    padding: 10px 45px;
+    color: #756969;
+    cursor: pointer;
+    &:hover {
+        border: 2px #75696946 solid;
+        background-color: #8d8c8c21;
+        color: #3f3a3a;
+        transition: 0.3s;
+    }
+}

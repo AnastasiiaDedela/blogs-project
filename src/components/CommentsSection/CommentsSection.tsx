@@ -2,21 +2,24 @@ import { useState } from 'react';
 import styles from './CommentsSection.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { addComment, getComments } from '@/services/commentsServices';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CommentItem from '../CommentItem/CommentItem';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { setLimit } from '@/redux/slices/comments/slice';
 interface CommentsProps {
   postId: number;
   limit: number;
   offset: number;
 }
 
-const AddComment = ({ postId, limit, offset }: CommentsProps) => {
+const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
   const [newComment, setNewComment] = useState('');
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const token = localStorage.getItem('@token') || '';
+  const dispatch = useDispatch();
 
   const addMutation = useMutation({
     mutationFn: () => addComment(postId, newComment, token),
@@ -35,9 +38,11 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
   };
 
   const { data: comments, refetch } = useQuery({
-    queryKey: ['comments'],
+    queryKey: ['comments', limit],
     queryFn: () => getComments(postId, limit, offset),
   });
+
+  console.log('limit', limit);
 
   return (
     <div className={styles.commentsWrapper}>
@@ -78,8 +83,33 @@ const AddComment = ({ postId, limit, offset }: CommentsProps) => {
             />
           ))}
       </div>
+      <div className={styles.seeMoreWrapper}>
+        {comments &&
+          comments.count >= 4 &&
+          (limit <= comments.count ? (
+            <div
+              className={styles.seeMoreBtn}
+              onClick={() => {
+                dispatch(setLimit((limit += 4)));
+                refetch();
+              }}>
+              See more
+              <ChevronDown />
+            </div>
+          ) : (
+            <div
+              className={styles.seeMoreBtn}
+              onClick={() => {
+                dispatch(setLimit(4));
+                refetch();
+              }}>
+              Hide all
+              <ChevronUp />
+            </div>
+          ))}
+      </div>
     </div>
   );
 };
 
-export default AddComment;
+export default CommentsSection;
