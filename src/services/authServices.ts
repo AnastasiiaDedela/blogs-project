@@ -7,15 +7,11 @@ interface AuthResponse {
 }
 
 export const signin = async (email: string, password: string) => {
-  try {
-    const response = await axios.post<AuthResponse>('http://localhost:8001/api/auth/login', {
-      email: email,
-      password: password,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  const response = await axios.post<AuthResponse>('http://localhost:8001/api/auth/login', {
+    email: email,
+    password: password,
+  });
+  return response.data;
 };
 
 export const signup = async (
