@@ -6,16 +6,27 @@ import Input from '@/components/Input/Input';
 import { signin } from '@/services/authServices';
 import { login } from '@/redux/slices/auth/slice';
 import { useMutation } from '@tanstack/react-query';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
   const [inputPassword, setInputPassword] = useState('miranda11');
-  const [authErrorMessage, setAuthErrorMessage] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const notify = () => toast(authErrorMessage);
+  const notify = (message: string) => {
+    toast.error(message, {
+      position: 'top-center',
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+      transition: Bounce,
+    });
+  };
 
   const loginMutation = useMutation({
     mutationFn: () => signin(inputEmail, inputPassword),
@@ -27,8 +38,11 @@ const SignIn = () => {
       navigate('/');
     },
     onError(error) {
+      console.log('error', error);
       if (error.status === 401) {
-        setAuthErrorMessage('Login or password is not correct');
+        notify('Login or password is not correct');
+      } else {
+        notify('Oops, something went wrong, please try again later');
       }
     },
   });
@@ -59,11 +73,7 @@ const SignIn = () => {
         </div>
 
         <div>
-          <button
-            className={styles.loginButton}
-            onClick={() => {
-              authErrorMessage ? notify() : loginMutation.mutate();
-            }}>
+          <button className={styles.loginButton} onClick={() => loginMutation.mutate()}>
             Log in
           </button>
         </div>
