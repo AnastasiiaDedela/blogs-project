@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
-  const [inputPassword, setInputPassword] = useState('miranda11');
+  const [inputPassword, setInputPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const notify = (message: string) => {
@@ -71,6 +71,10 @@ const SignIn = () => {
             eyeShown={true}
           />
         </div>
+
+        {inputPassword.length > 0 && inputPassword.length < 8 && (
+          <p className={styles.passwordError}>Password length should be more than 7 characters</p>
+        )}
 
         <div>
           <button className={styles.loginButton} onClick={() => loginMutation.mutate()}>
