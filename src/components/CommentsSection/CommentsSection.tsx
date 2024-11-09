@@ -43,6 +43,8 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
     addMutation.mutate();
   };
 
+  console.log('comments', comments);
+
   return (
     <div className={styles.commentsWrapper}>
       <div className={styles.commentForm}>
@@ -83,7 +85,7 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
       </div>
       <div className={styles.seeMoreWrapper}>
         {comments &&
-          comments.count >= 3 &&
+          comments.count > 3 &&
           (limit < comments.count ? (
             <div
               className={styles.seeMoreBtn}
