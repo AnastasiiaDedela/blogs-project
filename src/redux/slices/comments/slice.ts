@@ -6,7 +6,7 @@ type CommentsStates = {
 };
 
 const initialState: CommentsStates = {
-  limit: 4,
+  limit: 3,
   offset: 0,
 };
 

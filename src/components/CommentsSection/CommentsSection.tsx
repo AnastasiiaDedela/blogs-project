@@ -21,9 +21,15 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
   const token = localStorage.getItem('@token') || '';
   const dispatch = useDispatch();
 
+  const { data: comments, refetch } = useQuery({
+    queryKey: ['comments', limit],
+    queryFn: () => getComments(postId, limit, offset),
+  });
+
   const addMutation = useMutation({
     mutationFn: () => addComment(postId, newComment, token),
     onSuccess: () => {
+      refetch();
       setNewComment('');
     },
   });
@@ -36,13 +42,6 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
     }
     addMutation.mutate();
   };
-
-  const { data: comments, refetch } = useQuery({
-    queryKey: ['comments', limit],
-    queryFn: () => getComments(postId, limit, offset),
-  });
-
-  console.log('limit', limit);
 
   return (
     <div className={styles.commentsWrapper}>

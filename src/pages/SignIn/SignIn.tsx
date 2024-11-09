@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
   const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
-  const [inputPassword, setInputPassword] = useState('');
+  const [inputPassword, setInputPassword] = useState('miranda11');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const notify = (message: string) => {
