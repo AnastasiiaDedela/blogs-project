@@ -21,9 +21,15 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
   const token = localStorage.getItem('@token') || '';
   const dispatch = useDispatch();
 
+  const { data: comments, refetch } = useQuery({
+    queryKey: ['comments', limit],
+    queryFn: () => getComments(postId, limit, offset),
+  });
+
   const addMutation = useMutation({
     mutationFn: () => addComment(postId, newComment, token),
     onSuccess: () => {
+      refetch();
       setNewComment('');
     },
   });
@@ -37,12 +43,7 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
     addMutation.mutate();
   };
 
-  const { data: comments, refetch } = useQuery({
-    queryKey: ['comments', limit],
-    queryFn: () => getComments(postId, limit, offset),
-  });
-
-  console.log('limit', limit);
+  console.log('comments', comments);
 
   return (
     <div className={styles.commentsWrapper}>
@@ -62,7 +63,6 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
                 type="button"
                 onClick={() => {
                   handleAddComment();
-                  refetch();
                 }}>
                 Comment
               </button>
@@ -85,13 +85,12 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
       </div>
       <div className={styles.seeMoreWrapper}>
         {comments &&
-          comments.count >= 4 &&
-          (limit <= comments.count ? (
+          comments.count > 3 &&
+          (limit < comments.count ? (
             <div
               className={styles.seeMoreBtn}
               onClick={() => {
-                dispatch(setLimit((limit += 4)));
-                refetch();
+                dispatch(setLimit((limit += 3)));
               }}>
               See more
               <ChevronDown />
@@ -100,10 +99,9 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
             <div
               className={styles.seeMoreBtn}
               onClick={() => {
-                dispatch(setLimit(4));
-                refetch();
+                dispatch(setLimit(3));
               }}>
-              Hide all
+              Hide
               <ChevronUp />
             </div>
           ))}

@@ -72,6 +72,10 @@ const SignIn = () => {
           />
         </div>
 
+        {inputPassword.length > 0 && inputPassword.length < 8 && (
+          <p className={styles.passwordError}>Password length should be more than 7 characters</p>
+        )}
+
         <div>
           <button className={styles.loginButton} onClick={() => loginMutation.mutate()}>
             Log in
