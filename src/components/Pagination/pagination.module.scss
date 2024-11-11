@@ -33,3 +33,9 @@
   background-color: $base-light;
   color: $light;
 }
+
+.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
