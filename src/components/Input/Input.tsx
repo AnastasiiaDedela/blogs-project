@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import styles from './Input.module.scss';
 import { Eye, EyeOff } from 'lucide-react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
-  value?: any;
+  value?: string;
   type: 'text' | 'password';
   placeholder: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   saveHandler?: () => void;
   eyeShown?: boolean;
   isValid?: boolean;
+  register?: UseFormRegisterReturn;
 };
 
 const Input = ({
@@ -22,12 +24,15 @@ const Input = ({
   saveHandler,
   eyeShown,
   isValid,
+  register,
 }: Props) => {
   const [passwordShown, setPasswordShown] = useState(false);
+
   return (
     <div className={`${className}`}>
       <div className={styles.inputWrapper}>
         <input
+          {...register}
           className={styles.inputBox}
           value={value}
           type={eyeShown !== undefined ? (passwordShown ? 'text' : 'password') : type}

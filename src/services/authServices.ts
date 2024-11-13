@@ -6,27 +6,32 @@ interface AuthResponse {
   user: Author;
 }
 
-export const signin = async (email: string, password: string) => {
-  const response = await axios.post<AuthResponse>('http://localhost:8001/api/auth/login', {
-    email: email,
-    password: password,
-  });
+interface SignUpProps {
+  name: string;
+  email: string;
+  password: string;
+  repeat_password: string;
+}
+
+interface SignInProps {
+  email: string;
+  password: string;
+}
+
+export const signin = async (loginData: SignInProps) => {
+  const response = await axios.post<AuthResponse>(
+    'http://localhost:8001/api/auth/login',
+    loginData,
+  );
   return response.data;
 };
 
-export const signup = async (
-  name: string,
-  email: string,
-  password: string,
-  repeatPassword: string,
-) => {
+export const signup = async (signupData: SignUpProps) => {
   try {
-    const response = await axios.post<AuthResponse>('http://localhost:8001/api/auth/register', {
-      email: email,
-      password: password,
-      name: name,
-      repeat_password: repeatPassword,
-    });
+    const response = await axios.post<AuthResponse>(
+      'http://localhost:8001/api/auth/register',
+      signupData,
+    );
     return response.data;
   } catch (error) {
     console.error(error);
