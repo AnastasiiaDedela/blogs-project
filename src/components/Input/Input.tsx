@@ -11,6 +11,7 @@ type Props = {
   saveHandler?: () => void;
   eyeShown?: boolean;
   isValid?: boolean;
+  register?: ReturnType<typeof import('react-hook-form').useForm>['register'];
 };
 
 const Input = ({
@@ -22,12 +23,15 @@ const Input = ({
   saveHandler,
   eyeShown,
   isValid,
+  register,
 }: Props) => {
   const [passwordShown, setPasswordShown] = useState(false);
+
   return (
     <div className={`${className}`}>
       <div className={styles.inputWrapper}>
         <input
+          {...register}
           className={styles.inputBox}
           value={value}
           type={eyeShown !== undefined ? (passwordShown ? 'text' : 'password') : type}

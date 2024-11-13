@@ -6,11 +6,11 @@ interface AuthResponse {
   user: Author;
 }
 
-export const signin = async (email: string, password: string) => {
-  const response = await axios.post<AuthResponse>('http://localhost:8001/api/auth/login', {
-    email: email,
-    password: password,
-  });
+export const signin = async (loginData: AuthResponse) => {
+  const response = await axios.post<AuthResponse>(
+    'http://localhost:8001/api/auth/login',
+    loginData,
+  );
   return response.data;
 };
 
