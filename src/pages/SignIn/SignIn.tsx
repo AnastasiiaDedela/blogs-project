@@ -11,12 +11,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 
 const SignIn = () => {
-  const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
-  const [inputPassword, setInputPassword] = useState('miranda11');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      email: 'mirandakerr@gmail.com',
+      password: 'miranda11',
+    },
+  });
 
   const loginMutation = useMutation({
     mutationFn: (data) => signin(data),
@@ -63,9 +66,7 @@ const SignIn = () => {
           <div className={styles.singInInput}>
             <Input
               type="text"
-              value={inputEmail}
               placeholder="Enter your email here"
-              onChange={(e) => setInputEmail(e.target.value)}
               className={styles.inputContainer}
               register={register('email', { required: 'Required' })}
             />
@@ -74,18 +75,16 @@ const SignIn = () => {
           <div className={styles.singInInput}>
             <Input
               type="password"
-              value={inputPassword}
               placeholder="Enter your password here"
-              onChange={(e) => setInputPassword(e.target.value)}
               className={styles.inputContainer}
               register={register('password', { required: 'Required' })}
               eyeShown={true}
             />
           </div>
 
-          {inputPassword.length > 0 && inputPassword.length < 8 && (
+          {/* {inputPassword.length > 0 && inputPassword.length < 8 && (
             <p className={styles.passwordError}>Password length should be more than 7 characters</p>
-          )}
+          )} */}
 
           <div>
             <button type="submit" className={styles.loginButton}>
