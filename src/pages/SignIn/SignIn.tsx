@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
 import { useDispatch } from 'react-redux';
@@ -8,18 +7,30 @@ import { login } from '@/redux/slices/auth/slice';
 import { useMutation } from '@tanstack/react-query';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+interface ILoginForm {
+  email: string;
+  password: string;
+}
 
 const SignIn = () => {
-  const [inputEmail, setInputEmail] = useState('mirandakerr@gmail.com');
-  const [inputPassword, setInputPassword] = useState('miranda11');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm<ILoginForm>({
+    // defaultValues: {
+    //   email: 'mirandakerr@gmail.com',
+    //   password: 'miranda11',
+    // },
+    mode: 'onChange',
+  });
+
+  const emailError = formState.errors['email']?.message;
+  const passwordError = formState.errors['password']?.message;
 
   const loginMutation = useMutation({
-    mutationFn: (data) => signin(data),
+    mutationFn: (data: ILoginForm) => signin(data),
     onSuccess: (res) => {
       console.log('login', res);
       const token = res?.token;
@@ -37,7 +48,7 @@ const SignIn = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     loginMutation.mutate(data);
   };
 
@@ -63,30 +74,30 @@ const SignIn = () => {
           <div className={styles.singInInput}>
             <Input
               type="text"
-              value={inputEmail}
               placeholder="Enter your email here"
-              onChange={(e) => setInputEmail(e.target.value)}
               className={styles.inputContainer}
-              register={register('email', { required: 'Required' })}
+              register={register('email', {
+                required: 'Required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: 'Invalid email address',
+                },
+              })}
             />
           </div>
+
+          {emailError && <p className={styles.passwordError}>{emailError}</p>}
 
           <div className={styles.singInInput}>
             <Input
               type="password"
-              value={inputPassword}
               placeholder="Enter your password here"
-              onChange={(e) => setInputPassword(e.target.value)}
               className={styles.inputContainer}
-              register={register('password', { required: 'Required' })}
+              register={register('password', { required: 'Required', min: 8 })}
               eyeShown={true}
             />
           </div>
-
-          {inputPassword.length > 0 && inputPassword.length < 8 && (
-            <p className={styles.passwordError}>Password length should be more than 7 characters</p>
-          )}
-
+          {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
           <div>
             <button type="submit" className={styles.loginButton}>
               Log in

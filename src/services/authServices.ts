@@ -6,16 +6,16 @@ interface AuthResponse {
   user: Author;
 }
 
+interface SignInProps {
+  email: string;
+  password: string;
+}
+
 interface SignUpProps {
   name: string;
   email: string;
   password: string;
   repeat_password: string;
-}
-
-interface SignInProps {
-  email: string;
-  password: string;
 }
 
 export const signin = async (loginData: SignInProps) => {
