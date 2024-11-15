@@ -6,6 +6,11 @@ interface AuthResponse {
   user: Author;
 }
 
+interface SignInProps {
+  email: string;
+  password: string;
+}
+
 interface SignUpProps {
   name: string;
   email: string;
@@ -13,7 +18,7 @@ interface SignUpProps {
   repeat_password: string;
 }
 
-export const signin = async (loginData) => {
+export const signin = async (loginData: SignInProps) => {
   const response = await axios.post<AuthResponse>(
     'http://localhost:8001/api/auth/login',
     loginData,

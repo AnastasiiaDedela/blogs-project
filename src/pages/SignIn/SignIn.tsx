@@ -18,13 +18,16 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm<ILoginForm>({
-    defaultValues: {
-      email: 'mirandakerr@gmail.com',
-      password: 'miranda11',
-    },
+  const { register, handleSubmit, formState } = useForm<ILoginForm>({
+    // defaultValues: {
+    //   email: 'mirandakerr@gmail.com',
+    //   password: 'miranda11',
+    // },
     mode: 'onChange',
   });
+
+  const emailError = formState.errors['email']?.message;
+  const passwordError = formState.errors['password']?.message;
 
   const loginMutation = useMutation({
     mutationFn: (data: ILoginForm) => signin(data),
@@ -73,24 +76,28 @@ const SignIn = () => {
               type="text"
               placeholder="Enter your email here"
               className={styles.inputContainer}
-              register={register('email', { required: 'Required' })}
+              register={register('email', {
+                required: 'Required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: 'Invalid email address',
+                },
+              })}
             />
           </div>
+
+          {emailError && <p className={styles.passwordError}>{emailError}</p>}
 
           <div className={styles.singInInput}>
             <Input
               type="password"
               placeholder="Enter your password here"
               className={styles.inputContainer}
-              register={register('password', { required: 'Required' })}
+              register={register('password', { required: 'Required', min: 8 })}
               eyeShown={true}
             />
           </div>
-
-          {/* {inputPassword.length > 0 && inputPassword.length < 8 && (
-            <p className={styles.passwordError}>Password length should be more than 7 characters</p>
-          )} */}
-
+          {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
           <div>
             <button type="submit" className={styles.loginButton}>
               Log in
