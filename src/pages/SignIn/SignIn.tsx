@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignIn.module.scss';
 import { useDispatch } from 'react-redux';
@@ -8,21 +7,27 @@ import { login } from '@/redux/slices/auth/slice';
 import { useMutation } from '@tanstack/react-query';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+interface ILoginForm {
+  email: string;
+  password: string;
+}
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit } = useForm<ILoginForm>({
     defaultValues: {
       email: 'mirandakerr@gmail.com',
       password: 'miranda11',
     },
+    mode: 'onChange',
   });
 
   const loginMutation = useMutation({
-    mutationFn: (data) => signin(data),
+    mutationFn: (data: ILoginForm) => signin(data),
     onSuccess: (res) => {
       console.log('login', res);
       const token = res?.token;
@@ -40,7 +45,7 @@ const SignIn = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     loginMutation.mutate(data);
   };
 

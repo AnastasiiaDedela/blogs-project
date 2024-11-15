@@ -13,12 +13,7 @@ interface SignUpProps {
   repeat_password: string;
 }
 
-interface SignInProps {
-  email: string;
-  password: string;
-}
-
-export const signin = async (loginData: SignInProps) => {
+export const signin = async (loginData) => {
   const response = await axios.post<AuthResponse>(
     'http://localhost:8001/api/auth/login',
     loginData,
