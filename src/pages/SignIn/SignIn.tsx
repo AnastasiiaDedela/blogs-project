@@ -70,7 +70,7 @@ const SignIn = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.signInTitle}>Sign in</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
           <div className={styles.formInput}>
             <div className={styles.singInInput}>
               <Input
