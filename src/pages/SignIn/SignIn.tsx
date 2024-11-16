@@ -9,7 +9,7 @@ import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-interface ILoginForm {
+interface ISignInForm {
   email: string;
   password: string;
 }
@@ -18,7 +18,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState } = useForm<ILoginForm>({
+  const { register, handleSubmit, formState } = useForm<ISignInForm>({
     mode: 'onTouched',
     defaultValues: {
       email: 'mirandakerr@gmail.com',
@@ -30,7 +30,7 @@ const SignIn = () => {
   const passwordError = formState.errors['password']?.message;
 
   const loginMutation = useMutation({
-    mutationFn: (data: ILoginForm) => signin(data),
+    mutationFn: (data: ISignInForm) => signin(data),
     onSuccess: (res) => {
       console.log('login', res);
       const token = res?.token;
@@ -48,7 +48,7 @@ const SignIn = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+  const onSubmit: SubmitHandler<ISignInForm> = (data) => {
     loginMutation.mutate(data);
   };
 
@@ -71,36 +71,40 @@ const SignIn = () => {
       <div className={styles.content}>
         <div className={styles.signInTitle}>Sign in</div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.singInInput}>
-            <Input
-              type="text"
-              placeholder="Enter your email here"
-              className={styles.inputContainer}
-              register={register('email', {
-                required: 'Required',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: 'Invalid email address',
-                },
-              })}
-            />
+          <div className={styles.formInput}>
+            <div className={styles.singInInput}>
+              <Input
+                type="text"
+                placeholder="Enter your email here"
+                className={styles.inputContainer}
+                register={register('email', {
+                  required: 'Required',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: 'Invalid email address',
+                  },
+                })}
+              />
+            </div>
+
+            {emailError && <p className={styles.passwordError}>{emailError}</p>}
+          </div>
+          <div className={styles.formInput}>
+            <div className={styles.singInInput}>
+              <Input
+                type="password"
+                placeholder="Enter your password here"
+                className={styles.inputContainer}
+                register={register('password', {
+                  required: 'Required',
+                  minLength: { value: 8, message: 'Password must be at least 8 characters long' },
+                })}
+                eyeShown={true}
+              />
+            </div>
+            {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
           </div>
 
-          {emailError && <p className={styles.passwordError}>{emailError}</p>}
-
-          <div className={styles.singInInput}>
-            <Input
-              type="password"
-              placeholder="Enter your password here"
-              className={styles.inputContainer}
-              register={register('password', {
-                required: 'Required',
-                minLength: { value: 8, message: 'Password must be at least 8 characters long' },
-              })}
-              eyeShown={true}
-            />
-          </div>
-          {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
           <div>
             <button type="submit" className={styles.loginButton}>
               Log in

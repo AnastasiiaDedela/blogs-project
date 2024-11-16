@@ -6,18 +6,29 @@ import { login } from '@/redux/slices/auth/slice';
 import Input from '@/components/Input/Input';
 import { signup } from '@/services/authServices';
 import { useMutation } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+interface ISignUpForm {
+  name: string;
+  email: string;
+  password: string;
+  repeat_password: string;
+}
 
 const SignUp = () => {
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputPassword, setInputPassword] = useState('');
-  const [inputUserName, setInputUserName] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+
+  const { register, handleSubmit, formState, getValues } = useForm<ISignUpForm>({
+    mode: 'onTouched',
+  });
+
+  const emailError = formState.errors['email']?.message;
+  const passwordError = formState.errors['password']?.message;
+  const repeatedPasswordError = formState.errors['repeat_password']?.message;
 
   const signUpMutation = useMutation({
-    mutationFn: (data) => signup(data),
+    mutationFn: (data: ISignUpForm) => signup(data),
     onSuccess: (res) => {
       const token = res?.token;
       const user = res?.user;
@@ -26,8 +37,9 @@ const SignUp = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<ISignUpForm> = (data) => {
     signUpMutation.mutate(data);
+    console.log(data);
   };
 
   return (
@@ -35,51 +47,68 @@ const SignUp = () => {
       <div className={styles.content}>
         <div className={styles.signUpTitle}>Sign up</div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.singUpInput}>
-            <Input
-              type="text"
-              value={inputUserName}
-              placeholder="Username"
-              onChange={(ev) => setInputUserName(ev.target.value)}
-              className={styles.inputContainer}
-              register={register('name', { required: 'Required' })}
-            />
+          <div className={styles.formInput}>
+            <div className={styles.singUpInput}>
+              <Input
+                type="text"
+                placeholder="Username"
+                className={styles.inputContainer}
+                register={register('name', { required: 'Required' })}
+              />
+            </div>
           </div>
 
-          <div className={styles.singUpInput}>
-            <Input
-              value={inputEmail}
-              placeholder="Email"
-              onChange={(ev) => setInputEmail(ev.target.value)}
-              className={styles.inputContainer}
-              type="text"
-              register={register('email', { required: 'Required' })}
-            />
+          <div className={styles.formInput}>
+            <div className={styles.singUpInput}>
+              <Input
+                placeholder="Email"
+                className={styles.inputContainer}
+                type="text"
+                register={register('email', {
+                  required: 'Required',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: 'Invalid email address',
+                  },
+                })}
+              />
+            </div>
+            {emailError && <p className={styles.passwordError}>{emailError}</p>}
           </div>
 
-          <div className={styles.singUpInput}>
-            <Input
-              type="password"
-              value={inputPassword}
-              placeholder="Password"
-              onChange={(ev) => setInputPassword(ev.target.value)}
-              className={styles.inputContainer}
-              eyeShown={true}
-              register={register('password', { required: 'Required' })}
-            />
+          <div className={styles.formInput}>
+            <div className={styles.singUpInput}>
+              <Input
+                type="password"
+                placeholder="Password"
+                className={styles.inputContainer}
+                eyeShown={true}
+                register={register('password', {
+                  required: 'Required',
+                  minLength: { value: 8, message: 'Password must be at least 8 characters long' },
+                })}
+              />
+            </div>
+            {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
           </div>
-          {inputPassword.length > 0 && inputPassword.length < 8 && (
-            <p className={styles.passwordError}>Password length should be more than 7 characters</p>
-          )}
 
-          <div className={styles.singUpInput}>
-            <Input
-              placeholder="Please repeate your password"
-              type="password"
-              className={styles.inputContainer}
-              eyeShown={true}
-              register={register('repeat_password', { required: 'Required' })}
-            />
+          <div className={styles.formInput}>
+            <div className={styles.singUpInput}>
+              <Input
+                placeholder="Please repeate your password"
+                type="password"
+                className={styles.inputContainer}
+                eyeShown={true}
+                register={register('repeat_password', {
+                  required: 'Required',
+                  minLength: { value: 8, message: 'Password must be at least 8 characters long' },
+                  validate: (value) => value === getValues('password') || 'Passwords do not match',
+                })}
+              />
+            </div>
+            {repeatedPasswordError && (
+              <p className={styles.passwordError}>{repeatedPasswordError}</p>
+            )}
           </div>
 
           <div className={styles.inputContainer}>
