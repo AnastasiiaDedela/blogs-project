@@ -19,11 +19,11 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const { register, handleSubmit, formState } = useForm<ILoginForm>({
-    // defaultValues: {
-    //   email: 'mirandakerr@gmail.com',
-    //   password: 'miranda11',
-    // },
-    mode: 'onChange',
+    mode: 'onTouched',
+    defaultValues: {
+      email: 'mirandakerr@gmail.com',
+      password: 'miranda11',
+    },
   });
 
   const emailError = formState.errors['email']?.message;
@@ -93,7 +93,10 @@ const SignIn = () => {
               type="password"
               placeholder="Enter your password here"
               className={styles.inputContainer}
-              register={register('password', { required: 'Required', min: 8 })}
+              register={register('password', {
+                required: 'Required',
+                minLength: { value: 8, message: 'Password must be at least 8 characters long' },
+              })}
               eyeShown={true}
             />
           </div>
