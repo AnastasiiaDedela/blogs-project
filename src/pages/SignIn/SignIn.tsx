@@ -14,6 +14,11 @@ interface ISignInForm {
   password: string;
 }
 
+interface ApiError {
+  status: number;
+  message: string;
+}
+
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,7 +43,7 @@ const SignIn = () => {
       dispatch(login({ token, user }));
       navigate('/');
     },
-    onError(error) {
+    onError(error: ApiError) {
       console.log('error', error);
       if (error.status === 401) {
         notify('Login or password is not correct');
