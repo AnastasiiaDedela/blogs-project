@@ -23,6 +23,7 @@ const SignUp = () => {
     mode: 'onTouched',
   });
 
+  const nameError = formState.errors['name']?.message;
   const emailError = formState.errors['email']?.message;
   const passwordError = formState.errors['password']?.message;
   const repeatedPasswordError = formState.errors['repeat_password']?.message;
@@ -46,7 +47,7 @@ const SignUp = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.signUpTitle}>Sign up</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
           <div className={styles.formInput}>
             <div className={styles.singUpInput}>
               <Input
@@ -56,6 +57,7 @@ const SignUp = () => {
                 register={register('name', { required: 'Required' })}
               />
             </div>
+            {nameError && <p className={styles.passwordError}>{nameError}</p>}
           </div>
 
           <div className={styles.formInput}>

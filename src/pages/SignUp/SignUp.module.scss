@@ -75,4 +75,10 @@
       color: red;
       font-family: "Poppins", sans-serif;
     }
+
+    .formWrapper {
+      display: flex;
+      flex-direction: column;
+      row-gap: 12px;
+    }
   
