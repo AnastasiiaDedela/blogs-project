@@ -73,7 +73,6 @@ const UserPage = () => {
         new_password: data.new_password,
       });
     }
-    console.log('user data', data);
   };
 
   return (
