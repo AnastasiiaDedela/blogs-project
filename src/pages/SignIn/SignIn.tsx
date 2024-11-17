@@ -92,7 +92,7 @@ const SignIn = () => {
               />
             </div>
 
-            {emailError && <p className={styles.passwordError}>{emailError}</p>}
+            {emailError && <p className={styles.inputError}>{emailError}</p>}
           </div>
           <div className={styles.formInput}>
             <div className={styles.singInInput}>
@@ -107,7 +107,7 @@ const SignIn = () => {
                 eyeShown={true}
               />
             </div>
-            {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
+            {passwordError && <p className={styles.inputError}>{passwordError}</p>}
           </div>
 
           <div>

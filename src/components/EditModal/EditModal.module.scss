@@ -20,6 +20,7 @@
 
 .input, .textarea {
   font-family: "Poppins", sans-serif;
+  outline: none;
 }
 
 .input {
@@ -42,7 +43,6 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: none;
-  // overflow: hidden; /* Hide scrollbars for smooth auto-expansion */
   transition: height 0.2s ease;
 }
 
@@ -67,4 +67,10 @@
 .cancelButton {
   background-color: #f44336;
   color: white;
+}
+
+.inputError {
+  font-size: 13px;
+  color: red;
+  font-family: "Poppins", sans-serif;
 }

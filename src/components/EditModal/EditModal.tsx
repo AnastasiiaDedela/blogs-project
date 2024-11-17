@@ -3,6 +3,7 @@ import styles from './EditModal.module.scss';
 import Modal from 'react-modal';
 import { editPost } from '@/services/postsServices';
 import { useMutation } from '@tanstack/react-query';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface ModalProps {
   id: number;
@@ -14,6 +15,12 @@ interface ModalProps {
   tags: string[];
 }
 
+interface EditForm {
+  title: string;
+  text: string;
+  tags: string;
+}
+
 const EditModal = ({
   id,
   title,
@@ -23,32 +30,47 @@ const EditModal = ({
   refetch,
   tags,
 }: ModalProps) => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [newTitle, setNewTitle] = useState(title);
-  const [newText, setNewText] = useState(text);
-  const [newTags, setNewTags] = useState(tags);
-  const updatedData = { title: newTitle, text: newText, tags: newTags };
-  console.log('tags', tags);
+
+  const { register, handleSubmit, formState } = useForm<EditForm>({
+    mode: 'onTouched',
+    defaultValues: {
+      title: title,
+      text: text,
+      tags: tags.join(', '),
+    },
+  });
+
+  const { errors } = formState;
 
   const editMutation = useMutation({
-    mutationFn: () => editPost(id, updatedData),
+    mutationFn: (data: EditForm) => {
+      const formattedData = {
+        ...data,
+        tags: data.tags.split(',').map((tag) => tag.trim()),
+      };
+      return editPost(id, formattedData);
+    },
     onSuccess: () => {
       onCloseEditModal();
       refetch();
     },
+    onError: (error) => {
+      setError(error.message);
+    },
   });
 
-  const handleSave = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      editMutation.mutate();
-    } catch (err) {
-      setError('Failed to update the blog post');
-    } finally {
-      setLoading(false);
+  const onSubmit: SubmitHandler<EditForm> = (data) => {
+    editMutation.mutate(data);
+    console.log('data', data);
+  };
+
+  const validateTags = (value: string) => {
+    const regex = /^(\w+|\w+(,\s*\w+)*)$/;
+    if (regex.test(value)) {
+      return true;
     }
+    return 'Tags must be a single word or a comma-separated list of words';
   };
 
   return (
@@ -57,36 +79,42 @@ const EditModal = ({
         <Modal isOpen={modalOpened} onRequestClose={onCloseEditModal} className={styles.modal}>
           <h2>Edit Blog Post</h2>
           {error && <p className={styles.error}>{error}</p>}
-          <form className={styles.editForm}>
+          <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
             <label>
+              Title
               <input
                 type="text"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
                 className={styles.input}
+                {...register('title', { required: 'Title is required' })}
               />
+              {errors.title && <p className={styles.inputError}>{errors.title.message}</p>}
             </label>
             <label>
+              Text
               <textarea
-                value={newText}
-                onChange={(e) => setNewText(e.target.value)}
                 className={styles.textarea}
+                {...register('text', { required: 'Text is required' })}
               />
+              {errors.text && <p className={styles.inputError}>{errors.text.message}</p>}
             </label>
             <label>
+              Tags (Comma-separated)
               <input
                 type="text"
-                value={newTags}
-                onChange={(e) => setNewTags(e.target.value.split(','))}
                 className={styles.input}
+                {...register('tags', {
+                  required: 'Tags are required',
+                  validate: validateTags,
+                })}
               />
+              {errors.tags && <p className={styles.inputError}>{errors.tags.message}</p>}
             </label>
             <div className={styles.modalActions}>
-              <button type="button" onClick={handleSave} className={styles.saveButton}>
-                {loading ? 'Saving...' : 'Save'}
-              </button>
               <button type="button" onClick={onCloseEditModal} className={styles.cancelButton}>
                 Cancel
+              </button>
+              <button type="submit" className={styles.saveButton}>
+                Save
               </button>
             </div>
           </form>

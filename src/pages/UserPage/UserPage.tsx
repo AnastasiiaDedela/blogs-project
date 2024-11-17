@@ -1,6 +1,5 @@
 import BlogList from '@/components/BlogList/BlogList';
 import styles from './UserPage.module.scss';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Input from '@/components/Input/Input';
@@ -9,12 +8,20 @@ import Pagination from '@/components/Pagination/Pagination';
 import { getPosts } from '@/services/postsServices';
 import { getMe, updateMe, updatePassword } from '@/services/usersServices';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+interface UserForm {
+  name: string;
+  old_password: string;
+  new_password: string;
+}
+
+interface UpdatePasswordRequest {
+  old_password: string;
+  new_password: string;
+}
 
 const UserPage = () => {
-  const [newUserName, setNewUserName] = useState('');
-  const [inputNameIsChanged, setInputNameIsChanged] = useState(false);
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const userData = useSelector((state: RootState) => state.auth.user);
 
   const { limit, offset, tags } = useSelector((state: RootState) => state.posts);
@@ -31,85 +38,110 @@ const UserPage = () => {
     queryFn: () => getPosts(searchDebounced, limit, offset, tags, userData?.id),
   });
 
+  const { register, handleSubmit, reset, formState } = useForm<UserForm>({
+    mode: 'onTouched',
+    defaultValues: {
+      name: user?.name || '',
+      old_password: '',
+      new_password: '',
+    },
+  });
+
+  const { errors } = formState;
+
   const changeNameMutation = useMutation({
-    mutationFn: () => updateMe(newUserName),
+    mutationFn: (newName: string) => updateMe(newName),
     onSuccess: () => {
-      setInputNameIsChanged(false);
+      reset({ name: '', old_password: '', new_password: '' });
     },
   });
 
   const changePasswordMutation = useMutation({
-    mutationFn: () => updatePassword(oldPassword, newPassword),
+    mutationFn: (data: UpdatePasswordRequest) => updatePassword(data),
     onSuccess: () => {
-      setOldPassword('');
-      setNewPassword('');
+      reset({ old_password: '', new_password: '' });
     },
   });
 
+  const onSubmit: SubmitHandler<UserForm> = (data) => {
+    if (data.name && data.name !== user?.name) {
+      changeNameMutation.mutate(data.name);
+    }
+    if (data.old_password && data.new_password) {
+      changePasswordMutation.mutate({
+        old_password: data.old_password,
+        new_password: data.new_password,
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.userBlock}>
-        <div className={styles.userAvatar}>
-          <img src="/avatar.png" alt="avatar" />
-        </div>
-        <div>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.userForm}>
+        <div className={styles.userBlock}>
+          <div className={styles.userAvatar}>
+            <img src="/avatar.png" alt="avatar" />
+          </div>
           {user && (
-            <ul className={styles.userData}>
-              <li className={styles.userDataItem}>
-                <input
-                  className={styles.inputContainer}
+            <div className={styles.userInputswrapper}>
+              <div className={styles.userDataItem}>
+                <Input
                   type="text"
-                  placeholder={user.name}
-                  onChange={(e) => {
-                    setNewUserName(e.target.value);
-                    {
-                      e.target.value.length >= 1
-                        ? setInputNameIsChanged(true)
-                        : setInputNameIsChanged(false);
-                    }
-                  }}
+                  placeholder="Username"
+                  className={styles.inputContainer}
+                  register={register('name', {
+                    required: 'Name is required',
+                  })}
                 />
-                {inputNameIsChanged && (
-                  <button className={styles.saveBtn} onClick={() => changeNameMutation.mutate()}>
-                    Save
-                  </button>
-                )}
-              </li>
-              <li className={styles.userDataItem}>
+              </div>
+              {errors.name && <p className={styles.inputError}>{errors.name.message}</p>}
+
+              <div className={styles.userEmail}>
                 <p>{user.email}</p>
-              </li>
-              <li className={styles.userDataItem}>
+              </div>
+
+              <div className={styles.userDataItem}>
                 <Input
-                  className={styles.inputContainer}
-                  value={oldPassword}
                   type="password"
-                  placeholder="old password"
-                  onChange={(e) => {
-                    setOldPassword(e.target.value);
-                  }}
+                  placeholder="Old Password"
+                  className={styles.inputContainer}
                   eyeShown={true}
+                  register={register('old_password', {
+                    required: 'Old password is required',
+                  })}
                 />
-              </li>
-              <li className={styles.userDataItem}>
+              </div>
+              {errors.old_password && (
+                <p className={styles.inputError}>{errors.old_password.message}</p>
+              )}
+
+              <div className={styles.userDataItem}>
                 <Input
-                  className={styles.inputContainer}
-                  value={newPassword}
                   type="password"
-                  placeholder="new password"
-                  onChange={(e) => {
-                    setNewPassword(e.target.value);
-                  }}
+                  placeholder="New Password"
+                  className={styles.inputContainer}
                   eyeShown={true}
-                  saveHandler={() => {
-                    changePasswordMutation.mutate();
-                  }}
-                  isValid={oldPassword.length >= 6 && newPassword.length >= 6}
+                  register={register('new_password', {
+                    required: 'New password is required',
+                    minLength: {
+                      value: 8,
+                      message: 'Password must be at least 8 characters',
+                    },
+                  })}
                 />
-              </li>
-            </ul>
+              </div>
+              {errors.new_password && (
+                <p className={styles.inputError}>{errors.new_password.message}</p>
+              )}
+
+              <div className={styles.saveBtn}>
+                <button type="submit">Save Changes</button>
+              </div>
+            </div>
           )}
         </div>
-      </div>
+      </form>
+
       <div className={styles.blogsWrapper}>{posts && <BlogList blogs={posts.items} />}</div>
       <div className={styles.footer}>{posts && <Pagination count={posts.count} />}</div>
     </div>

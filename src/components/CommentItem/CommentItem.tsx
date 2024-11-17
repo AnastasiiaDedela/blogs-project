@@ -8,6 +8,7 @@ import { deleteComment, editComment } from '@/services/commentsServices';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface CommentItemProps {
   comment: CommentData;
@@ -15,14 +16,24 @@ interface CommentItemProps {
   refetchComments: () => void;
 }
 
+interface CommentText {
+  text: string;
+}
+
 const CommentItem = ({ comment, postId, refetchComments }: CommentItemProps) => {
   const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editedComment, setEditedComment] = useState(comment.text);
   const openConfirmModal = () => setIsConfirmModalOpened(true);
   const closeConfirmModal = () => setIsConfirmModalOpened(false);
+
+  const { register, handleSubmit } = useForm<CommentText>({
+    mode: 'onTouched',
+    defaultValues: {
+      text: comment.text,
+    },
+  });
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteComment(postId, comment.id),
@@ -33,11 +44,16 @@ const CommentItem = ({ comment, postId, refetchComments }: CommentItemProps) => 
   });
 
   const editMutation = useMutation({
-    mutationFn: () => editComment(postId, comment.id, editedComment),
+    mutationFn: (data: CommentText) => editComment(postId, comment.id, data.text),
     onSuccess: () => {
       refetchComments();
+      setIsEditModalOpen(false);
     },
   });
+
+  const onSubmit: SubmitHandler<CommentText> = (data) => {
+    editMutation.mutate(data);
+  };
 
   return (
     <div className={styles.commentWrapper}>
@@ -60,20 +76,10 @@ const CommentItem = ({ comment, postId, refetchComments }: CommentItemProps) => 
         )}
       </div>
       {isEditModalOpen ? (
-        <form>
-          <textarea
-            value={editedComment}
-            onChange={(e) => setEditedComment(e.target.value)}
-            className={styles.editBlock}></textarea>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <textarea className={styles.editBlock} {...register('text')} />
           <div className={styles.submitBtn}>
-            <button
-              type="button"
-              onClick={() => {
-                editMutation.mutate();
-                setIsEditModalOpen(false);
-              }}>
-              Save
-            </button>
+            <button type="submit">Save</button>
           </div>
         </form>
       ) : (

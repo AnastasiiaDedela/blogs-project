@@ -26,7 +26,7 @@ export default function AuthorPage() {
     error,
   } = useQuery({
     queryKey: ['blogs', offset, tags, searchDebounced],
-    queryFn: () => getPosts(searchDebounced, limit, offset, Number(params.id)),
+    queryFn: () => getPosts(searchDebounced, limit, offset, tags, Number(params.id)),
   });
 
   return (

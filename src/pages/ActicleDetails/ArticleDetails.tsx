@@ -19,8 +19,6 @@ const ArticleDetails = () => {
   const userId = useSelector((state: RootState) => state.auth.user?.id);
   const commentsLimit = useSelector((state: RootState) => state.comments.limit);
 
-  console.log('limit', commentsLimit);
-
   const [isEditModalOpened, setIsEditModalOpened] = useState(false);
   const openEditModal = () => setIsEditModalOpened(true);
   const closeEditModal = () => setIsEditModalOpened(false);
