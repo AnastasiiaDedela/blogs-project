@@ -30,7 +30,7 @@ const EditModal = ({
   refetch,
   tags,
 }: ModalProps) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const { register, handleSubmit, formState } = useForm<EditForm>({
@@ -117,7 +117,7 @@ const EditModal = ({
                 Cancel
               </button>
               <button type="submit" className={styles.saveButton}>
-                {loading ? 'Saving...' : 'Save'}
+                Save
               </button>
             </div>
           </form>
