@@ -8,6 +8,11 @@ interface UsersResponse {
   updated_at: string;
 }
 
+interface UpdatePasswordRequest {
+  old_password: string;
+  new_password: string;
+}
+
 export const getMe = async () => {
   const token = localStorage.getItem('@token') || '';
   try {
@@ -42,15 +47,12 @@ export const updateMe = async (name: string) => {
   }
 };
 
-export const updatePassword = async (oldPassword: string, newPassword: string) => {
+export const updatePassword = async (passwordData: UpdatePasswordRequest) => {
   const token = localStorage.getItem('@token') || '';
   try {
     const response = await axios.post<UsersResponse>(
       'http://localhost:8001/api/users/me/password',
-      {
-        old_password: oldPassword,
-        new_password: newPassword,
-      },
+      passwordData,
       {
         headers: {
           Authorization: `Bearer ${token}`,

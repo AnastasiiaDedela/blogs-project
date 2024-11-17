@@ -56,7 +56,7 @@ const SignUp = () => {
                 register={register('name', { required: 'Required' })}
               />
             </div>
-            {nameError && <p className={styles.passwordError}>{nameError}</p>}
+            {nameError && <p className={styles.inputError}>{nameError}</p>}
           </div>
 
           <div className={styles.formInput}>
@@ -74,7 +74,7 @@ const SignUp = () => {
                 })}
               />
             </div>
-            {emailError && <p className={styles.passwordError}>{emailError}</p>}
+            {emailError && <p className={styles.inputError}>{emailError}</p>}
           </div>
 
           <div className={styles.formInput}>
@@ -90,7 +90,7 @@ const SignUp = () => {
                 })}
               />
             </div>
-            {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
+            {passwordError && <p className={styles.inputError}>{passwordError}</p>}
           </div>
 
           <div className={styles.formInput}>
@@ -107,9 +107,7 @@ const SignUp = () => {
                 })}
               />
             </div>
-            {repeatedPasswordError && (
-              <p className={styles.passwordError}>{repeatedPasswordError}</p>
-            )}
+            {repeatedPasswordError && <p className={styles.inputError}>{repeatedPasswordError}</p>}
           </div>
 
           <div className={styles.inputContainer}>

@@ -22,7 +22,7 @@
 .userAvatar {
     width: 200px;
     height: 200px;
-    
+
     img {
         width: 100%;
         height: auto;
@@ -38,6 +38,7 @@
         justify-content: space-between;
         font-size: 15px;
         line-height: 22.8px;
+        margin-top: 7px;
 
         input {
             border: none;
@@ -48,6 +49,18 @@
         }
 }
 
+.userEmail {
+    border: 1px solid $base-dark;
+        border-radius: 10px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+        line-height: 22.8px;
+        margin-top: 7px;
+        color: #676666;
+}
+
 .inputContainer {
     display: flex;
     flex-direction: column;
@@ -55,11 +68,19 @@
 }
 .saveBtn {
     display: flex;
-    align-self: flex-end;
-    border: none;
-    background-color: inherit;
-    color: #19aa7f;
+    justify-content: flex-end;
+    
+    & button {
+        border: none;
+        border-radius: 10px;
+        color: #09966a;
+        background-color: inherit;
+        margin-top: 5px;
+    }
+}
+
+.inputError {
     font-size: 13px;
-    padding: 0;
-    font-weight: bold;
+    color: red;
+    font-family: "Poppins", sans-serif;
   }
