@@ -30,7 +30,6 @@ const EditModal = ({
   refetch,
   tags,
 }: ModalProps) => {
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const { register, handleSubmit, formState } = useForm<EditForm>({
@@ -55,7 +54,6 @@ const EditModal = ({
     onSuccess: () => {
       onCloseEditModal();
       refetch();
-      setLoading(false);
     },
     onError: (error) => {
       setError(error.message);
@@ -63,7 +61,6 @@ const EditModal = ({
   });
 
   const onSubmit: SubmitHandler<EditForm> = (data) => {
-    setLoading(true);
     editMutation.mutate(data);
     console.log('data', data);
   };

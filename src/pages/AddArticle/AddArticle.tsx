@@ -1,4 +1,3 @@
-import { FormEvent, useState } from 'react';
 import styles from './AddArticle.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
