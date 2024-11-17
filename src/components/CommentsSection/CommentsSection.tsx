@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styles from './CommentsSection.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { addComment, getComments } from '@/services/commentsServices';
@@ -24,7 +23,6 @@ const CommentsSection = ({ postId, limit, offset }: CommentsProps) => {
   const navigate = useNavigate();
   const token = localStorage.getItem('@token') || '';
   const dispatch = useDispatch();
-
   const { data: comments, refetch } = useQuery({
     queryKey: ['comments', limit],
     queryFn: () => getComments(postId, limit, offset),
