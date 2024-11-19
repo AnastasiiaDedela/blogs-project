@@ -1,15 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
-import styles from './Header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@/redux/slices/auth/slice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import SearchBar from '../SearchBar/SearchBar';
-import { UserIcon } from 'lucide-react';
+import { UserIcon, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import styles from './Header.module.scss';
 
 export default function Header() {
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,7 +34,13 @@ export default function Header() {
         <h2 className={styles.logo} onClick={() => navigate('/')}>
           glossa
         </h2>
-        <div className={styles.headerRightPart}>
+        <button
+          className={styles.mobileMenuToggle}
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
+          {isMobileMenuOpen ? <X /> : <Menu />}
+        </button>
+        <div
+          className={`${styles.headerRightPart} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
           {isSearchBarShown && (
             <div className={styles.searchBar}>
               <SearchBar />
@@ -52,7 +59,7 @@ export default function Header() {
                     </Link>
                   </li>
                   <li>
-                    <Link to={'user/me'}>
+                    <Link to={'/user/me'}>
                       <div className={styles.userIcon}>
                         <UserIcon />
                       </div>
