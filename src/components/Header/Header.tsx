@@ -34,11 +34,11 @@ export default function Header() {
         <h2 className={styles.logo} onClick={() => navigate('/')}>
           glossa
         </h2>
-        <button
+        {/* <button
           className={styles.mobileMenuToggle}
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
           {isMobileMenuOpen ? <X /> : <Menu />}
-        </button>
+        </button> */}
         <div
           className={`${styles.headerRightPart} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
           {isSearchBarShown && (
