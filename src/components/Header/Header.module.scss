@@ -1,51 +1,89 @@
 .header {
-    padding: 13px 0;
+  padding: 13px 0;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .logo {
-    color: $base-dark;
-    cursor: pointer;
+  color: $base-dark;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    text-align: center;
+  }
 }
 
 .navigationList {
-    display: flex;
-    column-gap: 25px;
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    
-    li {
-        cursor: pointer;
-        
-        
-        a {
-            color: black;
-            &:hover {
-                color: $base-light;
-                transition: .2s ease;
-                
-            }
-        }
+  display: flex;
+  column-gap: 25px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    row-gap: 15px;
+    align-items: center;
+  }
+
+  li {
+    cursor: pointer;
+
+    a {
+      color: black;
+
+      &:hover {
+        color: $base-light;
+        transition: 0.2s ease;
+      }
     }
+  }
 }
 
 .container {
-    max-width: 1110px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h2 {
-        font-family: "Poetsen One", sans-serif;
-        font-weight: 400;
-        font-style: normal;
-        font-size: 28px;
-        margin-right: 20px;
+  max-width: 1110px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  h2 {
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 28px;
+    margin-right: 20px;
+
+    @media (max-width: 768px) {
+      font-size: 22px;
+      margin: 0;
     }
+  }
 }
 
 .headerRightPart {
-    display: flex;
-    column-gap: 25px;
-    align-items: center;
+  display: flex;
+  column-gap: 25px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    row-gap: 15px;
+  }
+}
+
+.searchBar {
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
